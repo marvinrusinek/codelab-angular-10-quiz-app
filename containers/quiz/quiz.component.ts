@@ -56,34 +56,34 @@ export class QuizComponent implements OnInit, OnDestroy {
     this.indexOfQuizId = this.quizData.findIndex(el => el.quizId === this.quizId);
   }
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.getQuizNameFromRoute();
     this.shuffleQuestionsAndAnswers();
 
     this.activatedRoute.params
       .pipe(takeUntil(this.unsubscribe$))
-      .subscribe(params => {
-      this.totalQuestions = this.quizData[this.indexOfQuizId].questions.length;
-      this.quizService.setTotalQuestions(this.totalQuestions);
+        .subscribe(params => {
+          this.totalQuestions = this.quizData[this.indexOfQuizId].questions.length;
+          this.quizService.setTotalQuestions(this.totalQuestions);
 
-      if (params.questionIndex) {
-        this.questionIndex = parseInt(params.questionIndex, 0);
-        this.quizService.currentQuestionIndex = this.questionIndex;
+        if (params.questionIndex) {
+          this.questionIndex = parseInt(params.questionIndex, 0);
+          this.quizService.currentQuestionIndex = this.questionIndex;
 
-        if (this.questionIndex === 1) {
-          this.progressValue = 0;
-          this.quizData[this.indexOfQuizId].status = 'started';
-        } else {
-          this.progressValue = ((this.questionIndex - 1) / this.totalQuestions) * 100;
+          if (this.questionIndex === 1) {
+            this.progressValue = 0;
+            this.quizData[this.indexOfQuizId].status = 'started';
+          } else {
+            this.progressValue = ((this.questionIndex - 1) / this.totalQuestions) * 100;
+          }
+
+          this.sendQuestionToQuizService();
+          this.sendQuestionsToQuizService();
+          this.sendQuizIdToQuizService();
+          this.sendQuizStatusToQuizService();
+          this.sendPreviousUserAnswersToQuizService();
+          this.sendIsAnsweredToQuizService();
         }
-
-        this.sendQuestionToQuizService();
-        this.sendQuestionsToQuizService();
-        this.sendQuizIdToQuizService();
-        this.sendQuizStatusToQuizService();
-        this.sendPreviousUserAnswersToQuizService();
-        this.sendIsAnsweredToQuizService();
-      }
     });
 
     if (this.questionIndex === 1) {

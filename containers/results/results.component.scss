@@ -348,14 +348,6 @@ a.btn:focus:not(:active)::after {
   }
 }
 
-/* .custom-class {
-  position: fixed;
-  background-color: pink;
-  border-color: green;
-  height: 30px;
-  width: 30px;
-} */
-
 // set the color of mat-progress-spinner to green
 :host ::ng-deep .mat-progress-spinner circle {
   stroke: $green;
