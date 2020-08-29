@@ -50,6 +50,20 @@
             </div>
           </div>
 
+          <!-- was trying to use a circular progress-bar...
+          <mat-progress-spinner
+            class="mat-progress-spinner"
+            [mode]="mode"
+            [value]="value"
+            [animated]="true"
+            [diameter]="100"
+            strokeWidth="5"
+            aria-label="percentage">
+          </mat-progress-spinner>
+          <div class="mat-progress-spinner-percentage">
+            <strong>{{ quizMetadata?.percentage }}%</strong>
+          </div> -->
+
           <ngb-progressbar
             type="success"
             [striped]="true"
@@ -101,8 +115,8 @@
               </ul><br />
 
               <span *ngIf="checkedShuffle" class="quiz-note">
-                <mat-icon>shuffle</mat-icon>&nbsp;<strong><em>Note:</em></strong>&nbsp;
-                Questions and answers were shuffled prior to start of the quiz.
+                <i class="material-icons" matTooltip="quiz note" matTooltipPosition="left">announcement</i>&nbsp;
+                <strong><em>Note:</em></strong>&nbsp;Questions and answers were shuffled prior to the start of the quiz.
               </span>
             </div>
 

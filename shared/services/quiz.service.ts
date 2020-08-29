@@ -20,7 +20,6 @@ export class QuizService {
   answers: number[];
   multipleAnswer: boolean;
   totalQuestions: number;
-  totalQuestionsAttempted: number;
   currentQuestionIndex = 1;
 
   quizId: string;
@@ -90,6 +89,23 @@ export class QuizService {
     }
   }
 
+  // randomize questions array in-place using Durstenfeld shuffle algorithm
+  shuffledQuestions(questions: QuizQuestion[]): void {
+    for (let i = questions.length - 1; i >= 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [questions[i], questions[j]] = [questions[j], questions[i]];
+    }
+  }
+
+  // randomize answers array in-place using Durstenfeld shuffle algorithm
+  shuffledAnswers(answers: Option[]): void {
+    for (let i = answers.length - 1; i >= 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [answers[i], answers[j]] = [answers[j], answers[i]];
+    }
+  }
+
+  /********* setter functions ***********/
   setCorrectAnswerMessagesAndExplanationText(correctAnswers: number[]): void {
     if (correctAnswers[0][0]) {
       this.correctOptions = correctAnswers[0][0];
@@ -110,24 +126,7 @@ export class QuizService {
     this.explanationText = this.question.explanation;
   }
 
-  // randomize questions array in-place using Durstenfeld shuffle algorithm
-  shuffledQuestions(questions: QuizQuestion[]): void {
-    for (let i = questions.length - 1; i >= 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [questions[i], questions[j]] = [questions[j], questions[i]];
-    }
-  }
-
-  // randomize answers array in-place using Durstenfeld shuffle algorithm
-  shuffledAnswers(answers: Option[]): void {
-    for (let i = answers.length - 1; i >= 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [answers[i], answers[j]] = [answers[j], answers[i]];
-    }
-  }
-
-  /********* setter functions ***********/
-  // set the text of the previous answers in an array to show in the following quiz
+  // set the text of the previous user answers in an array to show in the following quiz
   setPreviousUserAnswersText(previousAnswers, questions: QuizQuestion[]): void {
     for (let i = 0; i < previousAnswers.length; i++) {
       if (previousAnswers[i].length === 1) {
@@ -167,10 +166,6 @@ export class QuizService {
 
   setTotalQuestions(totalQuestions: number): void {
     this.totalQuestions = totalQuestions;
-  }
-
-  setTotalQuestionsAttempted(totalQuestionsAttempted: number): void {
-    this.totalQuestionsAttempted = totalQuestionsAttempted;
   }
 
   setPreviousUserAnswers(previousUserAnswers) {
@@ -214,6 +209,10 @@ export class QuizService {
     this.router.navigate(['/quiz/results/', this.quizId]).then();
   }
 
+  resetQuestions() {
+    this.quizData = JSON.parse(JSON.stringify(QUIZ_DATA));
+  }
+
   resetAll() {
     this.answers = null;
     this.correctAnswersForEachQuestion = [];
@@ -224,9 +223,5 @@ export class QuizService {
     this.currentQuestionIndex = 0;
     this.timerService.stopTimer();
     this.timerService.resetTimer();
-  }
-
-  resetQuestions() {
-    this.quizData = JSON.parse(JSON.stringify(QUIZ_DATA));
   }
 }
