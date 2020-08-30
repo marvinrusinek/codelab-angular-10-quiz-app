@@ -1,0 +1,9 @@
+.monaco-editor {
+  height: 100%;
+  flex: 1;
+}
+
+::ng-deep .decorationsOverviewRuler,
+::ng-deep .current-line {
+  display: none !important;
+}
