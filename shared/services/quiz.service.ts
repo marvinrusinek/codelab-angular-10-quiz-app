@@ -89,7 +89,6 @@ export class QuizService {
     }
   }
 
-  // randomize questions array in-place using Durstenfeld shuffle algorithm
   shuffledQuestions(questions: QuizQuestion[]): void {
     for (let i = questions.length - 1; i >= 0; i--) {
       const j = Math.floor(Math.random() * (i + 1));
@@ -97,7 +96,6 @@ export class QuizService {
     }
   }
 
-  // randomize answers array in-place using Durstenfeld shuffle algorithm
   shuffledAnswers(answers: Option[]): void {
     for (let i = answers.length - 1; i >= 0; i--) {
       const j = Math.floor(Math.random() * (i + 1));
@@ -144,44 +142,44 @@ export class QuizService {
     }
   }
 
-  setQuizStatus(status: string): void {
-    this.status = status;
+  setQuizStatus(value: string): void {
+    this.status = value;
   }
 
-  setQuizId(quizId: string): void {
-    this.quizId = quizId;
+  setQuizId(value: string): void {
+    this.quizId = value;
   }
 
-  setCompletedQuizId(quizId: string) {
-    this.completedQuizId = quizId;
+  setCompletedQuizId(value: string) {
+    this.completedQuizId = value;
   }
 
-  setQuestion(question: QuizQuestion): void {
-    this.question = question;
+  setQuestion(value: QuizQuestion): void {
+    this.question = value;
   }
 
-  setQuestions(questions: QuizQuestion[]): void {
-    this.questions = questions;
+  setQuestions(value: QuizQuestion[]): void {
+    this.questions = value;
   }
 
-  setTotalQuestions(totalQuestions: number): void {
-    this.totalQuestions = totalQuestions;
+  setTotalQuestions(value: number): void {
+    this.totalQuestions = value;
   }
 
-  setPreviousUserAnswers(previousUserAnswers) {
-    this.previousUserAnswers = previousUserAnswers;
+  setPreviousUserAnswers(value: any) {
+    this.previousUserAnswers = value;
   }
 
-  setChecked(checked: boolean): void {
-    this.checkedShuffle = checked;
+  setChecked(value: boolean): void {
+    this.checkedShuffle = value;
   }
 
-  setMultipleAnswer(multipleAnswer: boolean): void {
-    this.multipleAnswer = multipleAnswer;
+  setMultipleAnswer(value: boolean): void {
+    this.multipleAnswer = value;
   }
 
-  setIsAnswered(isAnswered: boolean): void {
-    this.isAnswered = isAnswered;
+  setIsAnswered(value: boolean): void {
+    this.isAnswered = value;
   }
 
   sendCorrectCountToResults(value: number): void {
