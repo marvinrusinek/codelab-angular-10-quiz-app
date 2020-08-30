@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Subject } from 'rxjs';
@@ -43,17 +42,3 @@ export class IntroductionComponent implements OnInit, OnDestroy {
     }
   }
 }
-=======
-import { Component, ChangeDetectionStrategy } from '@angular/core';
-import { Router } from '@angular/router';
-
-@Component({
-  selector: 'codelab-quiz-intro',
-  templateUrl: './introduction.component.html',
-  styleUrls: ['./introduction.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
-})
-export class IntroductionComponent {
-  constructor(private router: Router) {}
-}
->>>>>>> codelab/master

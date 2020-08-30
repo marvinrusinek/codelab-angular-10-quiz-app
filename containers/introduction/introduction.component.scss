@@ -1,15 +1,11 @@
-<<<<<<< HEAD
 @import "variables";
 
-=======
->>>>>>> codelab/master
 mat-card-header {
   display: block;
 
   .header-image {
     margin: 5px 0 0 15px;
   }
-<<<<<<< HEAD
 }
 
 .quiz-topic-image {
@@ -28,28 +24,10 @@ mat-card-content {
     text-align: justify;
     margin-top: -25px;
   }
-=======
-
-  .quiz-topic-img {
-    display: flex;
-    justify-content: center;
-    background: url('images/DIDiagram.png') no-repeat;
-    background-size: 100%;
-    margin: 20px -10px 0 5px;
-    height: 300px;
-    width: 100%;
-  }
-}
-
-mat-card-content p {
-  text-align: justify;
-  margin-top: -25px;
->>>>>>> codelab/master
 }
 
 mat-card-actions {
   text-align: center;
-<<<<<<< HEAD
   padding-bottom: 15px !important;
 
   mat-checkbox {
@@ -77,13 +55,3 @@ mat-card-actions {
 ::ng-deep .mat-checkbox:not(.mat-checkbox-disabled) .mat-checkbox-ripple .mat-ripple-element {
   background-color: $black !important;
 }
-=======
-
-  button {
-    margin-bottom: 10px;
-  }
-  button:hover {
-    border: 1px solid #007aff;
-  }
-}
->>>>>>> codelab/master
