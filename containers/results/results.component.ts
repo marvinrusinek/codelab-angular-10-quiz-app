@@ -56,7 +56,7 @@ export class ResultsComponent implements OnInit, OnDestroy {
     private router: Router
   ) {
     this.quizId = this.activatedRoute.snapshot.paramMap.get('quizId');
-    this.indexOfQuizId = this.quizData.findIndex(el => el.quizId === this.quizId);
+    this.indexOfQuizId = this.quizData.findIndex(element => element.quizId === this.quizId);
     this.quizData[this.indexOfQuizId].status = 'completed';
 
     this.sendQuizStatusToQuizService();
