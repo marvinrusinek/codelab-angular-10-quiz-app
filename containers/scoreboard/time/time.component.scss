@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 @import "variables";
 @import "mixins";
 
@@ -9,3 +10,16 @@
     margin: 5px 0 0 110px;
   }
 }
+=======
+@import "variables";
+@import "mixins";
+
+.time-left {
+  float: right;
+  width: 150px;
+
+  .leader, span.scoreboard {
+    margin: 5px 0 0 110px;
+  }
+}
+>>>>>>> 04dcb5efb6b2836cacafa7226bfba6be16e79305

@@ -51,7 +51,11 @@ export class QuizComponent implements OnInit, OnDestroy {
     private router: Router
   ) {
     this.quizId = this.activatedRoute.snapshot.paramMap.get('quizId');
+<<<<<<< HEAD
     this.indexOfQuizId = this.quizData.findIndex(element => element.quizId === this.quizId);
+=======
+    this.indexOfQuizId = this.quizData.findIndex(el => el.quizId === this.quizId);
+>>>>>>> 04dcb5efb6b2836cacafa7226bfba6be16e79305
   }
 
   ngOnInit(): void {
