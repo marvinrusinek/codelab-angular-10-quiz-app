@@ -1,7 +1,7 @@
-import { Injectable } from '@angular/core';
+import { Injectable, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { BehaviorSubject, Observable, of } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { BehaviorSubject, Observable, of, Subject } from 'rxjs';
+import { map, takeUntil } from 'rxjs/operators';
 import { Howl } from 'howler';
 
 import { QUIZ_DATA } from '@codelab-quiz/shared/quiz-data';
@@ -10,7 +10,7 @@ import { Quiz, QuizQuestion } from '@codelab-quiz/shared/models/';
 @Injectable({
   providedIn: 'root'
 })
-export class QuizService {
+export class QuizService implements OnDestroy {
   quizData: Quiz[] = QUIZ_DATA;
   question: QuizQuestion;
   questions: QuizQuestion[];
@@ -22,7 +22,7 @@ export class QuizService {
   quizName$: Observable<string>;
   currentQuestionIndex = 1;
 
-  paramsQuizSelection: Object;
+  paramsQuizSelection;
   quizId: string;
   startedQuizId: string;
   continueQuizId: string;
@@ -38,8 +38,8 @@ export class QuizService {
   correctAnswersCountSubject = new BehaviorSubject<number>(0);
 
   userAnswers = [];
-  previousUserAnswers: any[] = [];
-  previousUserAnswersText: any[] = [];
+  previousUserAnswers: string[] = []; // was type any[]
+  previousUserAnswersText = [];
   previousUserAnswersInnerText = [];
   previousUserAnswersTextSingleAnswer: string[] = [];
   previousUserAnswersTextMultipleAnswer: string[] = [];
@@ -51,6 +51,7 @@ export class QuizService {
   isAnswered: boolean;
   alreadyAnswered: boolean;
   checkedShuffle: boolean;
+  unsubscribe$ = new Subject<void>();
 
   isCorrectOption = 'option.selected && option.correct';
   isIncorrectOption = 'option.selected && !option.correct';
@@ -71,9 +72,16 @@ export class QuizService {
     private activatedRoute: ActivatedRoute,
     private router: Router
   ) {
-    this.quizName$ = this.activatedRoute.url.pipe(map(segments => segments[1] + ''));
-    this.quizId = this.activatedRoute.snapshot.paramMap.get('quizId');
-    this.indexOfQuizId = this.quizData.findIndex(el => el.quizId === this.quizId);
+    this.quizName$ = this.activatedRoute.url.pipe(map(segments => segments[1].toString()));
+    this.activatedRoute.paramMap
+      .pipe(takeUntil(this.unsubscribe$))
+        .subscribe(params => this.quizId = params.get('quizId'));
+    this.indexOfQuizId = this.quizData.findIndex(elem => elem.quizId === this.quizId);
+  }
+
+  ngOnDestroy(): void {
+    this.unsubscribe$.next();
+    this.unsubscribe$.complete();
   }
 
   getQuizzes(): Observable<Quiz[]> {
@@ -196,19 +204,6 @@ export class QuizService {
   setAnswer(data): void {
     this.answer = data;
   }
-
-  /* setParamsQuizSelection(): Object {
-    return this.paramsQuizSelection = {
-      quizId: this.quizId,
-      startedQuizId: this.startedQuizId,
-      continueQuizId: this.continueQuizId,
-      completedQuizId: this.completedQuizId,
-      currentQuestionIndex: this.currentQuestionIndex,
-      totalQuestions: this.totalQuestions,
-      quizCompleted: this.quizCompleted,
-      status: this.status
-    };
-  } */
 
   sendCorrectCountToResults(value: number): void {
     this.correctAnswersCountSubject.next(value);

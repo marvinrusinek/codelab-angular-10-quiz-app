@@ -65,7 +65,7 @@ export class QuizComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.quizzes$ = this.quizService.getQuizzes();
-    this.quizName$ = this.activatedRoute.url.pipe(map(segments => segments[1] + ''));
+    this.quizName$ = this.activatedRoute.url.pipe(map(segments => segments[1].toString()));
     this.shuffleQuestionsAndAnswers();
 
     this.activatedRoute.params

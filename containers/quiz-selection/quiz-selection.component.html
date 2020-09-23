@@ -45,9 +45,9 @@
                        [routerLink]="['/quiz/intro/', quiz.quizId]"
                        [ngStyle]="{ 'background': 'url(' + imagePath + quiz.image + ') no-repeat center 10px',
                                     'background-size': '300px 210px' }"
-                       [ngClass]="{ 'started': status === 'started' && quiz.quizId === startedQuizId,
-                                    'continue': status === 'continue' && quiz.quizId === continueQuizId,
-                                    'completed': status === 'completed' && quiz.quizId === completedQuizId }">
+                       [ngClass]="{ 'started': status === 'started' && quiz.quizId === statusParams.startedQuizId,
+                                    'continue': status === 'continue' && quiz.quizId === statusParams.continueQuizId,
+                                    'completed': status === 'completed' && quiz.quizId === statusParams.completedQuizId }">
 
           <summary class="quiz-info">
             <h5 class="quiz-title" i18n>{{ quiz.milestone }}</h5>
@@ -56,21 +56,21 @@
 
           <div class="status-icon">
             <span name="start" matTooltip="Start"
-                  *ngIf="!quizCompleted ||
-                         status === 'started' ||
-                         quiz.quizId === startedQuizId"
+                  *ngIf="!statusParams.quizCompleted ||
+                         statusParams.status === 'started' ||
+                         quiz.quizId === statusParams.startedQuizId"
                   [routerLink]="['/quiz/intro/', quiz.quizId]">
               <i class="material-icons">launch</i>
             </span>
             <span name="continue" matTooltip="Continue"
-                  *ngIf="status === 'continue' ||
-                         quiz.quizId === continueQuizId"
+                  *ngIf="statusParams.status === 'continue' ||
+                         quiz.quizId === statusParams.continueQuizId"
                   [routerLink]="['/quiz/question/', quiz.quizId, currentQuestionIndex]">
               <i class="material-icons">play_arrow</i>
             </span>
             <span name="completed" matTooltip="Completed"
-                  *ngIf="status === 'completed' &&
-                         quiz.quizId === completedQuizId"
+                  *ngIf="statusParams.status === 'completed' &&
+                         quiz.quizId === statusParams.completedQuizId"
                   [routerLink]="['/quiz/results/', quiz.quizId]">
               <i class="material-icons">done_all</i>
             </span>

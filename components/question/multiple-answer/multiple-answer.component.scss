@@ -4,7 +4,7 @@
   margin: 0 0 25px 6.5px;
   padding: 5px;
 
-  input[type="checkbox"] {
+  mat-checkbox {
     cursor: pointer;
     width: auto !important;
     height: 55px !important;
@@ -45,11 +45,6 @@
 
     .wrong-message {
       margin-top: 20px;
-
-      .sentiment-icon {
-        float: top;
-        margin-bottom: 40px !important;  // not moving up
-      }
     }
   }
 
