@@ -35,7 +35,10 @@ export class SingleAnswerComponent implements OnInit, OnChanges {
   isCorrectOption: string;
   isIncorrectOption: string;
 
-  constructor(private quizService: QuizService, private timerService: TimerService) {}
+  constructor(
+    private quizService: QuizService,
+    private timerService: TimerService
+  ) { }
 
   ngOnInit(): void {
     this.question = this.currentQuestion;
@@ -43,9 +46,9 @@ export class SingleAnswerComponent implements OnInit, OnChanges {
     this.alreadyAnswered = this.quizService.alreadyAnswered;
     this.isAnswered = this.quizService.isAnswered;
     this.currentQuestion = this.quizService.currentQuestion;
+    this.correctMessage = this.quizService.correctMessage;
     this.isCorrectOption = this.quizService.isCorrectOption;
     this.isIncorrectOption = this.quizService.isIncorrectOption;
-    this.sendAnswerToQuizService();
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -61,9 +64,12 @@ export class SingleAnswerComponent implements OnInit, OnChanges {
     }
   }
 
+  getQuizService() {
+    return this.quizService;
+  }
+
   setSelected(optionIndex: number): void {
     this.quizStarted = true;
-    this.correctMessage = this.quizService.correctMessage;
     this.isCorrectAnswerSelected = this.isCorrect(this.currentQuestion.options[optionIndex].correct, optionIndex);
     this.answer.emit(optionIndex);
 
@@ -89,9 +95,5 @@ export class SingleAnswerComponent implements OnInit, OnChanges {
 
   isCorrect(correct: boolean, optionIndex: number): boolean {
     return correct === this.currentQuestion.options[optionIndex].correct;
-  }
-
-  private sendAnswerToQuizService(): void {
-    this.quizService.setAnswer(this.answer);
   }
 }

@@ -1,5 +1,5 @@
 <div class="options" *ngFor="let option of currentQuestion.options; index as i">
-  <div class="single-answer" *ngIf="!multipleAnswer">
+  <div *ngIf="!multipleAnswer">
     <mat-radio-button
       (change)="setSelected(i)"
       [class.is-correct]="option.selected && option.correct"
@@ -8,11 +8,11 @@
       <mat-radio-label>
         <span>{{ i + 1 }}. {{ option.text }}</span>
 
-        <ng-container>
+        <ng-container *ngIf="option.selected">
           <mat-icon class="feedback-icon"
-                    *ngIf="option.selected && option.correct && isCorrectAnswerSelected">done</mat-icon>
+                    *ngIf="option.correct && isCorrectAnswerSelected">done</mat-icon>
           <mat-icon class="feedback-icon"
-                    *ngIf="option.selected && !option.correct">clear</mat-icon>
+                    *ngIf="!option.correct">clear</mat-icon>
         </ng-container>
       </mat-radio-label>
     </mat-radio-button>
@@ -30,13 +30,12 @@
           <span class="message wrong-message" i18n>That&apos;s wrong. {{ correctMessage }}</span>
         </span>
       </div>
-    </ng-container>
 
-    <!-- TODO: get this working, except with previousUserAnswersText -->
-    <!-- <div *ngFor="let previousOption of previousUserAnswers[i]" class="previous-answer-text">
-      <span *ngIf="option.selected && previousUserAnswers[i].length === 1">
-      Option {{ previousOption }} was selected in your previous quiz.
-      </span>
-    </div> -->
+      <div *ngFor="let previousText of getQuizService().previousUserAnswersText" class="previous-answer-text">
+        <div *ngIf="getQuizService().previousUserAnswersText[i].length === 1">
+          <span>&ldquo;{{ previousText }}&rdquo; was selected in your previous quiz.</span>
+        </div>
+      </div>
+    </ng-container>
   </div>
 </div>

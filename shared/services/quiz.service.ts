@@ -19,15 +19,15 @@ export class QuizService implements OnDestroy {
   answers: number[] = [];
   multipleAnswer: boolean;
   totalQuestions: number;
-  quizName$: Observable<string>;
   currentQuestionIndex = 1;
 
-  paramsQuizSelection;
+  quizName$: Observable<string>;
   quizId: string;
+  indexOfQuizId: number;
+
   startedQuizId: string;
   continueQuizId: string;
   completedQuizId: string;
-  indexOfQuizId: number;
   quizCompleted: boolean;
   status: string;
 
@@ -77,6 +77,7 @@ export class QuizService implements OnDestroy {
       .pipe(takeUntil(this.unsubscribe$))
         .subscribe(params => this.quizId = params.get('quizId'));
     this.indexOfQuizId = this.quizData.findIndex(elem => elem.quizId === this.quizId);
+    this.returnQuizSelectionParams();
   }
 
   ngOnDestroy(): void {
@@ -97,7 +98,7 @@ export class QuizService implements OnDestroy {
       this.correctAnswersForEachQuestion.push(this.correctAnswerOptions);
       this.correctAnswers.push(this.correctAnswersForEachQuestion.sort());
 
-      this.setCorrectMessages(this.correctAnswerOptions.sort(), this.question);
+      this.setExplanationTextAndCorrectMessages(this.correctAnswerOptions.sort(), this.question);
       return identifiedCorrectAnswers;
     }
   }
@@ -111,7 +112,8 @@ export class QuizService implements OnDestroy {
   }
 
   /********* setter functions ***********/
-  setCorrectMessages(correctAnswers: number[], question: QuizQuestion): void {
+  setExplanationTextAndCorrectMessages(correctAnswers: number[], question: QuizQuestion): void {
+    this.explanationText = question.explanation;
     for (let i = 0; i < question.options.length; i++) {
       if (correctAnswers[i] &&
           correctAnswers.length === 1) {
@@ -141,6 +143,7 @@ export class QuizService implements OnDestroy {
       if (previousAnswers[i].length === 1) {
         const previousAnswersString = questions[i].options[previousAnswers[i] - 1].text;
         this.previousUserAnswersText.push(previousAnswersString);
+        console.log('PUAText(Single)', this.previousUserAnswersText);
       }
       if (previousAnswers[i].length > 1) {
         const previousAnswerOptionsInner = previousAnswers[i].slice();
@@ -149,8 +152,19 @@ export class QuizService implements OnDestroy {
           this.previousUserAnswersInnerText.push(previousAnswersInnerString);
         }
         this.previousUserAnswersText.push(this.previousUserAnswersInnerText);
+        console.log('PUAText(Multiple)', this.previousUserAnswersText);
       }
     }
+  }
+
+  returnQuizSelectionParams(): object {
+    return new Object({
+      startedQuizId: this.startedQuizId,
+      continueQuizId: this.continueQuizId,
+      completedQuizId: this.completedQuizId,
+      quizCompleted: this.quizCompleted,
+      status: this.status
+    });
   }
 
   setQuizStatus(value: string): void {
@@ -159,6 +173,14 @@ export class QuizService implements OnDestroy {
 
   setQuizId(value: string): void {
     this.quizId = value;
+  }
+
+  setStartedQuizId(value: string) {
+    this.startedQuizId = value;
+  }
+
+  setContinueQuizId(value: string) {
+    this.continueQuizId = value;
   }
 
   setCompletedQuizId(value: string) {
@@ -201,10 +223,6 @@ export class QuizService implements OnDestroy {
     this.currentQuestion = value;
   }
 
-  setAnswer(data): void {
-    this.answer = data;
-  }
-
   sendCorrectCountToResults(value: number): void {
     this.correctAnswersCountSubject.next(value);
   }
@@ -242,6 +260,8 @@ export class QuizService implements OnDestroy {
     this.correctOptions = '';
     this.correctMessage = '';
     this.explanationText = '';
+    // this.isCorrectOption = '';
+    // this.isIncorrectOption = '';
     this.currentQuestionIndex = 0;
   }
 }

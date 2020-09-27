@@ -13,6 +13,7 @@ import { FormGroup } from '@angular/forms';
 import { QuizQuestion } from '@codelab-quiz/shared/models/*';
 import { QuizService, TimerService } from '@codelab-quiz/shared/services/*';
 
+
 @Component({
   selector: 'codelab-question-multiple-answer',
   templateUrl: './multiple-answer.component.html',
@@ -46,9 +47,9 @@ export class MultipleAnswerComponent implements OnInit, OnChanges {
     this.alreadyAnswered = this.quizService.alreadyAnswered;
     this.isAnswered = this.quizService.isAnswered;
     this.currentQuestion = this.quizService.currentQuestion;
+    this.correctMessage = this.quizService.correctMessage;
     this.isCorrectOption = this.quizService.isCorrectOption;
     this.isIncorrectOption = this.quizService.isIncorrectOption;
-    this.sendAnswerToQuizService();
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -64,9 +65,12 @@ export class MultipleAnswerComponent implements OnInit, OnChanges {
     }
   }
 
+  getQuizService() {
+    return this.quizService;
+  }
+
   setSelected(optionIndex: number): void {
     this.quizStarted = true;
-    this.correctMessage = this.quizService.correctMessage;
     this.isCorrectAnswerSelected = this.isCorrect(this.currentQuestion.options[optionIndex].correct, optionIndex);
     this.answer.emit(optionIndex);
 
@@ -93,8 +97,5 @@ export class MultipleAnswerComponent implements OnInit, OnChanges {
   isCorrect(correct: boolean, optionIndex: number): boolean {
     return correct === this.currentQuestion.options[optionIndex].correct;
   }
-
-  private sendAnswerToQuizService(): void {
-    this.quizService.setAnswer(this.answer);
-  }
 }
+

@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { MatAccordion } from '@angular/material/expansion';
 import { Observable, Subject } from 'rxjs';
 import { map, takeUntil } from 'rxjs/operators';
+import { MDCRipple } from '@material/ripple';
 
 import { QUIZ_DATA } from '@codelab-quiz/shared/quiz-data';
 import { Quiz, QuizMetadata, QuizQuestion, Result, Score } from '@codelab-quiz/shared/models/';
@@ -113,14 +114,7 @@ export class ResultsComponent implements OnInit, OnDestroy {
     };
 
     const MAX_LENGTH = 2;
-    // if (this.quizId === this.quizService.quizName$) {
     this.highScores = new Array(MAX_LENGTH);
-    // }
-
-    // TODO: checked, error doesn't get thrown if quiz is taken more than 2 times; perhaps need to use localstorage
-    if (this.quizId && this.highScores.length > MAX_LENGTH) {
-      console.log('ERROR: ' + this.quizData[this.indexOfQuizId].milestone + ' can only be taken ' + MAX_LENGTH + ' times');
-    }
     this.highScores.push(this.score);
     console.log('High Scores:', this.highScores);
   }

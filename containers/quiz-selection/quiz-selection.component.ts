@@ -1,11 +1,9 @@
 import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
 
 import { SlideLeftToRightAnimation } from '@codelab-quiz/animations/*';
 import { QUIZ_DATA } from '@codelab-quiz/shared/quiz-data';
-import { Quiz } from '@codelab-quiz/shared/models/Quiz.model';
+import { Quiz } from '@codelab-quiz/shared/models/';
 import { QuizService } from '@codelab-quiz/shared/services/quiz.service';
 
 type AnimationState = 'animationStarted' | 'none';
@@ -24,30 +22,19 @@ export class QuizSelectionComponent implements OnInit, OnDestroy {
   currentQuestionIndex: number;
   totalQuestions: number;
 
-  statusParams = {
-    startedQuizId: this.quizService.startedQuizId,
-    continueQuizId: this.quizService.continueQuizId,
-    completedQuizId: this.quizService.completedQuizId,
-    quizCompleted: this.quizService.quizCompleted,
-    status: this.quizService.status
-  };
-
+  selectionParams: object;
   animationState$ = new BehaviorSubject<AnimationState>('none');
   unsubscribe$ = new Subject<void>();
   imagePath = '../../../assets/images/milestones/';
 
-  constructor(
-    private quizService: QuizService,
-    private activatedRoute: ActivatedRoute
-  ) { }
+  constructor(private quizService: QuizService) { }
 
   ngOnInit(): void {
     this.quizzes$ = this.quizService.getQuizzes();
-    this.activatedRoute.paramMap
-      .pipe(takeUntil(this.unsubscribe$))
-        .subscribe(params => this.quizId = params.get('quizId'));
+    this.quizId = this.quizService.quizId;
     this.currentQuestionIndex = this.quizService.currentQuestionIndex;
     this.totalQuestions = this.quizService.totalQuestions;
+    this.selectionParams = this.quizService.returnQuizSelectionParams();
   }
 
   ngOnDestroy(): void {

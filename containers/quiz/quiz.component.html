@@ -5,7 +5,7 @@
             (@changeRoute.done)="animationDoneHandler()">
 
     <mat-card-header>
-      <img mat-card-avatar class="header-image" loading="lazy"
+      <img mat-card-avatar class="header-image" alt="logo" title="logo" loading="lazy"
            [routerLink]="['/quiz/select']"
            matTooltip="back to Codelab Quiz Selection" matTooltipPosition="left" />
       <mat-card-title i18n>{{ quiz.milestone }} Quiz</mat-card-title>
@@ -18,7 +18,7 @@
 
       <!-- the question/explanation area -->
       <section id="question" [ngClass]="!isAnswered() ? 'unanswered': 'answered'">
-        <span *ngIf="!isAnswered()" i18n>{{ question?.questionText }}&nbsp;
+        <span *ngIf="!isAnswered()" i18n>{{ question.questionText }}&nbsp;
           <span class="number-correct" *ngIf="numberOfCorrectAnswers > 1">
             <em>({{ numberOfCorrectAnswers }} answers are correct.)</em>
           </span>

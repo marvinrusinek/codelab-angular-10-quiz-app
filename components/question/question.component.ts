@@ -34,6 +34,8 @@ export class QuizQuestionComponent implements OnInit, OnChanges {
   previousUserAnswers: string[] = [];
   previousUserAnswersTextSingleAnswer = [];
   previousUserAnswersTextMultipleAnswer = [];
+  isCorrectOption: string;
+  isIncorrectOption: string;
 
   constructor(
     private quizService: QuizService,
@@ -50,7 +52,10 @@ export class QuizQuestionComponent implements OnInit, OnChanges {
 
     this.question = this.currentQuestion;
     this.previousUserAnswers = this.quizService.userAnswers;
+    this.correctMessage = this.quizService.correctMessage;
     this.isAnswered = this.quizService.isAnswered;
+    this.isCorrectOption = this.quizService.isCorrectOption;
+    this.isIncorrectOption = this.quizService.isIncorrectOption;
     this.sendCurrentQuestionToQuizService();
   }
 
@@ -67,13 +72,8 @@ export class QuizQuestionComponent implements OnInit, OnChanges {
     }
   }
 
-  isCorrect(correct: boolean, optionIndex: number): boolean {
-    return correct === this.currentQuestion.options[optionIndex].correct;
-  }
-
   setSelected(optionIndex: number): void {
     this.quizStarted = true;
-    this.correctMessage = this.quizService.correctMessage;
     this.isCorrectAnswerSelected = this.isCorrect(this.currentQuestion.options[optionIndex].correct, optionIndex);
     this.answer.emit(optionIndex);
 
@@ -96,6 +96,10 @@ export class QuizQuestionComponent implements OnInit, OnChanges {
     }
 
     this.alreadyAnswered = true;
+  }
+
+  isCorrect(correct: boolean, optionIndex: number): boolean {
+    return correct === this.currentQuestion.options[optionIndex].correct;
   }
 
   private sendCurrentQuestionToQuizService(): void {
