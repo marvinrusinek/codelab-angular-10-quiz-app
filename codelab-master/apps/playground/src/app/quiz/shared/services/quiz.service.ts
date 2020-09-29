@@ -1,28 +1,34 @@
-import { Injectable } from '@angular/core';
+import { Injectable, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observable, of, Subject } from 'rxjs';
+import { map, takeUntil } from 'rxjs/operators';
 import { Howl } from 'howler';
 
-import { QUIZ_DATA } from '@codelab-quiz/shared/quiz-data';
-import { Option, Quiz, QuizQuestion } from '@codelab-quiz/shared/models/';
+import { QUIZ_DATA, QUIZ_RESOURCES } from '@codelab-quiz/shared/quiz-data';
+import { Quiz, QuizQuestion, QuizResource, Resource } from '@codelab-quiz/shared/models/';
 
 @Injectable({
   providedIn: 'root'
 })
-export class QuizService {
-  quizData: Quiz[] = JSON.parse(JSON.stringify(QUIZ_DATA));
+export class QuizService implements OnDestroy {
+  quizData: Quiz[] = QUIZ_DATA;
+  quizResources: QuizResource[] = QUIZ_RESOURCES;
   question: QuizQuestion;
   questions: QuizQuestion[];
+  resources: Resource[];
+  currentQuestion: QuizQuestion;
   answers: number[];
   multipleAnswer: boolean;
   totalQuestions: number;
   currentQuestionIndex = 1;
 
+  quizName$: Observable<string>;
   quizId: string;
+  indexOfQuizId: number;
+
   startedQuizId: string;
   continueQuizId: string;
   completedQuizId: string;
-  indexOfQuizId: number;
   quizCompleted: boolean;
   status: string;
 
@@ -39,23 +45,28 @@ export class QuizService {
   previousUserAnswersTextSingleAnswer: string[] = [];
   previousUserAnswersTextMultipleAnswer: string[] = [];
 
-  explanation: string;
   explanationText: string;
   correctOptions: string;
   correctMessage: string;
 
   isAnswered: boolean;
+  alreadyAnswered: boolean;
   checkedShuffle: boolean;
+  unsubscribe$ = new Subject<void>();
+  answer: number;
+
+  isCorrectOption = 'option.selected && option.correct';
+  isIncorrectOption = 'option.selected && !option.correct';
 
   correctSound = new Howl({
     src: '../../../assets/audio/sound-correct.mp3',
     html5: true,
-    format: ['mp3', 'aac']
+    format: ['mp3']
   });
   incorrectSound = new Howl({
     src: '../../../assets/audio/sound-incorrect.mp3',
     html5: true,
-    format: ['mp3', 'aac']
+    format: ['mp3']
   });
 
 
@@ -63,8 +74,21 @@ export class QuizService {
     private activatedRoute: ActivatedRoute,
     private router: Router
   ) {
-    this.quizId = this.activatedRoute.snapshot.paramMap.get('quizId');
+    this.quizName$ = this.activatedRoute.url.pipe(map(segments => segments[1] + ''));
+    this.activatedRoute.paramMap
+      .pipe(takeUntil(this.unsubscribe$))
+        .subscribe(params => this.quizId = params.get('quizId'));
     this.indexOfQuizId = this.quizData.findIndex(el => el.quizId === this.quizId);
+    this.returnQuizSelectionParams();
+  }
+
+  ngOnDestroy(): void {
+    this.unsubscribe$.next();
+    this.unsubscribe$.complete();
+  }
+
+  getQuizzes(): Observable<Quiz[]> {
+    return of(this.quizData);
   }
 
   getCorrectAnswers(question: QuizQuestion) {
@@ -73,49 +97,62 @@ export class QuizService {
       this.numberOfCorrectAnswers = identifiedCorrectAnswers.length;
       this.correctAnswerOptions = identifiedCorrectAnswers.map((option) => question.options.indexOf(option) + 1);
 
-      this.correctAnswersForEachQuestion.push(this.correctAnswerOptions);
-      this.correctAnswers.push(this.correctAnswersForEachQuestion);
+      const correctAnswerAdded = this.correctAnswers.find(q => q.questionId === question.explanation) !== undefined;
+      if (correctAnswerAdded === false) {
+        this.correctAnswersForEachQuestion.push(this.correctAnswerOptions);
+        this.correctAnswers.push({
+          questionId: this.question.explanation,
+          answers: this.correctAnswersForEachQuestion.sort()
+        });
+      }
 
-      this.setCorrectAnswerMessagesAndExplanationText(this.correctAnswersForEachQuestion.sort());
+      this.setExplanationTextAndCorrectMessages(this.correctAnswerOptions.sort(), this.question);
       return identifiedCorrectAnswers;
     }
   }
 
-  // shuffle questions array in-place using Durstenfeld's shuffling algorithm
-  shuffleQuestions(questions: QuizQuestion[]): void {
-    for (let i = questions.length - 1; i >= 0; i--) {
+  // generically shuffle arrays in-place using Durstenfeld's shuffling algorithm
+  shuffle<T>(arg: T[]): void {
+    for (let i = arg.length - 1; i >= 0; i--) {
       const j = Math.floor(Math.random() * (i + 1));
-      [questions[i], questions[j]] = [questions[j], questions[i]];
+      [arg[i], arg[j]] = [arg[j], arg[i]];
     }
   }
 
-  // shuffle answers array in-place using Durstenfeld's shuffling algorithm
-  shuffleAnswers(answers: Option[]): void {
-    for (let i = answers.length - 1; i >= 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [answers[i], answers[j]] = [answers[j], answers[i]];
-    }
+  returnQuizSelectionParams(): object {
+    return new Object({
+      startedQuizId: this.startedQuizId,
+      continueQuizId: this.continueQuizId,
+      completedQuizId: this.completedQuizId,
+      quizCompleted: this.quizCompleted,
+      status: this.status
+    });
   }
 
   /********* setter functions ***********/
-  setCorrectAnswerMessagesAndExplanationText(correctAnswers: number[]): void {
-    if (correctAnswers[0][0]) {
-      this.correctOptions = correctAnswers[0][0];
-      this.correctMessage = 'The correct answer was Option ' + this.correctOptions + '.';
+  setExplanationTextAndCorrectMessages(correctAnswers: number[], question: QuizQuestion): void {
+    this.explanationText = question.explanation;
+    for (let i = 0; i < question.options.length; i++) {
+      if (correctAnswers[i] &&
+          correctAnswers.length === 1) {
+        this.correctOptions = correctAnswers[i].toString().concat('');
+        this.correctMessage = 'The correct answer was Option ' + this.correctOptions + '.';
+      }
+      if (correctAnswers[i] && correctAnswers[i + 1] &&
+          correctAnswers.length > 1) {
+        this.correctOptions = correctAnswers[i].toString().concat(' and ' + correctAnswers[i + 1]);
+        this.correctMessage = 'The correct answers were Options ' + this.correctOptions + '.';
+      }
+      if (correctAnswers[i] && correctAnswers[i + 1] && correctAnswers[i + 2] &&
+          correctAnswers.length > 1) {
+        this.correctOptions = correctAnswers[i].toString().concat(', ', + correctAnswers[i + 1] + ' and ' + correctAnswers[i + 2]);
+        this.correctMessage = 'The correct answers were Options ' + this.correctOptions + '.';
+      }
+      if (correctAnswers.length === question.options.length) {
+        this.correctOptions = 'ALL were correct!';
+        this.correctMessage = 'ALL were correct!';
+      }
     }
-    if (correctAnswers[0][0] && correctAnswers[0][1]) {
-      this.correctOptions = correctAnswers[0][0].toString().concat(' and ', correctAnswers[0][1]);
-      this.correctMessage = 'The correct answers were Options ' + this.correctOptions + '.';
-    }
-    if (correctAnswers[0][0] && correctAnswers[0][1] && correctAnswers[0][2]) {
-      this.correctOptions = correctAnswers[0][0].toString().concat(', ', correctAnswers[0][1], ' and ', correctAnswers[0][2]);
-      this.correctMessage = 'The correct answers were Options ' + this.correctOptions + '.';
-    }
-    if (correctAnswers[0][0] && correctAnswers[0][1] && correctAnswers[0][2] && correctAnswers[0][3]) {
-      this.explanationText = 'All were correct!';
-      this.correctMessage = 'All were correct!';
-    }
-    this.explanationText = this.question.explanation;
   }
 
   // set the text of the previous user answers in an array to show in the following quiz
@@ -142,6 +179,14 @@ export class QuizService {
 
   setQuizId(value: string): void {
     this.quizId = value;
+  }
+
+  setStartedQuizId(value: string) {
+    this.startedQuizId = value;
+  }
+
+  setContinueQuizId(value: string) {
+    this.continueQuizId = value;
   }
 
   setCompletedQuizId(value: string) {
@@ -176,6 +221,18 @@ export class QuizService {
     this.isAnswered = value;
   }
 
+  setAlreadyAnswered(value: boolean): void {
+    this.alreadyAnswered = value;
+  }
+
+  setCurrentQuestion(value: QuizQuestion): void {
+    this.currentQuestion = value;
+  }
+
+  setResources(value: Resource[]): void {
+    this.resources = value;
+  }
+
   sendCorrectCountToResults(value: number): void {
     this.correctAnswersCountSubject.next(value);
   }
@@ -202,7 +259,8 @@ export class QuizService {
 
   /********* reset functions ***********/
   resetQuestions(): void {
-    this.quizData = JSON.parse(JSON.stringify(QUIZ_DATA));
+    // this.quizData = QUIZ_DATA;
+    // this.quizData = JSON.parse(JSON.stringify(QUIZ_DATA));
   }
 
   resetAll(): void {

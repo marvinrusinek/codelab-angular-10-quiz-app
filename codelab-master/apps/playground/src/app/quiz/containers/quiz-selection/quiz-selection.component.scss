@@ -105,12 +105,9 @@ mat-card {
           top: 10px;
           right: 10px;
 
-          span.icon {
-            svg {
-              height: 24px;
-              width: 24px;
-              fill: $green-angular-leaf;
-            }
+          i {
+            font-size: 24px;
+            color: $green-angular-leaf;
           }
         }
       }
@@ -129,6 +126,8 @@ mat-card {
   }
 
   mat-card-footer {
+    margin-bottom: 5px;
+
     h3 {
       font-weight: $font-weight-max;
       color: $fire-red;

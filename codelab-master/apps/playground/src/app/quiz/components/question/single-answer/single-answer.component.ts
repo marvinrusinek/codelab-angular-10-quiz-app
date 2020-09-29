@@ -8,58 +8,53 @@ import {
   Output,
   SimpleChanges
 } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormGroup } from '@angular/forms';
 
-import { Option, QuizQuestion } from '@codelab-quiz/shared/models/*';
+import { QuizQuestion } from '@codelab-quiz/shared/models/';
 import { QuizService, TimerService } from '@codelab-quiz/shared/services/*';
 
-
 @Component({
-  selector: 'codelab-quiz-question',
-  templateUrl: './question.component.html',
-  styleUrls: ['./question.component.scss'],
+  selector: 'codelab-question-single-answer',
+  templateUrl: './single-answer.component.html',
+  styleUrls: ['./single-answer.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class QuizQuestionComponent implements OnInit, OnChanges {
-  currentQuestion: QuizQuestion;
+export class SingleAnswerComponent implements OnInit, OnChanges {
   @Output() answer = new EventEmitter<number>();
   @Input() question: QuizQuestion;
   formGroup: FormGroup;
-  quizStarted: boolean;
   multipleAnswer: boolean;
-  alreadyAnswered = false;
+  alreadyAnswered: boolean;
+  currentQuestion: QuizQuestion;
+
+  quizStarted: boolean;
   correctAnswers = [];
   correctMessage = '';
-  isCorrectAnswerSelected = false;
   isAnswered: boolean;
-  previousUserAnswers: string[] = [];
-  previousUserAnswersTextSingleAnswer = [];
-  previousUserAnswersTextMultipleAnswer = [];
+  isCorrectAnswerSelected: boolean;
+  isCorrectOption: string;
+  isIncorrectOption: string;
 
   constructor(
     private quizService: QuizService,
     private timerService: TimerService
-  ) { }
+  ) {}
 
-  ngOnInit() {
-    this.formGroup = new FormGroup({
-      answer: new FormControl(['', Validators.required])
-    });
-
-    this.previousUserAnswersTextSingleAnswer = this.quizService.previousUserAnswersTextSingleAnswer;
-    this.previousUserAnswersTextMultipleAnswer = this.quizService.previousUserAnswersTextMultipleAnswer;
-
+  ngOnInit(): void {
     this.question = this.currentQuestion;
-    this.correctMessage = this.quizService.correctMessage;
-    this.previousUserAnswers = this.quizService.userAnswers;
+    this.multipleAnswer = this.quizService.multipleAnswer;
+    this.alreadyAnswered = this.quizService.alreadyAnswered;
     this.isAnswered = this.quizService.isAnswered;
-    this.sendCurrentQuestionToQuizService();
+    this.currentQuestion = this.quizService.currentQuestion;
+    this.isCorrectOption = this.quizService.isCorrectOption;
+    this.isIncorrectOption = this.quizService.isIncorrectOption;
   }
 
   ngOnChanges(changes: SimpleChanges) {
     if (changes.question && changes.question.currentValue !== changes.question.firstChange) {
       this.currentQuestion = changes.question.currentValue;
       this.correctAnswers = this.quizService.getCorrectAnswers(this.currentQuestion);
+      this.correctMessage = this.quizService.correctMessage;
       this.multipleAnswer = this.correctAnswers.length > 1;
 
       if (this.formGroup) {
@@ -69,17 +64,13 @@ export class QuizQuestionComponent implements OnInit, OnChanges {
     }
   }
 
-  isCorrect(correct: boolean, optionIndex: number): boolean {
-    return correct === this.currentQuestion.options[optionIndex].correct;
-  }
-
   setSelected(optionIndex: number): void {
     this.quizStarted = true;
     this.isCorrectAnswerSelected = this.isCorrect(this.currentQuestion.options[optionIndex].correct, optionIndex);
     this.answer.emit(optionIndex);
 
     if (this.correctAnswers.length === 1) {
-      this.currentQuestion.options.forEach((option: Option) => option.selected = false);
+      this.currentQuestion.options.forEach((option) => option.selected = false);
     }
     this.currentQuestion.options[optionIndex].selected = true;
 
@@ -95,11 +86,10 @@ export class QuizQuestionComponent implements OnInit, OnChanges {
     } else {
       this.quizService.incorrectSound.play();
     }
-
     this.alreadyAnswered = true;
   }
 
-  private sendCurrentQuestionToQuizService(): void {
-    this.quizService.setCurrentQuestion(this.currentQuestion);
+  isCorrect(correct: boolean, optionIndex: number): boolean {
+    return correct === this.currentQuestion.options[optionIndex].correct;
   }
 }

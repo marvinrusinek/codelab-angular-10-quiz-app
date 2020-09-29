@@ -1,0 +1,73 @@
+@import "variables";
+
+.options {
+  margin: 0 0 10px 6px;
+  padding: 5px;
+  width: 630px;
+
+  mat-radio-button {
+    cursor: pointer;
+    width: 630px !important;
+    height: 55px !important;
+    font-family: $font-stack;
+    font-size: 20px !important;
+    color: $dark-brown;
+    background-color: $light-gray;
+    border: 2px solid $medium-gray;
+    padding: 10px 5px 5px 30px;
+    margin-left: -5px;
+    vertical-align: middle;
+
+    &:hover {
+      border: 2px solid $vivid-blue;
+    }
+  }
+
+  mat-radio-button:first-child {
+    margin-top: -25px;
+  }
+
+  mat-radio-label {
+    white-space: normal;
+    margin-top: 5px;
+
+    .feedback-icon {
+      position: absolute;
+      right: 0;
+      margin: 5px 40px 0 0 !important;
+    }
+  }
+
+  .messages {
+    .sentiment-icon {
+      display: inline;
+      margin: 30px -50px 0 25px;
+    }
+
+    .message {
+      margin-top: 20px;
+    }
+
+    .wrong-message {
+      margin-top: -10px;
+
+      .sentiment-icon {
+        float: left;
+        margin-bottom: 55px !important;
+      }
+    }
+  }
+
+  .is-correct {
+    background-color: $green;
+  }
+
+  .is-incorrect {
+    background-color: $red;
+  }
+}
+
+// hide mat-radio-buttons/mat-checkboxes next to answer choices -- TODO: hide using *ngIf
+::ng-deep .mat-radio-button .mat-radio-container {
+  display: none;
+}

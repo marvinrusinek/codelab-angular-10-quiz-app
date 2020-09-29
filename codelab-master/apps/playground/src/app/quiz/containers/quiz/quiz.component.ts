@@ -1,14 +1,20 @@
 import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { BehaviorSubject, Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { BehaviorSubject, Observable, Subject } from 'rxjs';
+import { map, takeUntil } from 'rxjs/operators';
 
 import { ChangeRouteAnimation } from '@codelab-quiz/animations/';
-import { QUIZ_DATA } from '@codelab-quiz/shared/quiz-data';
-import { Quiz, QuizQuestion } from '@codelab-quiz/shared/models/';
+import { QUIZ_DATA, QUIZ_RESOURCES } from '@codelab-quiz/shared/quiz-data';
+import { Quiz, QuizQuestion, QuizResource, Resource } from '@codelab-quiz/shared/models/*';
 import { QuizService, TimerService } from '@codelab-quiz/shared/services/*';
 
 type AnimationState = 'animationStarted' | 'none';
+
+enum Status {
+  Started = 'Started',
+  Continue = 'Continue',
+  Completed = 'Completed'
+}
 
 @Component({
   selector: 'codelab-quiz-component',
@@ -18,31 +24,33 @@ type AnimationState = 'animationStarted' | 'none';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class QuizComponent implements OnInit, OnDestroy {
-  quizData: Quiz[] = JSON.parse(JSON.stringify(QUIZ_DATA));
+  quizData: Quiz[] = QUIZ_DATA;
+  quizResources: QuizResource[] = QUIZ_RESOURCES;
+  quizzes$: Observable<Quiz[]>;
   question: QuizQuestion;
   questions: QuizQuestion[];
+  resources: Resource[];
   answers: number[] = [];
+  multipleAnswer: boolean;
   questionIndex: number;
   totalQuestions: number;
   progressValue: number;
   correctCount: number;
+
   quizId: string;
-  quizName = '';
+  quizName$: Observable<string>;
   indexOfQuizId: number;
-  status: string;
+  status: Status;
   previousUserAnswers: any;
   checkedShuffle: boolean;
-  unsubscribe$ = new Subject<void>();
-  animationState$ = new BehaviorSubject<AnimationState>('none');
-  get explanationText(): string { return this.quizService.explanationText; }
+  answer: number;
+
   get correctOptions(): string { return this.quizService.correctOptions; }
+  get explanationText(): string { return this.quizService.explanationText; }
   get numberOfCorrectAnswers(): number { return this.quizService.numberOfCorrectAnswers; }
 
-  paging = {
-    previousButtonPoints: "298.052,24 266.052,0 112.206,205.129 266.052,410.258 298.052,386.258 162.206,205.129 ",
-    nextButtonPoints: "144.206,0 112.206,24 248.052,205.129 112.206,386.258 144.206,410.258 298.052,205.129 ",
-    restartButtonPath: "M152.924,300.748c84.319,0,152.912-68.6,152.912-152.918c0-39.476-15.312-77.231-42.346-105.564 c0,0,3.938-8.857,8.814-19.783c4.864-10.926-2.138-18.636-15.648-17.228l-79.125,8.289c-13.511,1.411-17.999,11.467-10.021,22.461 l46.741,64.393c7.986,10.992,17.834,12.31,22.008,2.937l7.56-16.964c12.172,18.012,18.976,39.329,18.976,61.459 c0,60.594-49.288,109.875-109.87,109.875c-60.591,0-109.882-49.287-109.882-109.875c0-19.086,4.96-37.878,14.357-54.337 c5.891-10.325,2.3-23.467-8.025-29.357c-10.328-5.896-23.464-2.3-29.36,8.031C6.923,95.107,0,121.27,0,147.829 C0,232.148,68.602,300.748,152.924,300.748z"
-  };
+  animationState$ = new BehaviorSubject<AnimationState>('none');
+  unsubscribe$ = new Subject<void>();
 
   constructor(
     private quizService: QuizService,
@@ -50,12 +58,16 @@ export class QuizComponent implements OnInit, OnDestroy {
     private activatedRoute: ActivatedRoute,
     private router: Router
   ) {
-    this.quizId = this.activatedRoute.snapshot.paramMap.get('quizId');
-    this.indexOfQuizId = this.quizData.findIndex(element => element.quizId === this.quizId);
+    this.activatedRoute.paramMap
+      .pipe(takeUntil(this.unsubscribe$))
+        .subscribe(params => this.quizId = params.get('quizId'));
+    this.indexOfQuizId = this.quizData.findIndex(elem => elem.quizId === this.quizId);
   }
 
   ngOnInit(): void {
-    this.getQuizNameFromActivatedRoute();
+    this.quizzes$ = this.quizService.getQuizzes();
+    this.quizName$ = this.activatedRoute.url.pipe(map(segments => segments[1] + ''));
+    this.quizId = this.activatedRoute.snapshot.paramMap.get('quizId');
     this.shuffleQuestionsAndAnswers();
 
     this.activatedRoute.params
@@ -64,20 +76,23 @@ export class QuizComponent implements OnInit, OnDestroy {
           this.totalQuestions = this.quizData[this.indexOfQuizId].questions.length;
           this.quizService.setTotalQuestions(this.totalQuestions);
 
-        if (params.questionIndex) {
-          this.questionIndex = parseInt(params.questionIndex, 0);
-          this.quizService.currentQuestionIndex = this.questionIndex;
+          if (params.questionIndex) {
+            this.questionIndex = parseInt(params.questionIndex, 0);
+            this.quizService.currentQuestionIndex = this.questionIndex;
 
-          if (this.questionIndex === 1) {
-            this.progressValue = 0;
-            this.quizData[this.indexOfQuizId].status = 'started';
-          } else {
-            this.progressValue = Math.ceil((this.questionIndex - 1) / this.totalQuestions) * 100;
+            if (this.questionIndex === 1) {
+              this.status = Status.Started;
+              this.sendStartedQuizIdToQuizService(this.quizId);
+              this.progressValue = 0;
+            } else {
+              this.status = Status.Continue;
+              this.sendContinueQuizIdToQuizService(this.quizId);
+              this.progressValue = Math.ceil((this.questionIndex - 1) / this.totalQuestions * 100);
+            }
+
+            this.sendValuesToQuizService();
           }
-
-          this.sendValuesToQuizService();
-        }
-    });
+      });
 
     if (this.questionIndex === 1) {
       this.quizService.correctAnswersCountSubject.next(0);
@@ -92,12 +107,12 @@ export class QuizComponent implements OnInit, OnDestroy {
     this.unsubscribe$.complete();
   }
 
-  isAnswered(): boolean {
-    return this.answers && this.answers.length > 0;
-  }
-
   animationDoneHandler(): void {
     this.animationState$.next('none');
+  }
+
+  isAnswered(): boolean {
+    return this.answers && this.answers.length > 0;
   }
 
   selectedAnswer(data): void {
@@ -111,46 +126,11 @@ export class QuizComponent implements OnInit, OnDestroy {
 
   shuffleQuestionsAndAnswers(): void {
     if (this.quizService.checkedShuffle) {
-      this.quizService.shuffleQuestions(this.quizData[this.indexOfQuizId].questions);
-      this.quizService.shuffleAnswers(
+      this.quizService.shuffle(this.quizData[this.indexOfQuizId].questions);
+      this.quizService.shuffle(
         this.quizData[this.indexOfQuizId].questions[this.quizService.currentQuestionIndex].options
       );
     }
-  }
-
-  advanceToNextQuestion() {
-    this.checkIfAnsweredCorrectly();
-    this.answers = [];
-    this.quizData[this.indexOfQuizId].status = 'continue';
-    this.animationState$.next('animationStarted');
-    this.quizService.navigateToNextQuestion();
-    this.timerService.resetTimer();
-  }
-
-  advanceToPreviousQuestion() {
-    this.answers = null;
-    this.quizData[this.indexOfQuizId].status = 'continue';
-    this.animationState$.next('animationStarted');
-    this.quizService.navigateToPreviousQuestion();
-  }
-
-  advanceToResults() {
-    this.quizService.resetAll();
-    this.timerService.stopTimer();
-    this.timerService.resetTimer();
-    this.checkIfAnsweredCorrectly();
-    this.quizService.navigateToResults();
-  }
-
-  restartQuiz() {
-    this.quizService.resetAll();
-    this.quizService.resetQuestions();
-    this.timerService.stopTimer();
-    this.timerService.resetTimer();
-    this.timerService.elapsedTimes = [];
-    this.timerService.completionTime = 0;
-    this.answers = null;
-    this.router.navigate(['/quiz/intro/', this.quizId]).then();
   }
 
   checkIfAnsweredCorrectly(): void {
@@ -176,19 +156,50 @@ export class QuizComponent implements OnInit, OnDestroy {
     }
   }
 
-  getQuizNameFromActivatedRoute(): void {
-    this.activatedRoute.url.subscribe(segments => {
-      this.quizName = segments[1].toString();
-    });
+  /************************ paging functions *********************/
+  advanceToNextQuestion() {
+    this.checkIfAnsweredCorrectly();
+    this.answers = [];
+    this.status = Status.Continue;
+    this.animationState$.next('animationStarted');
+    this.quizService.navigateToNextQuestion();
+    this.timerService.resetTimer();
+  }
+
+  advanceToPreviousQuestion() {
+    this.answers = [];
+    this.status = Status.Continue;
+    this.animationState$.next('animationStarted');
+    this.quizService.navigateToPreviousQuestion();
+  }
+
+  advanceToResults() {
+    this.quizService.resetAll();
+    this.timerService.stopTimer();
+    this.timerService.resetTimer();
+    this.checkIfAnsweredCorrectly();
+    this.quizService.navigateToResults();
+  }
+
+  restartQuiz() {
+    this.quizService.resetAll();
+    this.quizService.resetQuestions();
+    this.timerService.stopTimer();
+    this.timerService.resetTimer();
+    this.timerService.elapsedTimes = [];
+    this.timerService.completionTime = 0;
+    this.answers = null;
+    this.router.navigate(['/intro/', this.quizId]).then();
   }
 
   sendValuesToQuizService(): void {
+    this.sendIsAnsweredToQuizService();
     this.sendQuestionToQuizService();
     this.sendQuestionsToQuizService();
     this.sendQuizIdToQuizService();
     this.sendQuizStatusToQuizService();
     this.sendPreviousUserAnswersToQuizService();
-    this.sendIsAnsweredToQuizService();
+    this.sendResourcesToQuizService();
   }
 
   private sendQuestionToQuizService(): void {
@@ -206,8 +217,15 @@ export class QuizComponent implements OnInit, OnDestroy {
   }
 
   private sendQuizStatusToQuizService(): void {
-    this.status = this.quizData[this.indexOfQuizId].status;
     this.quizService.setQuizStatus(this.status);
+  }
+
+  private sendStartedQuizIdToQuizService(quizId): void {
+    this.quizService.setStartedQuizId(quizId);
+  }
+
+  private sendContinueQuizIdToQuizService(quizId): void {
+    this.quizService.setContinueQuizId(quizId);
   }
 
   private sendPreviousUserAnswersToQuizService(): void {
@@ -217,6 +235,11 @@ export class QuizComponent implements OnInit, OnDestroy {
 
   private sendIsAnsweredToQuizService(): void {
     this.quizService.setIsAnswered(this.isAnswered());
+  }
+
+  private sendResourcesToQuizService(): void {
+    this.resources = this.quizResources[this.indexOfQuizId].resources;
+    this.quizService.setResources(this.resources);
   }
 
   private sendCorrectCountToQuizService(value: number): void {

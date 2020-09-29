@@ -1,8 +1,9 @@
 import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { concat, Observable, timer } from 'rxjs';
-import { first, repeatWhen, scan, shareReplay, skip, switchMapTo, takeUntil, tap } from 'rxjs/operators';
+import { first, repeatWhen, scan, skip, switchMapTo, takeUntil, tap } from 'rxjs/operators';
 
 import { QuizService, TimerService } from '@codelab-quiz/shared/services/*';
+
 
 @Component({
   selector: 'codelab-scoreboard-time',
@@ -10,15 +11,19 @@ import { QuizService, TimerService } from '@codelab-quiz/shared/services/*';
   styleUrls: ['./time.component.scss']
 })
 export class TimeComponent implements OnChanges {
-  @Input() set selectedAnswer(value) { this.answer = value; }
-  answer;
-  timeLeft$: Observable<number>;
+  @Input() selectedAnswer: number;
+  answer: number;
   timePerQuestion = 20;
+  timeLeft$: Observable<number>;
+  start$: Observable<number>;
+  reset$: Observable<number>;
+  stop$: Observable<number>;
 
   constructor(
     private quizService: QuizService,
     private timerService: TimerService
   ) {
+    this.selectedAnswer = this.answer;
     this.countdownClock();
   }
 
@@ -32,22 +37,22 @@ export class TimeComponent implements OnChanges {
   }
 
   countdownClock(): void {
-    const start$ = this.timerService.isStart.asObservable().pipe(shareReplay(1));
-    const reset$ = this.timerService.isReset.asObservable();
-    const stop$ = this.timerService.isStop.asObservable();
+    this.start$ = this.timerService.start$;
+    this.reset$ = this.timerService.reset$;
+    this.stop$ = this.timerService.stop$;
 
-    this.timeLeft$ = concat(start$.pipe(first()), reset$).pipe(
+    this.timeLeft$ = concat(this.start$.pipe(first()), this.reset$).pipe(
       switchMapTo(
         timer(0, 1000).pipe(
           scan((acc) => acc > 0 ? (acc - 1 >= 10 ? acc - 1 : `0${acc - 1}`)
                                                   : acc, this.timePerQuestion)
         )
       ),
-      takeUntil(stop$.pipe(skip(1))),
+      takeUntil(this.stop$.pipe(skip(1))),
       repeatWhen(completeSubj =>
         completeSubj.pipe(
           switchMapTo(
-            start$.pipe(
+            this.start$.pipe(
               skip(1),
               first()
             )

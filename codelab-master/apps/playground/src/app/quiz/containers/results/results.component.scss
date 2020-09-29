@@ -14,7 +14,10 @@ mat-card-header {
     font-style: italic;
     font-weight: 900;
     color: $green-angular-leaf;
-    text-shadow: 1px 0 0 $black, 0 -1px 0 $black, 0 1px 0 $black, -1px 0 0 $black;
+    text-shadow: 1px 0 0 $black,
+                 0 -1px 0 $black,
+                 0 1px 0 $black,
+                 -1px 0 0 $black;
   }
 }
 
@@ -68,16 +71,6 @@ mat-card-header {
       border-radius: 10px;
     }
 
-    .mat-progress-spinner {
-      margin: 0 auto;
-    }
-    .mat-progress-spinner-percentage {
-      font-family: $font-stack;
-      font-size: 16px;
-      text-align: center;
-      clear: both;
-    }
-
     .quiz-feedback {
       margin-top: 20px;
 
@@ -125,20 +118,20 @@ mat-card-header {
 
         .printout {
           float: right;
-          margin-right: 60px;
           margin-top: -40px;
+          margin-right: 60px;
         }
 
         .email {
           float: right;
-          margin-right: 35px;
           margin-top: -40px;
+          margin-right: 35px;
         }
 
         .share {
           float: right;
-          margin-right: 10px;
           margin-top: -40px;
+          margin-right: 10px;
         }
       }
 
@@ -355,6 +348,11 @@ a.btn::after {
 }
 a.btn:focus:not(:active)::after {
   display: block;
+}
+
+.mdc-button {
+  display: inline-flex;
+  vertical-align: middle;
 }
 
 @keyframes ripple {
