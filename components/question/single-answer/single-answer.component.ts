@@ -6,66 +6,65 @@ import {
   OnChanges,
   OnInit,
   Output,
-  SimpleChanges
+  SimpleChanges,
+  ViewEncapsulation
 } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 
-import { QuizQuestion } from '@codelab-quiz/shared/models/*';
+import { QuizQuestion } from '@codelab-quiz/shared/models/';
 import { QuizService, TimerService } from '@codelab-quiz/shared/services/*';
 
 @Component({
   selector: 'codelab-question-single-answer',
   templateUrl: './single-answer.component.html',
   styleUrls: ['./single-answer.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  encapsulation: ViewEncapsulation.ShadowDom
 })
 export class SingleAnswerComponent implements OnInit, OnChanges {
-  @Output() answer: EventEmitter<number> = new EventEmitter<number>();
+  @Output() answer = new EventEmitter<number>();
   @Input() question: QuizQuestion;
-  formGroup: FormGroup;
-  multipleAnswer: boolean;
-  alreadyAnswered: boolean;
   currentQuestion: QuizQuestion;
-
-  quizStarted: boolean;
+  formGroup: FormGroup;
   correctAnswers = [];
   correctMessage = '';
-  isAnswered: boolean;
+  previousAnswers: string[] = [];
+
+  multipleAnswer = false;
+  alreadyAnswered: boolean;
+  quizStarted: boolean;
   isCorrectAnswerSelected: boolean;
-  isCorrectOption: string;
-  isIncorrectOption: string;
+  optionSelected: boolean;
+  optionCorrect: boolean;
+  isCorrectOption: boolean;
+  isIncorrectOption: boolean;
 
   constructor(
     private quizService: QuizService,
     private timerService: TimerService
-  ) { }
+  ) {
+    this.sendMultipleAnswerToQuizService();
+  }
 
   ngOnInit(): void {
     this.question = this.currentQuestion;
+    this.currentQuestion = this.quizService.currentQuestion;
     this.multipleAnswer = this.quizService.multipleAnswer;
     this.alreadyAnswered = this.quizService.alreadyAnswered;
-    this.isAnswered = this.quizService.isAnswered;
-    this.currentQuestion = this.quizService.currentQuestion;
-    this.correctMessage = this.quizService.correctMessage;
-    this.isCorrectOption = this.quizService.isCorrectOption;
-    this.isIncorrectOption = this.quizService.isIncorrectOption;
+    this.previousAnswers = this.quizService.previousAnswers;
   }
 
-  ngOnChanges(changes: SimpleChanges) {
+  ngOnChanges(changes: SimpleChanges): void {
     if (changes.question && changes.question.currentValue !== changes.question.firstChange) {
       this.currentQuestion = changes.question.currentValue;
       this.correctAnswers = this.quizService.getCorrectAnswers(this.currentQuestion);
-      this.multipleAnswer = this.correctAnswers.length > 1;
+      this.correctMessage = this.quizService.correctMessage;
 
       if (this.formGroup) {
         this.formGroup.patchValue({answer: ''});
         this.alreadyAnswered = false;
       }
     }
-  }
-
-  getQuizService() {
-    return this.quizService;
   }
 
   setSelected(optionIndex: number): void {
@@ -82,18 +81,30 @@ export class SingleAnswerComponent implements OnInit, OnChanges {
       optionIndex >= 0 &&
       this.currentQuestion &&
       this.currentQuestion.options &&
-      this.currentQuestion.options[optionIndex]['correct']
+      this.currentQuestion.options[optionIndex]["correct"]
     ) {
+      optionIndex = null;
+      this.optionSelected = true;
+      this.optionCorrect = true;
       this.timerService.stopTimer();
       this.quizService.correctSound.play();
-      optionIndex = null;
     } else {
+      this.optionSelected = true;
+      this.optionCorrect = false;
       this.quizService.incorrectSound.play();
     }
+
+    this.quizService.setOptions(this.optionSelected, this.optionCorrect);
+    this.isCorrectOption = this.quizService.isCorrectOption;
+    this.isIncorrectOption = this.quizService.isIncorrectOption;
     this.alreadyAnswered = true;
   }
 
   isCorrect(correct: boolean, optionIndex: number): boolean {
     return correct === this.currentQuestion.options[optionIndex].correct;
+  }
+
+  private sendMultipleAnswerToQuizService(): void {
+    this.quizService.setMultipleAnswer(this.multipleAnswer);
   }
 }

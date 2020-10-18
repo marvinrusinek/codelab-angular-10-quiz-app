@@ -29,17 +29,17 @@ export class ScoreboardComponent implements OnInit, OnChanges, OnDestroy {
 
     this.activatedRoute.params
       .pipe(takeUntil(this.unsubscribe$))
-      .subscribe((params) => {
-        if (params.questionIndex) {
-          this.badgeQuestionNumber = params.questionIndex;
-          this.timerService.resetTimer();
-        }
-      });
+        .subscribe((params) => {
+          if (params.questionIndex) {
+            this.badgeQuestionNumber = params.questionIndex;
+            this.timerService.resetTimer();
+          }
+    });
   }
 
-  ngOnChanges(changes: SimpleChanges) {
+  ngOnChanges(changes: SimpleChanges): void {
     if (changes.selectedAnswer &&
-      changes.selectedAnswer.currentValue !== changes.selectedAnswer.firstChange) {
+        changes.selectedAnswer.currentValue !== changes.selectedAnswer.firstChange) {
       this.answer = changes.selectedAnswer.currentValue;
     }
   }

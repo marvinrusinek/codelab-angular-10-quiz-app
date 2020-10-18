@@ -1,15 +1,15 @@
 <ng-container *ngFor="let quiz of quizzes$ | async">
   <mat-card *ngIf="quiz.quizId === (quizName$ | async)">
     <mat-card-header>
-      <img mat-card-avatar class="header-image" alt="logo" title="logo" loading="lazy" />
+      <img mat-card-avatar class="header-image" loading="lazy" />
       <mat-card-title i18n>{{ quiz?.milestone }} Quiz</mat-card-title>
       <mat-card-subtitle i18n>
-        <span>How well-versed are you in {{ quiz.milestone }}?</span>
+        <span>How well versed are you in {{ quiz?.milestone }}?</span>
         <span>Take the quiz and find out!</span>
       </mat-card-subtitle>
     </mat-card-header>
 
-    <img mat-card-image class="quiz-topic-image" [src]="imagePath + quiz.image" loading="lazy" />
+    <img mat-card-image class="quiz-topic-image" [src]="quiz.image" loading="lazy" />
 
     <mat-card-content>
       <span i18n><strong>{{ quiz.summary }}</strong>  This quiz is composed of

@@ -1,11 +1,11 @@
-import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { map, takeUntil } from 'rxjs/operators';
 
 import { ChangeRouteAnimation } from '@codelab-quiz/animations/';
-import { QUIZ_DATA } from '@codelab-quiz/shared/quiz-data';
-import { Quiz, QuizQuestion } from '@codelab-quiz/shared/models/*';
+import { QUIZ_DATA, QUIZ_RESOURCES } from '@codelab-quiz/shared/quiz-data';
+import { Quiz, QuizQuestion, QuizResource, Resource } from '@codelab-quiz/shared/models/*';
 import { QuizService, TimerService } from '@codelab-quiz/shared/services/*';
 
 type AnimationState = 'animationStarted' | 'none';
@@ -25,11 +25,12 @@ enum Status {
 })
 export class QuizComponent implements OnInit, OnDestroy {
   quizData: Quiz[] = QUIZ_DATA;
+  quizResources: QuizResource[] = QUIZ_RESOURCES;
   quizzes$: Observable<Quiz[]>;
   question: QuizQuestion;
   questions: QuizQuestion[];
+  resources: Resource[];
   answers: number[] = [];
-  multipleAnswer: boolean;
   questionIndex: number;
   totalQuestions: number;
   progressValue: number;
@@ -39,13 +40,20 @@ export class QuizComponent implements OnInit, OnDestroy {
   quizName$: Observable<string>;
   indexOfQuizId: number;
   status: Status;
-  previousUserAnswers: any;
   checkedShuffle: boolean;
-  // explanationText: string;
 
-  get correctOptions(): string { return this.quizService.correctOptions; }
-  get explanationText(): string { return this.quizService.explanationText; }
-  get numberOfCorrectAnswers(): number { return this.quizService.numberOfCorrectAnswers; }
+  get multipleAnswer(): boolean {
+    return this.quizService.multipleAnswer;
+  }
+  get correctOptions(): string {
+    return this.quizService.correctOptions;
+  }
+  get explanationText(): string {
+    return this.quizService.explanationText;
+  }
+  get numberOfCorrectAnswers(): number {
+    return this.quizService.numberOfCorrectAnswers;
+  }
 
   animationState$ = new BehaviorSubject<AnimationState>('none');
   unsubscribe$ = new Subject<void>();
@@ -55,16 +63,15 @@ export class QuizComponent implements OnInit, OnDestroy {
     private timerService: TimerService,
     private activatedRoute: ActivatedRoute,
     private router: Router
-  ) {
-    this.activatedRoute.paramMap
-      .pipe(takeUntil(this.unsubscribe$))
-        .subscribe(params => this.quizId = params.get('quizId'));
-    this.indexOfQuizId = this.quizData.findIndex(elem => elem.quizId === this.quizId);
-  }
+  ) { }
 
   ngOnInit(): void {
     this.quizzes$ = this.quizService.getQuizzes();
     this.quizName$ = this.activatedRoute.url.pipe(map(segments => segments[1].toString()));
+    this.activatedRoute.paramMap
+      .pipe(takeUntil(this.unsubscribe$))
+        .subscribe(params => this.quizId = params.get('quizId'));
+    this.indexOfQuizId = this.quizData.findIndex(elem => elem.quizId === this.quizId);
     this.shuffleQuestionsAndAnswers();
 
     this.activatedRoute.params
@@ -123,10 +130,10 @@ export class QuizComponent implements OnInit, OnDestroy {
 
   shuffleQuestionsAndAnswers(): void {
     if (this.quizService.checkedShuffle) {
-      this.quizService.shuffle(this.quizData[this.indexOfQuizId].questions);  // shuffle questions
+      this.quizService.shuffle(this.quizData[this.indexOfQuizId].questions);
       this.quizService.shuffle(
         this.quizData[this.indexOfQuizId].questions[this.quizService.currentQuestionIndex].options
-      ); // shuffle options
+      );
     }
   }
 
@@ -142,11 +149,11 @@ export class QuizComponent implements OnInit, OnDestroy {
       const answers = this.isAnswered() ? this.answers.map((answer) => answer + 1) : [];
       this.quizService.userAnswers.push(this.isAnswered() ? answers : this.answers);
 
-      this.addUpScores(answers, correctAnswerFound);
+      this.incrementScore(answers, correctAnswerFound);
     }
   }
 
-  addUpScores(answers: number[], correctAnswerFound: number): void {
+  incrementScore(answers: number[], correctAnswerFound: number): void {
     // TODO: for multiple-answer questions, ALL correct answers should be marked correct for the score to increase
     if (correctAnswerFound > -1 && answers.length === this.quizService.numberOfCorrectAnswers) {
       this.sendCorrectCountToQuizService(this.correctCount + 1);
@@ -156,6 +163,7 @@ export class QuizComponent implements OnInit, OnDestroy {
   /************************ paging functions *********************/
   advanceToNextQuestion() {
     this.checkIfAnsweredCorrectly();
+    this.answers = [];
     this.status = Status.Continue;
     this.animationState$.next('animationStarted');
     this.quizService.navigateToNextQuestion();
@@ -163,6 +171,7 @@ export class QuizComponent implements OnInit, OnDestroy {
   }
 
   advanceToPreviousQuestion() {
+    this.answers = [];
     this.status = Status.Continue;
     this.animationState$.next('animationStarted');
     this.quizService.navigateToPreviousQuestion();
@@ -188,22 +197,26 @@ export class QuizComponent implements OnInit, OnDestroy {
   }
 
   sendValuesToQuizService(): void {
-    this.sendIsAnsweredToQuizService();
-    this.sendQuestionToQuizService();
-    this.sendQuestionsToQuizService();
+    this.sendQuizQuestionToQuizService();
+    this.sendQuizQuestionsToQuizService();
     this.sendQuizIdToQuizService();
     this.sendQuizStatusToQuizService();
-    this.sendPreviousUserAnswersToQuizService();
+    this.sendQuizResourcesToQuizService();
   }
 
-  private sendQuestionToQuizService(): void {
+  private sendQuizQuestionToQuizService(): void {
     this.question = this.quizData[this.indexOfQuizId].questions[this.questionIndex - 1];
     this.quizService.setQuestion(this.question);
   }
 
-  private sendQuestionsToQuizService(): void {
+  private sendQuizQuestionsToQuizService(): void {
     this.questions = this.quizData[this.indexOfQuizId].questions;
     this.quizService.setQuestions(this.questions);
+  }
+
+  private sendQuizResourcesToQuizService(): void {
+    this.resources = this.quizResources[this.indexOfQuizId].resources;
+    this.quizService.setResources(this.resources);
   }
 
   private sendQuizIdToQuizService(): void {
@@ -211,7 +224,7 @@ export class QuizComponent implements OnInit, OnDestroy {
   }
 
   private sendQuizStatusToQuizService(): void {
-    this.quizService.setQuizStatus(this.status);
+    this.quizService.setStatus(this.status);
   }
 
   private sendStartedQuizIdToQuizService(quizId): void {
@@ -220,19 +233,6 @@ export class QuizComponent implements OnInit, OnDestroy {
 
   private sendContinueQuizIdToQuizService(quizId): void {
     this.quizService.setContinueQuizId(quizId);
-  }
-
-  private sendCompletedQuizIdToQuizService(): void {
-    this.quizService.setCompletedQuizId(this.quizId);
-  }
-
-  private sendPreviousUserAnswersToQuizService(): void {
-    this.questions = this.quizData[this.indexOfQuizId].questions;
-    this.quizService.setPreviousUserAnswersText(this.quizService.previousUserAnswers, this.questions);
-  }
-
-  private sendIsAnsweredToQuizService(): void {
-    this.quizService.setIsAnswered(this.isAnswered());
   }
 
   private sendCorrectCountToQuizService(value: number): void {

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 
-import { QuizService } from '@codelab-quiz/shared/services/quiz.service';
+import { QuizService } from '@codelab-quiz/shared/services/*';
 
 @Component({
   selector: 'codelab-scoreboard-score',

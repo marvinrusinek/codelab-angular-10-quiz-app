@@ -23,8 +23,9 @@ import { QuizQuestionComponent, SingleAnswerComponent, MultipleAnswerComponent }
 import { IntroductionComponent } from '@codelab-quiz/containers/introduction';
 import { QuizComponent } from '@codelab-quiz/containers/quiz';
 import { QuizSelectionComponent } from '@codelab-quiz/containers/quiz-selection';
-import { ResultsComponent } from '@codelab-quiz/containers/results';
-import { ScoreboardComponent, ScoreComponent, TimeComponent } from '@codelab-quiz/containers/scoreboard/';
+import { ResultsComponent, AccordionComponent, ChallengeComponent, ReturnComponent, StatisticsComponent,
+         SummaryReportComponent } from '@codelab-quiz/containers/results/';
+import { ScoreboardComponent, ScoreComponent, TimerComponent } from '@codelab-quiz/containers/scoreboard/';
 import { QuizService, TimerService } from '@codelab-quiz/shared/services/';
 import { JoinPipe } from '@codelab-quiz/pipes/join.pipe';
 
@@ -32,14 +33,19 @@ import { JoinPipe } from '@codelab-quiz/pipes/join.pipe';
 @NgModule({
   declarations: [
     QuizAppComponent,
+    AccordionComponent,
+    ChallengeComponent,
     IntroductionComponent,
     QuizComponent,
     QuizQuestionComponent,
     QuizSelectionComponent,
     ResultsComponent,
+    ReturnComponent,
     ScoreboardComponent,
     ScoreComponent,
-    TimeComponent,
+    StatisticsComponent,
+    SummaryReportComponent,
+    TimerComponent,
     SingleAnswerComponent,
     MultipleAnswerComponent,
     JoinPipe

@@ -13,6 +13,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Option, QuizQuestion } from '@codelab-quiz/shared/models/*';
 import { QuizService, TimerService } from '@codelab-quiz/shared/services/*';
 
+
 @Component({
   selector: 'codelab-quiz-question',
   templateUrl: './question.component.html',
@@ -20,46 +21,38 @@ import { QuizService, TimerService } from '@codelab-quiz/shared/services/*';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class QuizQuestionComponent implements OnInit, OnChanges {
-  currentQuestion: QuizQuestion;
   @Output() answer = new EventEmitter<number>();
   @Input() question: QuizQuestion;
+  currentQuestion: QuizQuestion;
   formGroup: FormGroup;
   quizStarted: boolean;
   multipleAnswer: boolean;
   alreadyAnswered = false;
   correctAnswers = [];
-  correctMessage = '';
+  correctMessage: string;
+
   isCorrectAnswerSelected = false;
   isAnswered: boolean;
-  previousUserAnswers: string[] = [];
-  previousUserAnswersTextSingleAnswer = [];
-  previousUserAnswersTextMultipleAnswer = [];
-  isCorrectOption: string;
-  isIncorrectOption: string;
+  optionSelected: boolean;
+  optionCorrect: boolean;
 
   constructor(
     private quizService: QuizService,
     private timerService: TimerService
   ) { }
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.formGroup = new FormGroup({
       answer: new FormControl(['', Validators.required])
     });
 
-    this.previousUserAnswersTextSingleAnswer = this.quizService.previousUserAnswersTextSingleAnswer;
-    this.previousUserAnswersTextMultipleAnswer = this.quizService.previousUserAnswersTextMultipleAnswer;
-
     this.question = this.currentQuestion;
-    this.previousUserAnswers = this.quizService.userAnswers;
     this.correctMessage = this.quizService.correctMessage;
     this.isAnswered = this.quizService.isAnswered;
-    this.isCorrectOption = this.quizService.isCorrectOption;
-    this.isIncorrectOption = this.quizService.isIncorrectOption;
     this.sendCurrentQuestionToQuizService();
   }
 
-  ngOnChanges(changes: SimpleChanges) {
+  ngOnChanges(changes: SimpleChanges): void {
     if (changes.question && changes.question.currentValue !== changes.question.firstChange) {
       this.currentQuestion = changes.question.currentValue;
       this.correctAnswers = this.quizService.getCorrectAnswers(this.currentQuestion);
@@ -70,6 +63,10 @@ export class QuizQuestionComponent implements OnInit, OnChanges {
         this.alreadyAnswered = false;
       }
     }
+  }
+
+  isCorrect(correct: boolean, optionIndex: number): boolean {
+    return correct === this.currentQuestion.options[optionIndex].correct;
   }
 
   setSelected(optionIndex: number): void {
@@ -88,22 +85,20 @@ export class QuizQuestionComponent implements OnInit, OnChanges {
       this.currentQuestion.options &&
       this.currentQuestion.options[optionIndex]['correct']
     ) {
+      optionIndex = null;
+      this.optionSelected = true;
+      this.optionCorrect = true;
       this.timerService.stopTimer();
       this.quizService.correctSound.play();
-      optionIndex = null;
     } else {
+      this.optionSelected = true;
+      this.optionCorrect = false;
       this.quizService.incorrectSound.play();
     }
-
     this.alreadyAnswered = true;
-  }
-
-  isCorrect(correct: boolean, optionIndex: number): boolean {
-    return correct === this.currentQuestion.options[optionIndex].correct;
   }
 
   private sendCurrentQuestionToQuizService(): void {
     this.quizService.setCurrentQuestion(this.currentQuestion);
   }
 }
-

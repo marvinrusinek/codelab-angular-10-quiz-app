@@ -4,9 +4,8 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 import { QUIZ_DATA } from '@codelab-quiz/shared/quiz-data';
-import { Quiz } from '@codelab-quiz/shared/models/Quiz.model.ts';
-import { QuizService } from '@codelab-quiz/shared/services/quiz.service';
-
+import { Quiz } from '@codelab-quiz/shared/models/';
+import { QuizService } from '@codelab-quiz/shared/services/*';
 
 @Component({
   selector: 'codelab-quiz-intro',

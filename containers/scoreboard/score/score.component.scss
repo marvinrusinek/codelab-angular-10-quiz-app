@@ -3,9 +3,14 @@
 
 .score {
   float: left;
-  margin-left: 1.5rem;
+  margin-left: 2rem;
 
   .leader, span.scoreboard {
-    margin: 5px 0 0 15px;
+    margin: 5px 0 0 40px;
   }
 }
+
+mat-toolbar {
+  background: $white;
+}
+
