@@ -3,7 +3,7 @@ This application was created for the open-source Angular Codelab (https://www.co
 
 # TODO:
 
-  # Immediate:
+# Immediate:
 - scoreboard stopwatch timer needs to stop at this.timePerQuestion seconds
 - duplicate logic background color issue - all the options are being highlighted, needs to highlight on selected option only
 - duplicate code in question components - could use a service here...
@@ -16,7 +16,7 @@ This application was created for the open-source Angular Codelab (https://www.co
 - add previous user answers text for single-answer questions in QuizQuestionComponent template
   - make sure that the previous answers only get applied to the completed quiz, not any other quizzes
   
-  # Long-Term:  
+# Long-Term:
 - convert app with Ionic and Apache Cordova for usability on mobile devices - priority when everything else has been finished
 - add state management with NgRx
 
