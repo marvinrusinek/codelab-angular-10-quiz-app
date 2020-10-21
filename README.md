@@ -2,6 +2,8 @@
 This application was created for the open-source Angular Codelab (https://www.codelab.fun)
 
 # TODO:
+
+  # Immediate:
 - scoreboard stopwatch timer needs to stop at this.timePerQuestion seconds
 - duplicate logic background color issue - all the options are being highlighted, needs to highlight on selected option only
 - duplicate code in question components - could use a service here...
@@ -13,6 +15,8 @@ This application was created for the open-source Angular Codelab (https://www.co
 - saveHighScores function -- doesn't seem to throw error if quiz is taken more than MAX_LENGTH times, weird
 - add previous user answers text for single-answer questions in QuizQuestionComponent template
   - make sure that the previous answers only get applied to the completed quiz, not any other quizzes
+  
+  # Long-Term:  
 - convert app with Ionic and Apache Cordova for usability on mobile devices - priority when everything else has been finished
 - add state management with NgRx
 
@@ -21,8 +25,8 @@ This application was created for the open-source Angular Codelab (https://www.co
 - Uses a basic, clean, modern and aesthetically pleasing UI for the quiz
 - Features a simple API and quiz data is retrieved from external file
 - Employs familiar Angular concepts such as services/dependency injection, routing and reactive form
-- Form display is toggled depending on the type of question in the quiz service (either multiple-answer (mat-checkbox) question or single-answer (mat-radio-button) question)
 - Includes routing to different Angular milestone quizzes on a quiz-selection screen
+- Form display is toggled depending on the type of question in the quiz service (either multiple-answer (mat-checkbox) question or single-answer (mat-radio-button) question)
 - Supports advanced routing features with paging 1 question at a time using an inferred questionIndex (instead of using questionId)
 - Utilizes Angular packages such as Angular Material/CDK, Angular animation library as well as Bootstrap, FontAwesome, hover.css and external 3rd party packages for progressbars (ngb-progressbar) and audio (Howler)
 - Displays innovative scoreboard in which score (numerical/percentage) and countdown/stopwatch clock are both fully controlled with RxJS
