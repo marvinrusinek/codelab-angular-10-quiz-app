@@ -12,6 +12,7 @@ This application was created for the open-source Angular Codelab (https://www.co
 - checking and then unchecking of mat-checkbox in IntroductionComponent sets checkedShuffle back to false but loads a shuffled quiz instead
 - saveHighScores function -- doesn't seem to throw error if quiz is taken more than MAX_LENGTH times, weird
 - add previous user answers text for single-answer questions in QuizQuestionComponent template
+  - make sure that the previous answers only get applied to the completed quiz, not any other quizzes
 - convert app with Ionic and Apache Cordova for usability on mobile devices - priority when everything else has been finished
 - add state management with NgRx
 
@@ -24,7 +25,7 @@ This application was created for the open-source Angular Codelab (https://www.co
 - Includes routing to different Angular milestone quizzes on a quiz-selection screen
 - Supports advanced routing features with paging 1 question at a time using an inferred questionIndex (instead of using questionId)
 - Utilizes Angular packages such as Angular Material/CDK, Angular animation library as well as Bootstrap, FontAwesome, hover.css and external 3rd party packages for progressbars (ngb-progressbar) and audio (Howler)
-- Displays innovative scoreboard in which correct answer count and countdown clock are both fully controlled with RxJS
+- Displays innovative scoreboard in which score (numerical/percentage) and countdown/stopwatch clock are both fully controlled with RxJS
 - Uses SVG buttons for paging and quiz statuses
 - Results page shows user score (with percentage) and computes time taken to complete the quiz and utilizes an expandable/collapsable Angular Material accordion (mat-accordion) which shows a detailed quiz summary (user answer(s), correct answer(s), explanation and elapsedTime for each question), also features buttons to share percentage on social media (Twitter) or by e-mail
 - Utilizes Javascript ES6 arrow functions to store the correct answers stored in an array and user answers are also kept in an array
