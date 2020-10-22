@@ -17,7 +17,7 @@ This application was created for the open-source Angular Codelab (https://www.co
   - make sure that the previous answers only get applied to the completed quiz, not any other quizzes
   
 # Long-Term:
-- convert app with Ionic and Apache Cordova for usability on mobile devices - priority when everything else has been finished
+- convert app with Ionic and Apache Cordova for usability on mobile devices
 - add state management with NgRx
 
 # FEATURES:
@@ -37,3 +37,7 @@ This application was created for the open-source Angular Codelab (https://www.co
 - Utilizes clean import paths via path aliasing
 - Supports internationalization (i18n)
 - App is being finalized to convert to NgRx
+
+# Author
+- # Marvin Rusinek
+    Web/App Developer  <a href="http://www.marvinrusinek.com">Website</a> | <a href="https://www.linkedin.com/in/marvin-rusinek/">LinkedIn</a>
