@@ -1,11 +1,11 @@
 import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { concat, Observable, timer } from 'rxjs';
-import { first, repeatWhen, scan, skip, switchMapTo, takeUntil, tap } from 'rxjs/operators';
+import { first, repeatWhen, scan, skip, switchMapTo, take, takeUntil, tap } from 'rxjs/operators';
 
 import { TimerService } from '@codelab-quiz/shared/services/*';
 
 @Component({
-  selector: 'codelab-scoreboard-time',
+  selector: 'codelab-scoreboard-timer',
   templateUrl: './timer.component.html',
   styleUrls: ['./timer.component.scss']
 })
@@ -13,16 +13,19 @@ export class TimerComponent implements OnChanges {
   @Input() selectedAnswer: number;
   answer: number;
   timePerQuestion = 20;
-  timeLeft$: Observable<number>;
+  time$: Observable<number>;
   start$: Observable<number>;
   reset$: Observable<number>;
   stop$: Observable<number>;
+
+  // tick$ = this.timerService.tick$;
+  questionStarted$ = this.timerService.questionStarted$;
 
   constructor(
     private timerService: TimerService
   ) {
     this.selectedAnswer = this.answer;
-    this.countdownClock();
+    this.countdown();
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -34,12 +37,12 @@ export class TimerComponent implements OnChanges {
     }
   }
 
-  countdownClock(): void {
+  countdown(): void {
     this.start$ = this.timerService.start$;
     this.reset$ = this.timerService.reset$;
     this.stop$ = this.timerService.stop$;
 
-    this.timeLeft$ = concat(this.start$.pipe(first()), this.reset$).pipe(
+    this.time$ = concat(this.start$.pipe(first()), this.reset$).pipe(
       switchMapTo(
         timer(0, 1000).pipe(
           scan((acc) => acc > 0 ? (acc - 1 >= 10 ? acc - 1 : `0${acc - 1}`)
@@ -58,5 +61,32 @@ export class TimerComponent implements OnChanges {
         )
       )
     ).pipe(tap((value: number) => this.timerService.setElapsed(this.timePerQuestion - value)));
+  }
+
+  stopwatch(): void {
+    this.start$ = this.timerService.start$;
+    this.reset$ = this.timerService.reset$;
+    this.stop$ = this.timerService.stop$;
+    const timer$ = timer(this.timePerQuestion);
+
+    this.time$ = concat(this.start$.pipe(first()))
+      .pipe(
+        switchMapTo(
+          timer(0, 1000)
+            .pipe(scan(acc => acc + 1, 0),
+                  take(this.timePerQuestion))),
+        takeUntil(this.stop$.pipe(skip(1))),
+        repeatWhen(completeSubj =>
+          completeSubj.pipe(
+            switchMapTo(
+              timer$.pipe(
+                skip(1),
+                first()
+              )
+            )
+          )
+        )
+      )
+      .pipe(tap((value: number) => this.timerService.setElapsed(value)));
   }
 }

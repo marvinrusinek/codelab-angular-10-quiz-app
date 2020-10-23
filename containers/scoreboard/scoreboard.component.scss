@@ -10,8 +10,8 @@
     margin-left: 1.7rem;
   }
 
-  .scoreboard-time {
-    margin-right: 1.7rem;
+  .scoreboard-timer {
+    margin-right: -0.5rem;
   }
 
   .badge {
@@ -20,7 +20,7 @@
     font-style: italic;
     font-size: 26px;
     color: $dark-green;
-    margin: 30px 0 0 20px;
+    margin: 40px 0 0 -30px;
     padding: -10px 0;
   }
 }

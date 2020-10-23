@@ -5,15 +5,26 @@
   float: right;
   width: 150px;
 
-  .leader, span.scoreboard {
-    margin: 5px 0 0 110px;
+  .mat-menu {
+    margin-left: -60px;
+
+    .leader, span.scoreboard {
+      margin: 0 0 0 -40px !important;
+    }
   }
+}
+
+.scoreboard-timer {
+  margin-left: -10px;
+  margin-top: -10px;
 }
 
 mat-toolbar {
   background-color: $white;
 }
-mat-toolbar:hover {
-  background-color: $white !important;
+mat-toolbar .leader {
+  margin-left: -40px !important;
 }
-
+button {
+  outline: none;
+}

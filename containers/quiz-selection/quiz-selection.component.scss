@@ -51,14 +51,17 @@ mat-card {
       margin: 0 auto;
       background-color: transparentize($light-gray, 0.5);
 
+      button {
+        outline: none !important;
+      }
+      button:hover {
+        border: 1px solid $dodger-blue;
+      }
+
       button span {
         font-size: 24px;
         font-weight: 700;
         color: $fire-red;
-      }
-
-      button:hover {
-        border: 1px solid $dodger-blue;
       }
     }
 

@@ -5,12 +5,26 @@
   float: left;
   margin-left: 2rem;
 
-  .leader, span.scoreboard {
-    margin: 5px 0 0 40px;
+  .mat-menu {
+    margin-left: -40px;
+
+    .leader, span.scoreboard {
+      margin: 0 0 0 40px;
+    }
   }
 }
 
-mat-toolbar {
-  background: $white;
+.scoreboard-score {
+  margin-left: 5px;
+  margin-top: -10px;
 }
 
+mat-toolbar {
+  background-color: $white;
+}
+mat-toolbar .leader {
+  margin-left: -35px !important;
+}
+button {
+  outline: none;
+}

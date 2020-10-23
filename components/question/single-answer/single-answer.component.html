@@ -2,6 +2,7 @@
   <div *ngIf="!multipleAnswer">
     <mat-radio-button
       (change)="setSelected(i)"
+      [disabled]="alreadyAnswered"
       [class.is-correct]="isCorrectOption"
       [class.is-incorrect]="isIncorrectOption">
 

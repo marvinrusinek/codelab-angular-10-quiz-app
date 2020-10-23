@@ -10,7 +10,6 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatIconModule } from '@angular/material/icon';
-import { MatListModule } from '@angular/material/list';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatToolbarModule } from '@angular/material/toolbar';
@@ -28,7 +27,6 @@ import { ResultsComponent, AccordionComponent, ChallengeComponent, ReturnCompone
 import { ScoreboardComponent, ScoreComponent, TimerComponent } from '@codelab-quiz/containers/scoreboard/';
 import { QuizService, TimerService } from '@codelab-quiz/shared/services/';
 import { JoinPipe } from '@codelab-quiz/pipes/join.pipe';
-
 
 @NgModule({
   declarations: [
@@ -62,7 +60,6 @@ import { JoinPipe } from '@codelab-quiz/pipes/join.pipe';
     MatExpansionModule,
     MatGridListModule,
     MatIconModule,
-    MatListModule,
     MatMenuModule,
     MatRadioModule,
     MatToolbarModule,

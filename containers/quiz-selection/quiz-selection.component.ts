@@ -25,9 +25,7 @@ export class QuizSelectionComponent implements OnInit, OnDestroy {
   animationState$ = new BehaviorSubject<AnimationState>('none');
   unsubscribe$ = new Subject<void>();
 
-  constructor(
-    private quizService: QuizService
-  ) { }
+  constructor(private quizService: QuizService) { }
 
   ngOnInit(): void {
     this.quizzes$ = this.quizService.getQuizzes();

@@ -17,7 +17,6 @@ export class QuizService implements OnDestroy {
   currentQuestion: QuizQuestion;
   resources: Resource[];
   answers: number[];
-  answer: number;
   totalQuestions: number;
   currentQuestionIndex = 1;
 
@@ -45,7 +44,6 @@ export class QuizService implements OnDestroy {
   correctMessage: string;
 
   multipleAnswer: boolean;
-  isAnswered: boolean;
   alreadyAnswered: boolean;
   checkedShuffle: boolean;
   isCorrectOption: boolean;

@@ -26,8 +26,9 @@
         </span>
         <span *ngIf="isAnswered()" i18n>
           {{ numberOfCorrectAnswers === 1 ?
-          'Option ' + correctOptions + ' was correct because ' :
-          'Options ' + correctOptions + ' were correct because ' }}
+            'Option ' + correctOptions + ' was correct because ' :
+            'Options ' + correctOptions + ' were correct because '
+          }}
           {{ explanationText }}.
         </span>
       </section>

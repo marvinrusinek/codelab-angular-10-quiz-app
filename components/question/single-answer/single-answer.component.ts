@@ -84,17 +84,15 @@ export class SingleAnswerComponent implements OnInit, OnChanges {
       this.currentQuestion.options[optionIndex]["correct"]
     ) {
       optionIndex = null;
-      this.optionSelected = true;
       this.optionCorrect = true;
       this.timerService.stopTimer();
       this.quizService.correctSound.play();
     } else {
-      this.optionSelected = true;
       this.optionCorrect = false;
       this.quizService.incorrectSound.play();
     }
 
-    this.quizService.setOptions(this.optionSelected, this.optionCorrect);
+    this.quizService.setOptions(true, this.optionCorrect);
     this.isCorrectOption = this.quizService.isCorrectOption;
     this.isIncorrectOption = this.quizService.isIncorrectOption;
     this.alreadyAnswered = true;
