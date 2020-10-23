@@ -42,5 +42,4 @@ This application was created for the open-source Angular Codelab (https://www.co
 
 # Author
   # Marvin Rusinek
-    Web/App Developer  
-    <a href="http://www.marvinrusinek.com">Website</a> | <a href="https://www.linkedin.com/in/marvin-rusinek/">LinkedIn</a>
+    Web/App Developer  <a href="http://www.marvinrusinek.com">Website</a> | <a href="https://www.linkedin.com/in/marvin-rusinek/">LinkedIn</a>
