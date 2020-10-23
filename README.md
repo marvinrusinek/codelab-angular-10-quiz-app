@@ -41,5 +41,6 @@ This application was created for the open-source Angular Codelab (https://www.co
 - App is being finalized to convert to NgRx
 
 # Author
-- # Marvin Rusinek
-    Web/App Developer  <a href="http://www.marvinrusinek.com">Website</a> | <a href="https://www.linkedin.com/in/marvin-rusinek/">LinkedIn</a>
+  # Marvin Rusinek
+    Web/App Developer  
+    <a href="http://www.marvinrusinek.com">Website</a> | <a href="https://www.linkedin.com/in/marvin-rusinek/">LinkedIn</a>
