@@ -18,9 +18,6 @@ export class TimerComponent implements OnChanges {
   reset$: Observable<number>;
   stop$: Observable<number>;
 
-  // tick$ = this.timerService.tick$;
-  questionStarted$ = this.timerService.questionStarted$;
-
   constructor(
     private timerService: TimerService
   ) {
@@ -67,26 +64,24 @@ export class TimerComponent implements OnChanges {
     this.start$ = this.timerService.start$;
     this.reset$ = this.timerService.reset$;
     this.stop$ = this.timerService.stop$;
-    const timer$ = timer(this.timePerQuestion);
 
-    this.time$ = concat(this.start$.pipe(first()))
-      .pipe(
-        switchMapTo(
-          timer(0, 1000)
-            .pipe(scan(acc => acc + 1, 0),
-                  take(this.timePerQuestion))),
-        takeUntil(this.stop$.pipe(skip(1))),
-        repeatWhen(completeSubj =>
-          completeSubj.pipe(
-            switchMapTo(
-              timer$.pipe(
-                skip(1),
-                first()
-              )
+    this.time$ = concat(this.start$.pipe(first()), this.reset$).pipe(
+      switchMapTo(
+        timer(0, 1000)
+          .pipe(scan(acc => acc + 1, 0),
+                take(this.timePerQuestion))),
+      takeUntil(this.stop$.pipe(skip(1))),
+      repeatWhen(completeSubj =>
+        completeSubj.pipe(
+          switchMapTo(
+            this.start$.pipe(
+              skip(1),
+              first()
             )
           )
         )
       )
-      .pipe(tap((value: number) => this.timerService.setElapsed(value)));
+    )
+    .pipe(tap((value: number) => this.timerService.setElapsed(value)));
   }
 }

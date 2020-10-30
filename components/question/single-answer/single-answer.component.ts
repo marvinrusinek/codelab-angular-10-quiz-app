@@ -11,7 +11,7 @@ import {
 } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 
-import { QuizQuestion } from '@codelab-quiz/shared/models/';
+import { Option, QuizQuestion } from '@codelab-quiz/shared/models/';
 import { QuizService, TimerService } from '@codelab-quiz/shared/services/*';
 
 @Component({
@@ -30,14 +30,13 @@ export class SingleAnswerComponent implements OnInit, OnChanges {
   correctMessage = '';
   previousAnswers: string[] = [];
 
-  multipleAnswer = false;
   alreadyAnswered: boolean;
   quizStarted: boolean;
   isCorrectAnswerSelected: boolean;
-  optionSelected: boolean;
-  optionCorrect: boolean;
   isCorrectOption: boolean;
   isIncorrectOption: boolean;
+  optionSelected: Option;
+  multipleAnswer = false;
 
   constructor(
     private quizService: QuizService,
@@ -69,13 +68,20 @@ export class SingleAnswerComponent implements OnInit, OnChanges {
 
   setSelected(optionIndex: number): void {
     this.quizStarted = true;
-    this.isCorrectAnswerSelected = this.isCorrect(this.currentQuestion.options[optionIndex].correct, optionIndex);
+    this.isCorrectAnswerSelected = this.isCorrect(
+      this.currentQuestion.options[optionIndex].correct,
+      optionIndex
+    );
     this.answer.emit(optionIndex);
 
     if (this.correctAnswers.length === 1) {
-      this.currentQuestion.options.forEach((option) => option.selected = false);
+      this.currentQuestion.options.forEach(option => {
+        option.selected = false;
+        option.className = "";
+      });
     }
     this.currentQuestion.options[optionIndex].selected = true;
+    this.optionSelected = this.currentQuestion.options[optionIndex];
 
     if (
       optionIndex >= 0 &&
@@ -83,16 +89,20 @@ export class SingleAnswerComponent implements OnInit, OnChanges {
       this.currentQuestion.options &&
       this.currentQuestion.options[optionIndex]["correct"]
     ) {
-      optionIndex = null;
-      this.optionCorrect = true;
+      this.optionSelected.selected = true;
+      this.optionSelected.correct = true;
+      this.optionSelected.className = "is-correct";
       this.timerService.stopTimer();
       this.quizService.correctSound.play();
+      optionIndex = null;
     } else {
-      this.optionCorrect = false;
+      this.optionSelected.selected = true;
+      this.optionSelected.correct = false;
+      this.optionSelected.className = "is-incorrect";
       this.quizService.incorrectSound.play();
     }
 
-    this.quizService.setOptions(true, this.optionCorrect);
+    this.quizService.setOptions(this.optionSelected.selected, this.optionSelected.correct);
     this.isCorrectOption = this.quizService.isCorrectOption;
     this.isIncorrectOption = this.quizService.isIncorrectOption;
     this.alreadyAnswered = true;

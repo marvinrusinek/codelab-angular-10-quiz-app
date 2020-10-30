@@ -34,7 +34,7 @@
     margin-top: -25px;
   }
 
-  mat-checkbox-label {
+  span {
     white-space: normal;
     margin-top: 5px;
     margin-left: 5px;
@@ -42,6 +42,7 @@
     .feedback-icon {
       position: absolute;
       right: 40px;
+      margin-top: -30px;
     }
   }
 }
@@ -79,6 +80,7 @@
     display: inline-flex;
     justify-content: center;
     vertical-align: middle;
+    background-color: transparentize($light-gray, 0.5);
   }
 
   .correct-message {

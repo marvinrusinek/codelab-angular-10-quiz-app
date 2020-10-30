@@ -26,5 +26,8 @@ mat-toolbar .leader {
   margin-left: -35px !important;
 }
 button {
+  font-family: $font-stack;
+  font-weight: bold;
+  text-transform: uppercase;
   outline: none;
 }

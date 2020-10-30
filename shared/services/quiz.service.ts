@@ -133,21 +133,21 @@ export class QuizService implements OnDestroy {
       if (correctAnswers[i] &&
           correctAnswers.length === 1) {
         this.correctOptions = correctAnswers[i].toString().concat('');
-        this.correctMessage = 'The correct answer was Option ' + this.correctOptions + '.';
+        this.correctMessage = 'The correct answer is Option ' + this.correctOptions + '.';
       }
       if (correctAnswers[i] && correctAnswers[i + 1] &&
           correctAnswers.length > 1) {
         this.correctOptions = correctAnswers[i].toString().concat(' and ' + correctAnswers[i + 1]);
-        this.correctMessage = 'The correct answers were Options ' + this.correctOptions + '.';
+        this.correctMessage = 'The correct answers are Options ' + this.correctOptions + '.';
       }
       if (correctAnswers[i] && correctAnswers[i + 1] && correctAnswers[i + 2] &&
           correctAnswers.length > 1) {
         this.correctOptions = correctAnswers[i].toString().concat(', ', + correctAnswers[i + 1] + ' and ' + correctAnswers[i + 2]);
-        this.correctMessage = 'The correct answers were Options ' + this.correctOptions + '.';
+        this.correctMessage = 'The correct answers are Options ' + this.correctOptions + '.';
       }
       if (correctAnswers.length === question.options.length) {
-        this.correctOptions = 'ALL were correct!';
-        this.correctMessage = 'ALL were correct!';
+        this.correctOptions = 'ALL are correct!';
+        this.correctMessage = 'ALL are correct!';
       }
     }
   }

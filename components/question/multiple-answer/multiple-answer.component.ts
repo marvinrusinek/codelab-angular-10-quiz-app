@@ -11,13 +11,13 @@ import {
 } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 
-import { QuizQuestion } from '@codelab-quiz/shared/models/';
+import { Option, QuizQuestion } from '@codelab-quiz/shared/models/';
 import { QuizService, TimerService } from '@codelab-quiz/shared/services/*';
 
 @Component({
-  selector: 'codelab-question-multiple-answer',
-  templateUrl: './multiple-answer.component.html',
-  styleUrls: ['./multiple-answer.component.scss'],
+  selector: "codelab-question-multiple-answer",
+  templateUrl: "./multiple-answer.component.html",
+  styleUrls: ["./multiple-answer.component.scss"],
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.ShadowDom
 })
@@ -27,17 +27,16 @@ export class MultipleAnswerComponent implements OnInit, OnChanges {
   currentQuestion: QuizQuestion;
   formGroup: FormGroup;
   correctAnswers = [];
-  correctMessage = '';
+  correctMessage = "";
   previousAnswers: string[] = [];
 
-  multipleAnswer = true;
-  alreadyAnswered: boolean;
   quizStarted: boolean;
+  alreadyAnswered: boolean;
   isCorrectAnswerSelected: boolean;
-  optionSelected = false;
-  optionCorrect = false;
   isCorrectOption: boolean;
   isIncorrectOption: boolean;
+  optionSelected: Option;
+  multipleAnswer = true;
 
   constructor(
     private quizService: QuizService,
@@ -47,21 +46,26 @@ export class MultipleAnswerComponent implements OnInit, OnChanges {
   }
 
   ngOnInit(): void {
-    this.question = this.currentQuestion;
     this.currentQuestion = this.quizService.currentQuestion;
+    this.question = this.currentQuestion;
     this.multipleAnswer = this.quizService.multipleAnswer;
     this.alreadyAnswered = this.quizService.alreadyAnswered;
     this.previousAnswers = this.quizService.previousAnswers;
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes.question && changes.question.currentValue !== changes.question.firstChange) {
+    if (
+      changes.question &&
+      changes.question.currentValue !== changes.question.firstChange
+    ) {
       this.currentQuestion = changes.question.currentValue;
-      this.correctAnswers = this.quizService.getCorrectAnswers(this.currentQuestion);
+      this.correctAnswers = this.quizService.getCorrectAnswers(
+        this.currentQuestion
+      );
       this.correctMessage = this.quizService.correctMessage;
 
       if (this.formGroup) {
-        this.formGroup.patchValue({answer: ''});
+        this.formGroup.patchValue({ answer: "" });
         this.alreadyAnswered = false;
       }
     }
@@ -69,13 +73,20 @@ export class MultipleAnswerComponent implements OnInit, OnChanges {
 
   setSelected(optionIndex: number): void {
     this.quizStarted = true;
-    this.isCorrectAnswerSelected = this.isCorrect(this.currentQuestion.options[optionIndex].correct, optionIndex);
+    this.isCorrectAnswerSelected = this.isCorrect(
+      this.currentQuestion.options[optionIndex].correct,
+      optionIndex
+    );
     this.answer.emit(optionIndex);
 
     if (this.correctAnswers.length === 1) {
-      this.currentQuestion.options.forEach((option) => option.selected = false);
+      this.currentQuestion.options.forEach(option => {
+        option.selected = false;
+        option.className = "";
+      });
     }
     this.currentQuestion.options[optionIndex].selected = true;
+    this.optionSelected = this.currentQuestion.options[optionIndex];
 
     if (
       optionIndex >= 0 &&
@@ -83,18 +94,20 @@ export class MultipleAnswerComponent implements OnInit, OnChanges {
       this.currentQuestion.options &&
       this.currentQuestion.options[optionIndex]["correct"]
     ) {
-      this.optionSelected = this.currentQuestion.options[optionIndex].selected = true;
-      this.optionCorrect = this.currentQuestion.options[optionIndex].correct = true;
+      this.optionSelected.selected = true;
+      this.optionSelected.correct = true;
+      this.optionSelected.className = "is-correct";
       this.timerService.stopTimer();
       this.quizService.correctSound.play();
       optionIndex = null;
     } else {
-      this.optionSelected = this.currentQuestion.options[optionIndex].selected = true;
-      this.optionCorrect = this.currentQuestion.options[optionIndex].correct = false;
+      this.optionSelected.selected = true;
+      this.optionSelected.correct = false;
+      this.optionSelected.className = "is-incorrect";
       this.quizService.incorrectSound.play();
     }
 
-    this.quizService.setOptions(this.optionSelected, this.optionCorrect);
+    this.quizService.setOptions(this.optionSelected.selected, this.optionSelected.correct);
     this.isCorrectOption = this.quizService.isCorrectOption;
     this.isIncorrectOption = this.quizService.isIncorrectOption;
     this.alreadyAnswered = true;
