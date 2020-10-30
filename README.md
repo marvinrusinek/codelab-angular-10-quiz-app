@@ -1,7 +1,9 @@
 # codelab-angular-10-quiz-app
 This application was created for the open-source Angular Codelab (https://www.codelab.fun)
 
-<img src="http://www.marvinrusinek.com/images/codelab-quiz-app.png" alt="Angular Codelab Quiz App">
+<div align="center">
+  <img src="http://www.marvinrusinek.com/images/codelab-quiz-app.png" alt="Angular Codelab Quiz App" width="550" height="600">
+</div>
 
 # TODO:
 
@@ -41,5 +43,5 @@ This application was created for the open-source Angular Codelab (https://www.co
 - App is being finalized to convert to NgRx
 
 # Author
-- # Marvin Rusinek
-    Web/App Developer  <a href="http://www.marvinrusinek.com">Website</a> | <a href="https://www.linkedin.com/in/marvin-rusinek/">LinkedIn</a>
+  # Marvin Rusinek
+    Web/App Developer in NYC
