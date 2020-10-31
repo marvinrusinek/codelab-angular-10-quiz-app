@@ -10,6 +10,7 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatIconModule } from '@angular/material/icon';
+import { MatListModule } from '@angular/material/list';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatToolbarModule } from '@angular/material/toolbar';
@@ -22,27 +23,22 @@ import { QuizQuestionComponent, SingleAnswerComponent, MultipleAnswerComponent }
 import { IntroductionComponent } from '@codelab-quiz/containers/introduction';
 import { QuizComponent } from '@codelab-quiz/containers/quiz';
 import { QuizSelectionComponent } from '@codelab-quiz/containers/quiz-selection';
-import { ResultsComponent, AccordionComponent, ChallengeComponent, ReturnComponent, StatisticsComponent,
-         SummaryReportComponent } from '@codelab-quiz/containers/results/';
+import { AccordionComponent, ChallengeComponent, ReturnComponent, ResultsComponent, StatisticsComponent, SummaryReportComponent } from '@codelab-quiz/containers/results';
 import { ScoreboardComponent, ScoreComponent, TimerComponent } from '@codelab-quiz/containers/scoreboard/';
 import { QuizService, TimerService } from '@codelab-quiz/shared/services/';
 import { JoinPipe } from '@codelab-quiz/pipes/join.pipe';
 
+
 @NgModule({
   declarations: [
     QuizAppComponent,
-    AccordionComponent,
-    ChallengeComponent,
     IntroductionComponent,
     QuizComponent,
     QuizQuestionComponent,
     QuizSelectionComponent,
-    ResultsComponent,
-    ReturnComponent,
+    AccordionComponent, ChallengeComponent, ReturnComponent, ResultsComponent, StatisticsComponent, SummaryReportComponent,
     ScoreboardComponent,
     ScoreComponent,
-    StatisticsComponent,
-    SummaryReportComponent,
     TimerComponent,
     SingleAnswerComponent,
     MultipleAnswerComponent,
@@ -60,6 +56,7 @@ import { JoinPipe } from '@codelab-quiz/pipes/join.pipe';
     MatExpansionModule,
     MatGridListModule,
     MatIconModule,
+    MatListModule,
     MatMenuModule,
     MatRadioModule,
     MatToolbarModule,

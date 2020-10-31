@@ -1,6 +1,6 @@
 <ng-container *ngFor="let quiz of quizzes$ | async">
   <div *ngIf="quiz.quizId === (quizName$ | async)">
-    <section class="statistics" aria-labelledby="Statistics">
+    <section class="statistics">
       <span class="your-score" i18n>
         You scored <span class="result">{{ quizMetadata.correctAnswersCount$ | async }}</span> out of
         <span class="result">{{ quizMetadata.totalQuestions }}</span>&nbsp;

@@ -73,6 +73,7 @@ export class MultipleAnswerComponent implements OnInit, OnChanges {
 
   setSelected(optionIndex: number): void {
     this.quizStarted = true;
+    this.alreadyAnswered = true;
     this.isCorrectAnswerSelected = this.isCorrect(
       this.currentQuestion.options[optionIndex].correct,
       optionIndex
@@ -94,23 +95,14 @@ export class MultipleAnswerComponent implements OnInit, OnChanges {
       this.currentQuestion.options &&
       this.currentQuestion.options[optionIndex]["correct"]
     ) {
-      this.optionSelected.selected = true;
-      this.optionSelected.correct = true;
       this.optionSelected.className = "is-correct";
       this.timerService.stopTimer();
       this.quizService.correctSound.play();
       optionIndex = null;
     } else {
-      this.optionSelected.selected = true;
-      this.optionSelected.correct = false;
       this.optionSelected.className = "is-incorrect";
       this.quizService.incorrectSound.play();
     }
-
-    this.quizService.setOptions(this.optionSelected.selected, this.optionSelected.correct);
-    this.isCorrectOption = this.quizService.isCorrectOption;
-    this.isIncorrectOption = this.quizService.isIncorrectOption;
-    this.alreadyAnswered = true;
   }
 
   isCorrect(correct: boolean, optionIndex: number): boolean {

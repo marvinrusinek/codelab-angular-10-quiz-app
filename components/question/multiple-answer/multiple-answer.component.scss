@@ -1,7 +1,7 @@
 @import "variables";
 
 .options {
-  margin: 0 0 25px 6.5px;
+  margin: 0 0 17.5px 6.5px;
   padding: 5px;
 
   mat-checkbox {
@@ -10,11 +10,11 @@
     width: 590px;
     height: auto;
     font-family: $font-stack;
-    font-size: 20px !important;
+    font-size: 20px;
     color: $dark-brown;
     background-color: $light-gray;
     border: 2px solid $medium-gray;
-    padding: 10px 5px 10px 30px;
+    padding: 5px 5px 10px 30px;
     margin-left: -5px;
 
     &:hover {

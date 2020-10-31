@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
 
 import { SlideLeftToRightAnimation } from '@codelab-quiz/animations/*';
@@ -12,7 +12,8 @@ type AnimationState = 'animationStarted' | 'none';
   selector: 'codelab-quiz-selection',
   templateUrl: './quiz-selection.component.html',
   styleUrls: ['./quiz-selection.component.scss'],
-  animations: [SlideLeftToRightAnimation.slideLeftToRight]
+  animations: [SlideLeftToRightAnimation.slideLeftToRight],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class QuizSelectionComponent implements OnInit, OnDestroy {
   quizData: Quiz[] = QUIZ_DATA;
@@ -25,7 +26,9 @@ export class QuizSelectionComponent implements OnInit, OnDestroy {
   animationState$ = new BehaviorSubject<AnimationState>('none');
   unsubscribe$ = new Subject<void>();
 
-  constructor(private quizService: QuizService) { }
+  constructor(
+    private quizService: QuizService
+  ) { }
 
   ngOnInit(): void {
     this.quizzes$ = this.quizService.getQuizzes();

@@ -8,7 +8,8 @@
   .mat-menu {
     margin-left: -60px;
 
-    .leader, span.scoreboard {
+    .leader,
+    span.scoreboard {
       margin: 0 0 0 -40px !important;
     }
   }
@@ -22,12 +23,14 @@
 mat-toolbar {
   background-color: $white;
 }
+mat-toolbar:hover {
+  background-color: $white !important;
+}
 mat-toolbar .leader {
   margin-left: -40px !important;
 }
 button {
-  font-family: $font-stack;
-  font-weight: bold;
-  text-transform: uppercase;
   outline: none;
+  text-transform: uppercase;
+  font-family: $font-stack;
 }

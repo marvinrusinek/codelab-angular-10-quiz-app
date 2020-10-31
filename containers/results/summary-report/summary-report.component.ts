@@ -66,7 +66,7 @@ export class SummaryReportComponent implements OnInit, OnDestroy {
   saveHighScores(): void {
     this.score = {
       quizId: this.quizService.quizId,
-      attemptDate: new Date().toDateString(),
+      attemptDateTime: new Date(),
       score: this.quizService.correctAnswersCountSubject.getValue(),
       totalQuestions: this.quizService.totalQuestions
     };

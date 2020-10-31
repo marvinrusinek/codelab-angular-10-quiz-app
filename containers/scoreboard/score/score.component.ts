@@ -1,16 +1,15 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Observable, of, Subject, Subscription } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
 import { QuizService } from '@codelab-quiz/shared/services/*';
 
-
 @Component({
-  selector: 'codelab-scoreboard-score',
-  templateUrl: './score.component.html',
-  styleUrls: ['./score.component.scss']
+  selector: "codelab-scoreboard-score",
+  templateUrl: "./score.component.html",
+  styleUrls: ["./score.component.scss"]
 })
-export class ScoreComponent implements OnInit, OnDestroy {
+export class ScoreComponent implements OnInit {
   score: string;
   score$: Observable<string>;
   totalQuestions: number;
@@ -19,7 +18,7 @@ export class ScoreComponent implements OnInit, OnDestroy {
   correctAnswersCount: number;
   unsubscribe$ = new Subject<void>();
 
-  constructor(private quizService: QuizService) { }
+  constructor(private quizService: QuizService) {}
 
   ngOnInit(): void {
     this.correctAnswersCount$ = this.quizService.correctAnswersCountSubject;
@@ -27,30 +26,30 @@ export class ScoreComponent implements OnInit, OnDestroy {
     this.numericalScore();
   }
 
-  ngOnDestroy(): void {
-    this.unsubscribe$.next();
-    this.unsubscribe$.complete();
-  }
-
   numericalScore(): void {
-    this.correctAnswersCountSubscription =
-      this.correctAnswersCount$
-        .pipe(takeUntil(this.unsubscribe$))
-          .subscribe((correctAnswersCount: number) => {
-            this.correctAnswersCount = correctAnswersCount;
-            this.score = this.correctAnswersCount.toString().concat('/', this.totalQuestions.toString());
-            this.score$ = of(this.score);
-          });
+    this.correctAnswersCountSubscription = this.correctAnswersCount$
+      .pipe(takeUntil(this.unsubscribe$))
+        .subscribe((correctAnswersCount: number) => {
+          this.correctAnswersCount = correctAnswersCount;
+          this.score =
+            this.correctAnswersCount.toString() +
+            "/" +
+            this.totalQuestions.toString();
+          this.score$ = of(this.score);
+        });
   }
 
   percentageScore(): void {
-    this.correctAnswersCountSubscription =
-      this.correctAnswersCount$
-        .pipe(takeUntil(this.unsubscribe$))
-          .subscribe((correctAnswersCount: number) => {
-            this.correctAnswersCount = correctAnswersCount;
-            this.score = Math.ceil((this.correctAnswersCount / this.totalQuestions) * 100).toString() + "%";
-            this.score$ = of(this.score);
-          });
+    this.correctAnswersCountSubscription = this.correctAnswersCount$
+      .pipe(takeUntil(this.unsubscribe$))
+        .subscribe((correctAnswersCount: number) => {
+          this.correctAnswersCount = correctAnswersCount;
+          this.score =
+            Math.ceil(
+              (this.correctAnswersCount / this.totalQuestions) * 100
+            ).toString() + "%";
+          this.score$ = of(this.score);
+      });
   }
 }
+

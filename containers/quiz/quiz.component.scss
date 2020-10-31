@@ -1,7 +1,7 @@
 @import "variables";
 
 .mat-card {
-  height: auto;
+  height: auto !important;
 }
 
 mat-card-header {
@@ -44,9 +44,9 @@ mat-card-header {
   font-weight: 700;
   margin: 0 0 35px 6.5px;
   padding: 5px 10px 15px 20px;
-  color: $dark-brown;
   background-color: $light-gray;
   border: 2px solid $vivid-blue;
+  color: $dark-brown;
   width: 630px;
   height: auto;
   vertical-align: middle;
@@ -71,7 +71,6 @@ mat-card-footer {
     font-style: italic;
     display: flex;
     justify-content: center;
-
   }
   .selection-message {
     margin-top: -180px;
@@ -124,7 +123,7 @@ mat-card-footer {
       .next-question-nav,
       .restart-nav {
         transform: scale(1);
-        transition: .3s ease-in-out;
+        transition: 0.3s ease-in-out;
       }
 
       .prev-question-nav:hover,
