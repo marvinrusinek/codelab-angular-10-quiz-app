@@ -14,7 +14,7 @@
     color: $dark-brown;
     background-color: $light-gray;
     border: 2px solid $medium-gray;
-    padding: 5px 5px 10px 30px;
+    padding: 10px 5px 10px 30px;
     margin-left: -5px;
 
     &:hover {
@@ -39,7 +39,19 @@
   span {
     white-space: normal;
     margin-top: 5px;
+
+    .feedback-icon {
+      position: absolute;
+      right: 40px;
+    }
   }
+}
+
+.mat-checkbox-layout {
+  display: block !important;
+}
+div.mat-radio-container {
+  display: none;
 }
 
 .messages {
@@ -107,10 +119,6 @@
     font-style: italic;
     text-align: center;
   }
-}
-
-div.mat-radio-container {
-  display: none;
 }
 
 .material-icons {

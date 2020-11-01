@@ -815,6 +815,11 @@ export const QUIZ_RESOURCES: QuizResource[] = [
         host: 'angular.io'
       },
       {
+        title: 'Navigating the component tree with DI',
+        url: 'https://angular.io/guide/dependency-injection-navtree',
+        host: 'angular.io'
+      },
+      {
         title: 'The Core Concepts of Angular',
         url: 'https://vsavkin.com/the-core-concepts-of-angular-2-c3d6cbe04d04',
         host: 'vsavkin.com'
