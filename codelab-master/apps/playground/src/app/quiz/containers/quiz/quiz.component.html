@@ -1,6 +1,7 @@
 <ng-container *ngFor="let quiz of quizzes$ | async">
   <mat-card *ngIf="quiz.quizId === (quizName$ | async) &&
                    question && questionIndex <= totalQuestions"
+            [class.mat-card]="multipleAnswer"
             [@changeRoute]="animationState$ | async"
             (@changeRoute.done)="animationDoneHandler()">
 
@@ -18,31 +19,39 @@
 
       <!-- the question/explanation area -->
       <section id="question" [ngClass]="!isAnswered() ? 'unanswered': 'answered'">
-        <span *ngIf="!isAnswered()" i18n>{{ question.questionText }}&nbsp;
+				<span *ngIf="!isAnswered()" i18n>{{ question.questionText }}&nbsp;
           <span class="number-correct" *ngIf="numberOfCorrectAnswers > 1">
             <em>({{ numberOfCorrectAnswers }} answers are correct.)</em>
           </span>
-        </span>
+				</span>
         <span *ngIf="isAnswered()" i18n>
           {{ numberOfCorrectAnswers === 1 ?
           'Option ' + correctOptions + ' was correct because ' :
-          'Options ' + correctOptions + ' were correct because ' }}
+          'Options ' + correctOptions + ' were correct because '
+          }}
           {{ explanationText }}.
         </span>
       </section>
 
       <!-- the options -->
-      <codelab-quiz-question
-        [question]="question"
-        (answer)="selectedAnswer($event)">
+      <codelab-quiz-question [question]="question" (answer)="selectedAnswer($event)">
       </codelab-quiz-question>
     </mat-card-content>
 
-    <mat-card-footer>
-      <!-- selection message -->
-      <span *ngIf="!isAnswered()" class="selection-message">
-        Please select an option to continue&hellip;
-      </span>
+    <mat-card-footer [class.multiple-unanswered]="multipleAnswer && !isAnswered()"
+                     [class.single-unanswered]="!multipleAnswer && !isAnswered()">
+
+      <!-- selection message/next message -->
+      <ng-container *ngIf="!isAnswered(); else answered">
+				<span i18n class="selection-message">
+          Please select an option to continue&hellip;
+        </span>
+      </ng-container>
+      <ng-template #answered>
+				<span i18n class="next-message" *ngIf="question && questionIndex !== totalQuestions">
+          Please click the next button to continue&hellip;
+        </span>
+      </ng-template>
 
       <!-- paging -->
       <section class="paging">
@@ -56,18 +65,19 @@
                       matTooltip="&laquo; Previous Question"
                       matTooltipPosition="above"
                       aria-label="Previous Question">
-                <mat-icon>navigate_before</mat-icon>
+                <i class="material-icons">navigate_before</i>
               </button>
             </div>
 
-            <div class="restart-nav" *ngIf="question && questionIndex > 1 && questionIndex < totalQuestions">
+            <div class="restart-nav"
+                 *ngIf="question && questionIndex > 1 && questionIndex < totalQuestions">
               <button type="button"
                       mat-icon-button
                       (click)="restartQuiz()"
                       matTooltip="Restart Quiz"
                       matTooltipPosition="above"
                       aria-label="Restart Quiz">
-                <mat-icon>replay</mat-icon>
+                <i class="material-icons">replay</i>
               </button>
             </div>
 
@@ -80,7 +90,7 @@
                       (window:keydown.ArrowRight)="advanceToNextQuestion()"
                       (window:keydown.Enter)="advanceToNextQuestion()"
                       aria-label="Next Question">
-                <mat-icon>navigate_next</mat-icon>
+                <i class="material-icons">navigate_next</i>
               </button>
             </div>
 
@@ -88,12 +98,13 @@
               <button type="submit"
                       mat-raised-button
                       disableRipple="true"
+                      [disabled]="!isAnswered()"
                       (click)="advanceToResults()"
                       (window:keydown.Enter)="advanceToResults()"
                       (window:keydown.ArrowRight)="advanceToResults()"
                       class="btn btn-outline-primary"
                       aria-label="Show Your Score">
-                <mat-icon>score</mat-icon>&nbsp;&nbsp;<strong>Show Your Score</strong>
+                <i class="material-icons">score</i>&nbsp;&nbsp;<strong>Show Your Score</strong>
               </button>
             </div>
           </mat-nav-list>
@@ -102,13 +113,8 @@
 
       <!-- progress bar -->
       <section class="progress-bar" *ngIf="question && questionIndex > 1">
-        <ngb-progressbar
-          max="100"
-          type="success"
-          [striped]="true"
-          [animated]="true"
-          [value]="progressValue"
-          class="progress-bar bg-info">
+        <ngb-progressbar max="100" type="success" [striped]="true" [animated]="true" [value]="progressValue"
+                         class="progress-bar bg-info">
           <strong>{{ progressValue.toFixed(0) }}%</strong>
         </ngb-progressbar>
       </section>

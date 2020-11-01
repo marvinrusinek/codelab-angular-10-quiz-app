@@ -1,33 +1,33 @@
 @import "variables";
 @import "mixins";
 
-.score {
-  float: left;
-  margin-left: 2rem;
+.time-left {
+  float: right;
+  width: 150px;
 
   .mat-menu {
-    margin-left: -40px;
+    margin-left: -60px;
 
     .leader,
     span.scoreboard {
-      margin: 0 0 0 40px;
+      margin: 0 0 0 -40px !important;
     }
   }
 }
 
-.scoreboard-score {
-  margin-left: 5px;
+.scoreboard-timer {
+  margin-left: -10px;
   margin-top: -10px;
 }
 
 mat-toolbar {
-  background: $white;
+  background-color: $white;
 }
 mat-toolbar:hover {
   background-color: $white !important;
 }
 mat-toolbar .leader {
-  margin-left: -35px !important;
+  margin-left: -40px !important;
 }
 button {
   outline: none;

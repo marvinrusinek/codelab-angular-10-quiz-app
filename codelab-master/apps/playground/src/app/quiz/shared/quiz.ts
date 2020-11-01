@@ -5,7 +5,7 @@ export const QUIZ_DATA: Quiz[] = [
     quizId: 'typescript',
     milestone: 'TypeScript',
     summary: 'TypeScript makes it easier to read and debug JavaScript code.',
-    image: 'https://raw.githubusercontent.com/marvinrusinek/codelab-angular-10-quiz-app/quiz/codelab-master/apps/playground/src/assets/images/ts.png',
+    image: 'ts.png',
     questions: [
       {
         questionText: 'Which of the following does TypeScript use to specify types?',
@@ -103,7 +103,7 @@ export const QUIZ_DATA: Quiz[] = [
     quizId: 'create-first-app',
     milestone: 'Creating your first app',
     summary: 'Angular allows us to create an app that contains components and modules as well as a system for bootstrapping the app.',
-    image: 'https://raw.githubusercontent.com/marvinrusinek/codelab-angular-10-quiz-app/quiz/codelab-master/apps/playground/src/assets/images/first_app.png',
+    image: 'first_app.png',
     questions: [
       {
         questionText: 'Which of the following are true statements about Angular?',
@@ -211,7 +211,7 @@ export const QUIZ_DATA: Quiz[] = [
     quizId: 'templates',
     milestone: 'Templates',
     summary: 'Angular has a very expressive template system, which takes HTML as a base, and extends it with custom elements.',
-    image: 'https://raw.githubusercontent.com/marvinrusinek/codelab-angular-10-quiz-app/quiz/codelab-master/apps/playground/src/assets/images/template.png',
+    image: 'template.png',
     questions: [
       {
         questionText: 'What characters are used for text interpolation?',
@@ -319,7 +319,7 @@ export const QUIZ_DATA: Quiz[] = [
     quizId: 'dependency-injection',
     milestone: 'Dependency Injection',
     summary: 'Dependency Injection is a way of providing dependencies in your code instead of hard-coding them.',
-    image: 'https://raw.githubusercontent.com/marvinrusinek/codelab-angular-10-quiz-app/quiz/codelab-master/apps/playground/src/assets/images/DIDiagram.png',
+    image: 'DIDiagram.png',
     questions: [
       {
         questionText: 'What is the objective of dependency injection?',
@@ -367,7 +367,7 @@ export const QUIZ_DATA: Quiz[] = [
     quizId: 'component-tree',
     milestone: 'Component Trees',
     summary: 'An Angular application can be thought of as a tree of reusable components.',
-    image: 'https://raw.githubusercontent.com/marvinrusinek/codelab-angular-10-quiz-app/quiz/codelab-master/apps/playground/src/assets/images/tree.png',
+    image: 'tree.png',
     questions: [
       {
         questionText: 'How does a parent component pass data to its child component?',
@@ -415,7 +415,7 @@ export const QUIZ_DATA: Quiz[] = [
     quizId: 'router',
     milestone: 'Angular Router',
     summary: 'Angular Router helps developers build Single Page Applications with multiple views and allow navigation between those views.',
-    image: 'https://raw.githubusercontent.com/marvinrusinek/codelab-angular-10-quiz-app/quiz/codelab-master/apps/playground/src/assets/images/router.png',
+    image: 'router.png',
     questions: [
       {
         questionText: 'Which is used to assign URLs to different parts of your app?',
@@ -483,7 +483,7 @@ export const QUIZ_DATA: Quiz[] = [
     quizId: 'material',
     milestone: 'Angular Material',
     summary: 'Angular Material provides a set of Material Design components that are consistent, versatile and look great on mobile devices.',
-    image: 'https://raw.githubusercontent.com/marvinrusinek/codelab-angular-10-quiz-app/quiz/codelab-master/apps/playground/src/assets/images/material.png',
+    image: 'material.png',
     questions: [
       {
         questionText: 'Which of the following is the official website for Angular Material?',
@@ -551,7 +551,7 @@ export const QUIZ_DATA: Quiz[] = [
     quizId: 'forms',
     milestone: 'Angular Forms',
     summary: 'Angular forms build upon standard HTML forms to help create custom form controls and support easy validation.',
-    image: 'https://raw.githubusercontent.com/marvinrusinek/codelab-angular-10-quiz-app/quiz/codelab-master/apps/playground/src/assets/images/forms.png',
+    image: 'forms.png',
     questions: [
       {
         questionText: 'What is the first step in using Angular Forms?',
@@ -649,7 +649,7 @@ export const QUIZ_DATA: Quiz[] = [
     quizId: 'angular-cli',
     milestone: 'Angular-CLI',
     summary: 'The Angular CLI is a command-line interface tool used for initializing, developing, scaffolding and maintaining Angular applications.',
-    image: 'https://raw.githubusercontent.com/marvinrusinek/codelab-angular-10-quiz-app/quiz/codelab-master/apps/playground/src/assets/images/angular-cli.png',
+    image: 'angular-cli.png',
     questions: [
       {
         questionText: 'Which is a prerequisite for using Angular-CLI?',

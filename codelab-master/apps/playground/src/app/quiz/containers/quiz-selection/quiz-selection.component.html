@@ -44,7 +44,7 @@
           [@slideLeftToRight]="animationState$ | async"
           (@slideLeftToRight.done)="animationDoneHandler()"
           [routerLink]="['/quiz/intro/', quiz.quizId]"
-          [ngStyle]="{ 'background': 'url(' + quiz.image + ') no-repeat center 10px',
+          [ngStyle]="{ 'background': 'url(' + imagePath + quiz.image + ') no-repeat center 10px',
                        'background-size': '300px 210px' }">
 
           <summary class="quiz-info">
@@ -57,19 +57,19 @@
                   *ngIf="!selectionParams.quizCompleted ||
                          selectionParams.status === 'Started' &&
                          quiz.quizId === selectionParams.startedQuizId"
-                  [routerLink]="['/intro/', quiz.quizId]">
+                  [routerLink]="['/quiz/intro/', quiz.quizId]">
               <i class="material-icons">launch</i>
             </span>
             <span name="continue" matTooltip="Continue"
                   *ngIf="selectionParams.status === 'Continue' &&
                          quiz.quizId === selectionParams.continueQuizId"
-                  [routerLink]="['/question/', quiz.quizId, currentQuestionIndex]">
+                  [routerLink]="['/quiz/question/', quiz.quizId, currentQuestionIndex]">
               <i class="material-icons">play_arrow</i>
             </span>
             <span name="completed" matTooltip="Completed"
                   *ngIf="selectionParams.status === 'Completed' &&
                          quiz.quizId === selectionParams.completedQuizId"
-                  [routerLink]="['/results/', quiz.quizId]">
+                  [routerLink]="['/quiz/results/', quiz.quizId]">
               <i class="material-icons">done_all</i>
             </span>
           </div>

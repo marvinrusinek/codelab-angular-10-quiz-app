@@ -16,7 +16,7 @@ type AnimationState = 'animationStarted' | 'none';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class QuizSelectionComponent implements OnInit, OnDestroy {
-  quizData: Quiz[] = QUIZ_DATA;
+  quizData: Quiz[];
   quizzes$: Observable<Quiz[]>;
   quizId: string;
   currentQuestionIndex: number;
@@ -25,12 +25,14 @@ export class QuizSelectionComponent implements OnInit, OnDestroy {
   selectionParams: object;
   animationState$ = new BehaviorSubject<AnimationState>('none');
   unsubscribe$ = new Subject<void>();
+  imagePath = '../../../assets/images/milestones/';
 
   constructor(
     private quizService: QuizService
   ) { }
 
   ngOnInit(): void {
+    this.quizData = this.quizService.getQuiz();
     this.quizzes$ = this.quizService.getQuizzes();
     this.quizId = this.quizService.quizId;
     this.currentQuestionIndex = this.quizService.currentQuestionIndex;
