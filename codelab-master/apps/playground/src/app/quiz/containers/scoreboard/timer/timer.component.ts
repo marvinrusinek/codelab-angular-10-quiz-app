@@ -12,7 +12,7 @@ import { TimerService } from '@codelab-quiz/shared/services/*';
 export class TimerComponent implements OnChanges {
   @Input() selectedAnswer: number;
   answer: number;
-  timePerQuestion = 20;
+  timePerQuestion = 30;
   time$: Observable<number>;
   start$: Observable<number>;
   reset$: Observable<number>;

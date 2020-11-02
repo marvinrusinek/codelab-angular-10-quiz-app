@@ -156,7 +156,6 @@ export class QuizComponent implements OnInit, OnDestroy {
   }
 
   incrementScore(answers: number[], correctAnswerFound: number): void {
-    // TODO: for multiple-answer questions, ALL correct answers should be marked correct for the score to increase
     if (correctAnswerFound > -1 && answers.length === this.quizService.numberOfCorrectAnswers) {
       this.sendCorrectCountToQuizService(this.correctCount + 1);
     }
