@@ -3,7 +3,6 @@ import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
-import { QUIZ_DATA } from '@codelab-quiz/shared/quiz-data';
 import { Quiz } from '@codelab-quiz/shared/models/';
 import { QuizService } from '@codelab-quiz/shared/services/*';
 

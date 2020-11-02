@@ -36,10 +36,7 @@ export class QuizService implements OnDestroy {
   correctAnswerOptions: number[] = [];
   numberOfCorrectAnswers: number;
   correctAnswersCountSubject = new BehaviorSubject<number>(0);
-
   userAnswers = [];
-  previousAnswers = [];
-  previousAnswersMultipleTextArray: string[] = [];
 
   explanationText: string;
   correctOptions: string;
@@ -183,28 +180,6 @@ export class QuizService implements OnDestroy {
       if (correctAnswers.length === question.options.length) {
         this.correctOptions = "ALL are correct!";
         this.correctMessage = "ALL are correct!";
-      }
-    }
-  }
-
-  // set the text of the previous user answers in an array to show in the following quiz
-  setPreviousUserAnswersText(questions: QuizQuestion[], previousAnswers): void {
-    for (let i = 0; i < previousAnswers.length; i++) {
-      if (previousAnswers[i].length === 1) {
-        const previousAnswersSingleText =
-          questions[i].options[previousAnswers[i] - 1].text;
-        this.previousAnswers.push(previousAnswersSingleText);
-      }
-      if (previousAnswers[i].length > 1) {
-        const previousAnswerMultiple = previousAnswers[i].slice();
-        for (let j = 0; j < previousAnswerMultiple.length; j++) {
-          const previousAnswersMultipleText =
-            questions[i].options[previousAnswerMultiple[j] - 1].text;
-          this.previousAnswersMultipleTextArray.push(
-            previousAnswersMultipleText
-          );
-        }
-        this.previousAnswers.push(this.previousAnswersMultipleTextArray);
       }
     }
   }

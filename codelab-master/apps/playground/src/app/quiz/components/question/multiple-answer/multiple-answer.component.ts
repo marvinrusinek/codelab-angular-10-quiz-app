@@ -48,7 +48,6 @@ export class MultipleAnswerComponent implements OnInit, OnChanges {
     this.question = this.currentQuestion;
     this.multipleAnswer = this.quizService.multipleAnswer;
     this.alreadyAnswered = this.quizService.alreadyAnswered;
-    this.previousAnswers = this.quizService.previousAnswers;
   }
 
   ngOnChanges(changes: SimpleChanges): void {

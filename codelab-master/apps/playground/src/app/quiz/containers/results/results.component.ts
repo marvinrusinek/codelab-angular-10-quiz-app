@@ -3,7 +3,6 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
-import { QUIZ_DATA } from '@codelab-quiz/shared/quiz-data';
 import { Quiz } from '@codelab-quiz/shared/models/';
 import { QuizService } from '@codelab-quiz/shared/services/*';
 
@@ -23,9 +22,7 @@ export class ResultsComponent implements OnInit, OnDestroy {
     private quizService: QuizService,
     private activatedRoute: ActivatedRoute,
     private router: Router
-  ) {
-    this.quizService.setPreviousUserAnswersText(this.quizService.questions, this.quizService.userAnswers);
-  }
+  ) { }
 
   ngOnInit(): void {
     this.quizData = this.quizService.getQuiz();

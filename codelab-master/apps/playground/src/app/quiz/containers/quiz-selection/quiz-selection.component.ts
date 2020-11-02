@@ -2,7 +2,6 @@ import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
 
 import { SlideLeftToRightAnimation } from '@codelab-quiz/animations/*';
-import { QUIZ_DATA } from '@codelab-quiz/shared/quiz-data';
 import { Quiz } from '@codelab-quiz/shared/models/';
 import { QuizService } from '@codelab-quiz/shared/services/*';
 

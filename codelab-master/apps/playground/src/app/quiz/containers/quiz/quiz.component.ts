@@ -4,7 +4,6 @@ import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { map, takeUntil } from 'rxjs/operators';
 
 import { ChangeRouteAnimation } from '@codelab-quiz/animations/';
-import { QUIZ_DATA, QUIZ_RESOURCES } from '@codelab-quiz/shared/quiz-data';
 import { Quiz, QuizQuestion, QuizResource, Resource } from '@codelab-quiz/shared/models/*';
 import { QuizService, TimerService } from '@codelab-quiz/shared/services/*';
 
