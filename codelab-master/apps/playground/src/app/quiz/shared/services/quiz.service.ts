@@ -61,14 +61,15 @@ export class QuizService implements OnDestroy {
   });
 
   constructor(private activatedRoute: ActivatedRoute, private router: Router) {
-    this.quizInitialState = _.cloneDeep(QUIZ_DATA);
     this.quizData = QUIZ_DATA;
+    this.quizInitialState = _.cloneDeep(QUIZ_DATA);
+
     this.quizName$ = this.activatedRoute.url.pipe(
       map(segments => segments[1].toString())
     );
     this.activatedRoute.paramMap
       .pipe(takeUntil(this.unsubscribe$))
-      .subscribe(params => (this.quizId = params.get("quizId")));
+        .subscribe(params => (this.quizId = params.get('quizId')));
     this.indexOfQuizId = this.quizData.findIndex(
       elem => elem.quizId === this.quizId
     );

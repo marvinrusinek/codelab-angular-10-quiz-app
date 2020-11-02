@@ -28,13 +28,12 @@ export class MultipleAnswerComponent implements OnInit, OnChanges {
   formGroup: FormGroup;
   correctAnswers = [];
   correctMessage = "";
-  previousAnswers: string[] = [];
 
   quizStarted: boolean;
   alreadyAnswered: boolean;
   isCorrectAnswerSelected: boolean;
-  optionSelected: Option;
   multipleAnswer = true;
+  optionSelected: Option;
 
   constructor(
     private quizService: QuizService,
@@ -44,8 +43,8 @@ export class MultipleAnswerComponent implements OnInit, OnChanges {
   }
 
   ngOnInit(): void {
-    this.currentQuestion = this.quizService.currentQuestion;
     this.question = this.currentQuestion;
+    this.currentQuestion = this.quizService.currentQuestion;
     this.multipleAnswer = this.quizService.multipleAnswer;
     this.alreadyAnswered = this.quizService.alreadyAnswered;
   }
