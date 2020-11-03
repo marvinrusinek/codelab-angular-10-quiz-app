@@ -70,16 +70,16 @@ mat-accordion {
         margin-left: -10px;
       }
 
-      mat-icon {
+      i {
         font-size: larger;
         top: 10px !important;
       }
-      mat-icon.correct {
-        color: $green !important;
+      i.correct {
+        color: $green;
         font-weight: $font-weight-max;
       }
-      mat-icon.incorrect {
-        color: $red !important;
+      i.incorrect {
+        color: $red;
         font-weight: $font-weight-max;
       }
     }

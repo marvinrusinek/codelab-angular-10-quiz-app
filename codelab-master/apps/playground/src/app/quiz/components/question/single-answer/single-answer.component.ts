@@ -29,10 +29,10 @@ export class SingleAnswerComponent implements OnInit, OnChanges {
   correctAnswers = [];
   correctMessage = "";
 
-  alreadyAnswered: boolean;
   quizStarted: boolean;
   isCorrectAnswerSelected: boolean;
   multipleAnswer = false;
+  alreadyAnswered = false;
   optionSelected: Option;
 
   constructor(
@@ -46,7 +46,7 @@ export class SingleAnswerComponent implements OnInit, OnChanges {
     this.question = this.currentQuestion;
     this.currentQuestion = this.quizService.currentQuestion;
     this.multipleAnswer = this.quizService.multipleAnswer;
-    this.alreadyAnswered = this.quizService.alreadyAnswered;
+   // this.alreadyAnswered = this.quizService.alreadyAnswered;
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -61,7 +61,7 @@ export class SingleAnswerComponent implements OnInit, OnChanges {
       this.correctMessage = this.quizService.correctMessage;
 
       if (this.formGroup) {
-        this.formGroup.patchValue({ answer: "" });
+        this.formGroup.patchValue({ answer: '' });
         this.alreadyAnswered = false;
       }
     }

@@ -15,6 +15,7 @@ import { QuizService, TimerService } from '@codelab-quiz/shared/services/*';
 export class SummaryReportComponent implements OnInit, OnDestroy {
   quizzes$: Observable<Quiz[]>;
   quizName$: Observable<string>;
+  quizId: string;
   quizMetadata: Partial<QuizMetadata> = {
     totalQuestions: this.quizService.totalQuestions,
     totalQuestionsAttempted: this.quizService.totalQuestions,
@@ -25,9 +26,10 @@ export class SummaryReportComponent implements OnInit, OnDestroy {
   elapsedMinutes: number;
   elapsedSeconds: number;
   checkedShuffle: boolean;
+
   score: Score;
-  highScores: Score[] = [];
-  quizId: string;
+  highScores = JSON.parse(localStorage.getItem("highScores")) || [];
+
   unsubscribe$ = new Subject<void>();
   codelabUrl = 'https://www.codelab.fun';
 
@@ -67,13 +69,15 @@ export class SummaryReportComponent implements OnInit, OnDestroy {
     this.score = {
       quizId: this.quizService.quizId,
       attemptDateTime: new Date(),
-      score: this.quizService.correctAnswersCountSubject.getValue(),
+      score: this.calculatePercentageOfCorrectlyAnsweredQuestions(),
       totalQuestions: this.quizService.totalQuestions
     };
 
-    const MAX_LENGTH = 2;
-    this.highScores = new Array(MAX_LENGTH);
+    const MAX_HIGH_SCORES = 10;       // show results of the last 10 quizzes
     this.highScores.push(this.score);
-    console.log('High Scores:', this.highScores);
+    this.highScores.sort((a, b) => b.attemptDateTime - a.attemptDateTime);
+    this.highScores.reverse();        // show high scores from most recent to latest
+    this.highScores.splice(MAX_HIGH_SCORES);
+    localStorage.setItem('highScores', JSON.stringify(this.highScores));
   }
 }

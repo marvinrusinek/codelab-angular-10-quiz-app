@@ -27,10 +27,10 @@
               <ng-container *ngFor="let item of results.userAnswers[i]; let isLast = last">
                 {{ question.options[item - 1].text }} <span *ngIf="!isLast"> AND </span>
               </ng-container>
-              <mat-icon class="correct"
-                        *ngIf="checkIfAnswersAreCorrect(correctAnswers, results.userAnswers, i)">done</mat-icon>
-              <mat-icon class="incorrect"
-                        *ngIf="!checkIfAnswersAreCorrect(correctAnswers, results.userAnswers, i)">clear</mat-icon>
+              <i class="material-icons correct"
+                        *ngIf="checkIfAnswersAreCorrect(correctAnswers, results.userAnswers, i)">done</i>
+              <i class="material-icons incorrect"
+                        *ngIf="!checkIfAnswersAreCorrect(correctAnswers, results.userAnswers, i)">clear</i>
             </ng-container>
             <span *ngIf="!results.userAnswers[i] || results.userAnswers.length === 0">
                           (no answer provided)

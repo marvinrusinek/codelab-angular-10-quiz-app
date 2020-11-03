@@ -3,16 +3,17 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { BehaviorSubject, Observable, of, Subject } from 'rxjs';
 import { map, takeUntil } from 'rxjs/operators';
 import { Howl } from 'howler';
-import * as _ from 'lodash';
+import cloneDeep from 'lodash.cloneDeep';
 
 import { QUIZ_DATA, QUIZ_RESOURCES } from '@codelab-quiz/shared/quiz-data';
-import { Quiz, QuizQuestion, Resource } from '@codelab-quiz/shared/models/';
+import { Quiz, QuizQuestion, QuizResource, Resource } from '@codelab-quiz/shared/models/';
 
 @Injectable({
   providedIn: "root"
 })
 export class QuizService implements OnDestroy {
   quizData: Quiz[];
+  quizResources: QuizResource[];
   question: QuizQuestion;
   questions: QuizQuestion[];
   currentQuestion: QuizQuestion;
@@ -62,17 +63,21 @@ export class QuizService implements OnDestroy {
 
   constructor(private activatedRoute: ActivatedRoute, private router: Router) {
     this.quizData = QUIZ_DATA;
-    this.quizInitialState = _.cloneDeep(QUIZ_DATA);
+    this.quizResources = QUIZ_RESOURCES;
+    this.quizInitialState = cloneDeep(QUIZ_DATA);
 
     this.quizName$ = this.activatedRoute.url.pipe(
       map(segments => segments[1].toString())
     );
+
     this.activatedRoute.paramMap
       .pipe(takeUntil(this.unsubscribe$))
         .subscribe(params => (this.quizId = params.get('quizId')));
+
     this.indexOfQuizId = this.quizData.findIndex(
       elem => elem.quizId === this.quizId
     );
+
     this.returnQuizSelectionParams();
   }
 
@@ -81,31 +86,31 @@ export class QuizService implements OnDestroy {
     this.unsubscribe$.complete();
   }
 
-  getQuiz() {
+  getQuiz(): Quiz[] {
     return this.quizData;
   }
 
-  getResources() {
-    return QUIZ_RESOURCES;
+  getResources(): QuizResource[] {
+    return this.quizResources;
   }
 
   getQuizzes(): Observable<Quiz[]> {
     return of(this.quizData);
   }
 
+  isAnswered(): boolean {
+    return this.answers && this.answers.length > 0;
+  }
+
   getCorrectAnswers(question: QuizQuestion) {
     if (question) {
-      const identifiedCorrectAnswers = question.options.filter(
-        option => option.correct
-      );
+      const identifiedCorrectAnswers = question.options.filter(option => option.correct);
       this.numberOfCorrectAnswers = identifiedCorrectAnswers.length;
       this.correctAnswerOptions = identifiedCorrectAnswers.map(
         option => question.options.indexOf(option) + 1
       );
 
-      const correctAnswerAdded =
-        this.correctAnswers.find(q => q.questionId === question.explanation) !==
-        undefined;
+      const correctAnswerAdded = this.correctAnswers.find(q => q.questionId === question.explanation) !== undefined;
       if (correctAnswerAdded === false) {
         this.correctAnswersForEachQuestion.push(this.correctAnswerOptions);
         this.correctAnswers.push({
@@ -114,10 +119,7 @@ export class QuizService implements OnDestroy {
         });
       }
 
-      this.setExplanationTextAndCorrectMessages(
-        this.correctAnswerOptions.sort(),
-        question
-      );
+      this.setExplanationTextAndCorrectMessages(this.correctAnswerOptions.sort(), question);
       return identifiedCorrectAnswers;
     }
   }
@@ -141,42 +143,25 @@ export class QuizService implements OnDestroy {
   }
 
   /********* setter functions ***********/
-  setExplanationTextAndCorrectMessages(
-    correctAnswers: number[],
-    question: QuizQuestion
-  ): void {
+  setExplanationTextAndCorrectMessages(correctAnswers: number[], question: QuizQuestion): void {
     this.explanationText = question.explanation;
+
     for (let i = 0; i < question.options.length; i++) {
       if (correctAnswers[i] && correctAnswers.length === 1) {
         this.correctOptions = correctAnswers[i].toString().concat("");
-        this.correctMessage =
-          "The correct answer is Option " + this.correctOptions + ".";
+        this.correctMessage = "The correct answer is Option " + this.correctOptions + ".";
       }
-      if (
-        correctAnswers[i] &&
-        correctAnswers[i + 1] &&
-        correctAnswers.length > 1
-      ) {
+
+      if (correctAnswers[i] && correctAnswers[i + 1]) {
         this.correctOptions = correctAnswers[i]
-          .toString()
-          .concat(" and " + correctAnswers[i + 1]);
-        this.correctMessage =
-          "The correct answers are Options " + this.correctOptions + ".";
+                                .toString().concat(" and " + correctAnswers[i + 1]);
+        this.correctMessage = "The correct answers are Options " + this.correctOptions + ".";
       }
-      if (
-        correctAnswers[i] &&
-        correctAnswers[i + 1] &&
-        correctAnswers[i + 2] &&
-        correctAnswers.length > 1
-      ) {
-        this.correctOptions = correctAnswers[i]
-          .toString()
-          .concat(
-            ", ",
-            +correctAnswers[i + 1] + " and " + correctAnswers[i + 2]
-          );
-        this.correctMessage =
-          "The correct answers are Options " + this.correctOptions + ".";
+
+      if (correctAnswers[i] && correctAnswers[i + 1] && correctAnswers[i + 2]) {
+        this.correctOptions = correctAnswers[i].toString().concat(
+                                ", ", correctAnswers[i + 1] + " and " + correctAnswers[i + 2]);
+        this.correctMessage = "The correct answers are Options " + this.correctOptions + ".";
       }
       if (correctAnswers.length === question.options.length) {
         this.correctOptions = "ALL are correct!";
@@ -263,7 +248,7 @@ export class QuizService implements OnDestroy {
 
   /********* reset functions ***********/
   resetQuestions(): void {
-    this.quizData = _.cloneDeep(this.quizInitialState);
+    this.quizData = cloneDeep(this.quizInitialState);
   }
 
   resetAll(): void {

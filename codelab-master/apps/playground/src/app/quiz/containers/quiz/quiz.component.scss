@@ -1,7 +1,7 @@
 @import "variables";
 
 .mat-card {
-  height: auto !important;
+  height: auto;
 }
 
 mat-card-header {
@@ -146,7 +146,7 @@ mat-card-footer {
     background: $white;
 
     ngb-progressbar {
-      height: 20px !important;
+      height: 20px;
     }
   }
 }

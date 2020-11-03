@@ -27,6 +27,7 @@ import { AccordionComponent, ChallengeComponent, ReturnComponent, ResultsCompone
 import { ScoreboardComponent, ScoreComponent, TimerComponent } from '@codelab-quiz/containers/scoreboard/';
 import { QuizService, TimerService } from '@codelab-quiz/shared/services/';
 import { JoinPipe } from '@codelab-quiz/pipes/join.pipe';
+import { HighScoresComponent } from './containers/results/high-scores/high-scores.component';
 
 
 @NgModule({
@@ -42,7 +43,8 @@ import { JoinPipe } from '@codelab-quiz/pipes/join.pipe';
     TimerComponent,
     SingleAnswerComponent,
     MultipleAnswerComponent,
-    JoinPipe
+    JoinPipe,
+    HighScoresComponent
   ],
   imports: [
     BrowserModule,

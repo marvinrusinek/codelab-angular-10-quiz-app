@@ -61,7 +61,7 @@ export class MultipleAnswerComponent implements OnInit, OnChanges {
       this.correctMessage = this.quizService.correctMessage;
 
       if (this.formGroup) {
-        this.formGroup.patchValue({ answer: "" });
+        this.formGroup.patchValue({ answer: '' });
         this.alreadyAnswered = false;
       }
     }

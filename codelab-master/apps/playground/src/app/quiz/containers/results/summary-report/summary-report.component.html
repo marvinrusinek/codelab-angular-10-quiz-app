@@ -1,6 +1,6 @@
 <ng-container *ngFor="let quiz of quizzes$ | async">
   <div *ngIf="quiz.quizId === (quizName$ | async)">
-    <div class="summary-report" aria-labelledby="Summary Report">
+    <section class="summary-report" aria-labelledby="Summary Report">
       <h2>Summary Report</h2>
       <div class="summary-icons">
         <div class="print">
@@ -37,13 +37,30 @@
           Time Elapsed: </span> <span class="result">{{ elapsedMinutes }} minutes and
           {{ elapsedSeconds }} seconds</span></li>
         <li><span class="summary-stats-leader">
-          Date/Time Completed: </span> <span class="result">{{ score.attemptDate | date:'medium' }}</span></li>
+          Date/Time Completed: </span> <span class="result">{{ score.attemptDateTime | date:'medium' }}</span></li>
       </ul><br />
 
       <span *ngIf="checkedShuffle" class="quiz-note">
         <i class="material-icons" matTooltip="quiz note" matTooltipPosition="left">announcement</i>&nbsp;
         <strong><em>Note:</em></strong>&nbsp;Questions and answers were shuffled prior to the start of the quiz.
       </span>
-    </div>
+    </section>
+
+    <hr />
+    <h2 class="high-scores-heading">High Scores</h2>
+    <section class="high-scores" aria-labelledby="High Scores">
+      <table class="center-table">
+        <tr>
+          <th>Quiz Name</th>
+          <th>Score</th>
+          <th>Date/Time</th>
+        </tr>
+        <tr *ngFor="let highScore of highScores">
+          <td>{{ highScore.quizId }}</td>
+          <td>{{ highScore.score }}</td>
+          <td>{{ highScore.attemptDateTime | date: 'medium' }}</td>
+        </tr>
+      </table>
+    </section>
   </div>
 </ng-container>
