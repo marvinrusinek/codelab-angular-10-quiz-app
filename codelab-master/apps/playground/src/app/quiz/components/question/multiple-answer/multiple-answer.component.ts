@@ -39,14 +39,14 @@ export class MultipleAnswerComponent implements OnInit, OnChanges {
     private quizService: QuizService,
     private timerService: TimerService
   ) {
-    this.sendMultipleAnswerToQuizService();
+    this.sendMultipleAnswerToQuizService(this.multipleAnswer);
   }
 
   ngOnInit(): void {
     this.question = this.currentQuestion;
     this.currentQuestion = this.quizService.currentQuestion;
     this.multipleAnswer = this.quizService.multipleAnswer;
-    this.alreadyAnswered = this.quizService.alreadyAnswered;
+    console.log(this.multipleAnswer);
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -55,9 +55,7 @@ export class MultipleAnswerComponent implements OnInit, OnChanges {
       changes.question.currentValue !== changes.question.firstChange
     ) {
       this.currentQuestion = changes.question.currentValue;
-      this.correctAnswers = this.quizService.getCorrectAnswers(
-        this.currentQuestion
-      );
+      this.correctAnswers = this.quizService.getCorrectAnswers(this.currentQuestion);
       this.correctMessage = this.quizService.correctMessage;
 
       if (this.formGroup) {
@@ -70,10 +68,7 @@ export class MultipleAnswerComponent implements OnInit, OnChanges {
   setSelected(optionIndex: number): void {
     this.quizStarted = true;
     this.alreadyAnswered = true;
-    this.isCorrectAnswerSelected = this.isCorrect(
-      this.currentQuestion.options[optionIndex].correct,
-      optionIndex
-    );
+    this.isCorrectAnswerSelected = this.isCorrect(this.currentQuestion.options[optionIndex].correct, optionIndex);
     this.answer.emit(optionIndex);
 
     if (this.correctAnswers.length === 1) {
@@ -101,11 +96,11 @@ export class MultipleAnswerComponent implements OnInit, OnChanges {
     }
   }
 
-  isCorrect(correct: boolean, optionIndex: number): boolean {
+  private isCorrect(correct: boolean, optionIndex: number): boolean {
     return correct === this.currentQuestion.options[optionIndex].correct;
   }
 
-  private sendMultipleAnswerToQuizService(): void {
-    this.quizService.setMultipleAnswer(this.multipleAnswer);
+  private sendMultipleAnswerToQuizService(multipleAnswer): void {
+    this.quizService.setMultipleAnswer(multipleAnswer);
   }
 }

@@ -10,7 +10,7 @@ import {
 } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 
-import { Option, QuizQuestion } from '@codelab-quiz/shared/models/*';
+import { Option, QuizQuestion } from '@codelab-quiz/shared/models/';
 import { QuizService, TimerService } from '@codelab-quiz/shared/services/*';
 
 
@@ -44,6 +44,7 @@ export class QuizQuestionComponent implements OnInit, OnChanges {
 
     this.question = this.currentQuestion;
     this.correctMessage = this.quizService.correctMessage;
+    this.multipleAnswer = this.quizService.multipleAnswer;
     this.sendCurrentQuestionToQuizService();
   }
 
@@ -57,7 +58,7 @@ export class QuizQuestionComponent implements OnInit, OnChanges {
       this.multipleAnswer = this.correctAnswers.length > 1;
 
       if (this.formGroup) {
-        this.formGroup.patchValue({ answer: "" });
+        this.formGroup.patchValue({ answer: '' });
         this.alreadyAnswered = false;
       }
     }
@@ -65,10 +66,8 @@ export class QuizQuestionComponent implements OnInit, OnChanges {
 
   setSelected(optionIndex: number): void {
     this.quizStarted = true;
-    this.isCorrectAnswerSelected = this.isCorrect(
-      this.currentQuestion.options[optionIndex].correct,
-      optionIndex
-    );
+    this.alreadyAnswered = true;
+    this.isCorrectAnswerSelected = this.isCorrect(this.currentQuestion.options[optionIndex].correct, optionIndex);
     this.answer.emit(optionIndex);
 
     if (this.correctAnswers.length === 1) {
@@ -94,11 +93,9 @@ export class QuizQuestionComponent implements OnInit, OnChanges {
       this.optionSelected.className = "is-incorrect";
       this.quizService.incorrectSound.play();
     }
-
-    this.alreadyAnswered = true;
   }
 
-  isCorrect(correct: boolean, optionIndex: number): boolean {
+  private isCorrect(correct: boolean, optionIndex: number): boolean {
     return correct === this.currentQuestion.options[optionIndex].correct;
   }
 

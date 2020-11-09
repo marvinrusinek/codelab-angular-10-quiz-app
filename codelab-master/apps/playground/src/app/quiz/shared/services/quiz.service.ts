@@ -6,7 +6,7 @@ import { Howl } from 'howler';
 import cloneDeep from 'lodash.cloneDeep';
 
 import { QUIZ_DATA, QUIZ_RESOURCES } from '@codelab-quiz/shared/quiz-data';
-import { Quiz, QuizQuestion, QuizResource, Resource } from '@codelab-quiz/shared/models/';
+import { Option, Quiz, QuizQuestion, QuizResource, Resource } from '@codelab-quiz/shared/models/';
 
 @Injectable({
   providedIn: "root"
@@ -44,7 +44,6 @@ export class QuizService implements OnDestroy {
   correctMessage: string;
 
   multipleAnswer: boolean;
-  alreadyAnswered: boolean;
   checkedShuffle: boolean;
 
   unsubscribe$ = new Subject<void>();
@@ -98,11 +97,7 @@ export class QuizService implements OnDestroy {
     return of(this.quizData);
   }
 
-  isAnswered(): boolean {
-    return this.answers && this.answers.length > 0;
-  }
-
-  getCorrectAnswers(question: QuizQuestion) {
+  getCorrectAnswers(question: QuizQuestion): Option[] {
     if (question) {
       const identifiedCorrectAnswers = question.options.filter(option => option.correct);
       this.numberOfCorrectAnswers = identifiedCorrectAnswers.length;
@@ -110,15 +105,7 @@ export class QuizService implements OnDestroy {
         option => question.options.indexOf(option) + 1
       );
 
-      const correctAnswerAdded = this.correctAnswers.find(q => q.questionId === question.explanation) !== undefined;
-      if (correctAnswerAdded === false) {
-        this.correctAnswersForEachQuestion.push(this.correctAnswerOptions);
-        this.correctAnswers.push({
-          questionId: question.explanation,
-          answers: this.correctAnswersForEachQuestion.sort()
-        });
-      }
-
+      this.setCorrectAnswers(question);
       this.setExplanationTextAndCorrectMessages(this.correctAnswerOptions.sort(), question);
       return identifiedCorrectAnswers;
     }
@@ -132,7 +119,7 @@ export class QuizService implements OnDestroy {
     }
   }
 
-  returnQuizSelectionParams(): object {
+  returnQuizSelectionParams(): Object {
     return new Object({
       startedQuizId: this.startedQuizId,
       continueQuizId: this.continueQuizId,
@@ -143,6 +130,17 @@ export class QuizService implements OnDestroy {
   }
 
   /********* setter functions ***********/
+  setCorrectAnswers(question: QuizQuestion): void {
+    const correctAnswerAdded = this.correctAnswers.find(q => q.questionId === question.explanation) !== undefined;
+    if (correctAnswerAdded === false) {
+      this.correctAnswersForEachQuestion.push(this.correctAnswerOptions);
+      this.correctAnswers.push({
+        questionId: question.explanation,
+        answers: this.correctAnswersForEachQuestion.sort()
+      });
+    }
+  }
+
   setExplanationTextAndCorrectMessages(correctAnswers: number[], question: QuizQuestion): void {
     this.explanationText = question.explanation;
 
@@ -208,10 +206,6 @@ export class QuizService implements OnDestroy {
 
   setMultipleAnswer(value: boolean): void {
     this.multipleAnswer = value;
-  }
-
-  setAlreadyAnswered(value: boolean): void {
-    this.alreadyAnswered = value;
   }
 
   setCurrentQuestion(value: QuizQuestion): void {

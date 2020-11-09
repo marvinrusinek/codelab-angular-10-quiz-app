@@ -3,7 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { Observable, Subject } from 'rxjs';
 import { map, takeUntil } from 'rxjs/operators';
 
-import { Quiz, QuizMetadata, Score } from '@codelab-quiz/shared/models/*';
+import { Quiz, QuizMetadata, Score } from '@codelab-quiz/shared/models/';
 import { QuizService, TimerService } from '@codelab-quiz/shared/services/*';
 
 @Component({
@@ -75,7 +75,6 @@ export class SummaryReportComponent implements OnInit, OnDestroy {
 
     const MAX_HIGH_SCORES = 10;       // show results of the last 10 quizzes
     this.highScores.push(this.score);
-    this.highScores.sort((a, b) => b.attemptDateTime - a.attemptDateTime);
     this.highScores.reverse();        // show high scores from most recent to latest
     this.highScores.splice(MAX_HIGH_SCORES);
     localStorage.setItem('highScores', JSON.stringify(this.highScores));

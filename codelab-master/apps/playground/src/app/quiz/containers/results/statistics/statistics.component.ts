@@ -3,7 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { Observable, Subject } from 'rxjs';
 import { map, takeUntil } from 'rxjs/operators';
 
-import { Quiz, QuizMetadata, Resource } from '@codelab-quiz/shared/models/*';
+import { Quiz, QuizMetadata, Resource } from '@codelab-quiz/shared/models/';
 import { QuizService, TimerService } from '@codelab-quiz/shared/services/*';
 
 enum Status {

@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, OnInit, ViewChild } from '@angular/core';
 import { MatAccordion } from '@angular/material/expansion';
 
-import { QuizQuestion, Result } from '@codelab-quiz/shared/models/*';
+import { QuizQuestion, Result } from '@codelab-quiz/shared/models/';
 import { QuizService, TimerService } from '@codelab-quiz/shared/services/*';
 
 @Component({
@@ -31,7 +31,7 @@ export class AccordionComponent implements OnInit {
     this.correctAnswers = this.quizService.correctAnswers;
   }
 
-  checkIfAnswersAreCorrect(correctAnswers: any, userAnswers: any, index: number): boolean {
+  private checkIfAnswersAreCorrect(correctAnswers: any, userAnswers: any, index: number): boolean {
     return !(!userAnswers[index] ||
       userAnswers[index].length === 0 ||
       userAnswers[index].find((answer) => correctAnswers[index].answers[0].indexOf(answer) === -1));

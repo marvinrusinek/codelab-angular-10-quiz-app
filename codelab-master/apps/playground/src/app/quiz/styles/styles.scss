@@ -15,7 +15,7 @@
 
 mat-card {
   margin: 2% 0 20px 25%;
-  width: 42.5rem;
+  width: 680px;
   height: auto !important;
   padding: 20px;
   border: 1px solid $black;
@@ -55,63 +55,6 @@ mat-card {
       span {
         display: block;
       }
-    }
-  }
-}
-
-.options {
-  padding-bottom: 20px !important;
-}
-
-.messages {
-  display: flex;
-  justify-content: center;
-  margin-top: 5px;
-  margin-bottom: 10px;
-  height: auto;
-
-  span {
-    font-size: 17px;
-    margin-top: 10px;
-  }
-
-  .sentiment-icon {
-    font-size: 30px;
-    color: $light-yellow;
-    vertical-align: top;
-    float: left;
-    margin-top: 5px !important;
-  }
-
-  .message {
-    font-family: $font-stack;
-    margin: 20px auto;
-    margin-left: 10px;
-    margin-top: -5px !important;
-    padding: 10px;
-    width: 580px;
-    display: inline-flex;
-    justify-content: center;
-    vertical-align: middle;
-  }
-
-  .correct-message {
-    border: 2px solid $vivid-blue !important;
-    color: $dark-green !important;
-    margin-top: -15px;
-    margin-bottom: -5px;
-    margin-left: 20px !important;
-  }
-
-  .wrong-message {
-    border: 2px solid $red !important;
-    color: $red;
-    margin-top: -5px;
-    margin-bottom: -5px;
-    margin-left: 10px !important;
-
-    .sentiment-icon {
-      top: 20px !important;
     }
   }
 }
