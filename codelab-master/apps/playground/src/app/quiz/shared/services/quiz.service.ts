@@ -13,6 +13,7 @@ import { Option, Quiz, QuizQuestion, QuizResource, Resource } from '@codelab-qui
 })
 export class QuizService implements OnDestroy {
   quizData: Quiz[];
+  quizInitialState: Quiz[];
   quizResources: QuizResource[];
   question: QuizQuestion;
   questions: QuizQuestion[];
@@ -47,7 +48,6 @@ export class QuizService implements OnDestroy {
   checkedShuffle: boolean;
 
   unsubscribe$ = new Subject<void>();
-  quizInitialState: any;
 
   correctSound = new Howl({
     src: "http://www.marvinrusinek.com/sound-correct.mp3",
@@ -62,8 +62,8 @@ export class QuizService implements OnDestroy {
 
   constructor(private activatedRoute: ActivatedRoute, private router: Router) {
     this.quizData = QUIZ_DATA;
-    this.quizResources = QUIZ_RESOURCES;
     this.quizInitialState = cloneDeep(QUIZ_DATA);
+    this.quizResources = QUIZ_RESOURCES;
 
     this.quizName$ = this.activatedRoute.url.pipe(
       map(segments => segments[1].toString())

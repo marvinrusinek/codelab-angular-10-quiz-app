@@ -31,7 +31,6 @@ export class MultipleAnswerComponent implements OnInit, OnChanges {
 
   quizStarted: boolean;
   alreadyAnswered: boolean;
-  isCorrectAnswerSelected: boolean;
   multipleAnswer = true;
   optionSelected: Option;
 
@@ -46,7 +45,6 @@ export class MultipleAnswerComponent implements OnInit, OnChanges {
     this.question = this.currentQuestion;
     this.currentQuestion = this.quizService.currentQuestion;
     this.multipleAnswer = this.quizService.multipleAnswer;
-    console.log(this.multipleAnswer);
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -68,7 +66,6 @@ export class MultipleAnswerComponent implements OnInit, OnChanges {
   setSelected(optionIndex: number): void {
     this.quizStarted = true;
     this.alreadyAnswered = true;
-    this.isCorrectAnswerSelected = this.isCorrect(this.currentQuestion.options[optionIndex].correct, optionIndex);
     this.answer.emit(optionIndex);
 
     if (this.correctAnswers.length === 1) {
@@ -94,10 +91,6 @@ export class MultipleAnswerComponent implements OnInit, OnChanges {
       this.optionSelected.className = "incorrect";
       this.quizService.incorrectSound.play();
     }
-  }
-
-  private isCorrect(correct: boolean, optionIndex: number): boolean {
-    return correct === this.currentQuestion.options[optionIndex].correct;
   }
 
   private sendMultipleAnswerToQuizService(multipleAnswer): void {
