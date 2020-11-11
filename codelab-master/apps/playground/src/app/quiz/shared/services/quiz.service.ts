@@ -106,7 +106,8 @@ export class QuizService implements OnDestroy {
       );
 
       this.setCorrectAnswers(question);
-      this.setExplanationTextAndCorrectMessages(this.correctAnswersForEachQuestion.sort(), question);
+      this.setCorrectMessages(this.correctAnswersForEachQuestion.sort(), question);
+      this.setExplanationText(question);
       return identifiedCorrectAnswers;
     }
   }
@@ -141,8 +142,7 @@ export class QuizService implements OnDestroy {
     }
   }
 
-  setExplanationTextAndCorrectMessages(correctAnswersArray: number[], question: QuizQuestion): void {
-    this.explanationText = question.explanation;
+  setCorrectMessages(correctAnswersArray: number[], question: QuizQuestion): void {
     const correctAnswers = correctAnswersArray.flat();
 
     for (let i = 0; i < correctAnswersArray.length; i++) {
@@ -167,6 +167,10 @@ export class QuizService implements OnDestroy {
         this.correctMessage = "ALL are correct!";
       }
     }
+  }
+
+  setExplanationText(question: QuizQuestion): void {
+    this.explanationText = question.explanation;
   }
 
   setQuizStatus(value: string): void {
