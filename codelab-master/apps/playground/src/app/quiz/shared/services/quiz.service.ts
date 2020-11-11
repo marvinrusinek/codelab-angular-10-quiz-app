@@ -152,16 +152,16 @@ export class QuizService implements OnDestroy {
       }
 
       if (correctAnswers[i] && correctAnswers[i + 1]) {
-        this.correctOptions = correctAnswers[i]
-          .toString().concat(" and " + correctAnswers[i + 1]);
+        this.correctOptions = correctAnswers[i].toString().concat(" and " + correctAnswers[i + 1]);
         this.correctMessage = "The correct answers are Options " + this.correctOptions + ".";
       }
 
       if (correctAnswers[i] && correctAnswers[i + 1] && correctAnswers[i + 2]) {
         this.correctOptions = correctAnswers[i].toString().concat(
-          ", ", correctAnswers[i + 1] + " and " + correctAnswers[i + 2]);
+                              ", ", correctAnswers[i + 1] + " and " + correctAnswers[i + 2]);
         this.correctMessage = "The correct answers are Options " + this.correctOptions + ".";
       }
+
       if (correctAnswers.length === question.options.length) {
         this.correctOptions = "ALL are correct!";
         this.correctMessage = "ALL are correct!";
