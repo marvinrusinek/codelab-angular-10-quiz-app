@@ -65,7 +65,7 @@ div.mat-radio-inner-container {
     color: $light-yellow;
     position: relative;
     top: 10px;
-    left: 10px;
+    left: 15px;
   }
 
   span {
@@ -73,9 +73,9 @@ div.mat-radio-inner-container {
     font-size: 17px;
     font-style: italic;
     font-weight: bold;
-    margin: 10px 0 0 -30px !important;
+    margin: 10px 0 0 -15px !important;
     padding: 10px;
-    width: 560px;
+    width: 570px;
     display: inline-flex;
     justify-content: center;
     background: transparentize($light-gray, 0.5);
