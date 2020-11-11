@@ -19,18 +19,18 @@
 
       <!-- the question/explanation section -->
       <section id="question" [ngClass]="!isAnswered() ? 'unanswered': 'answered'">
-				<span *ngIf="!isAnswered()" i18n>{{ question.questionText }}&nbsp;
+				<div *ngIf="!isAnswered()" i18n>{{ question.questionText }}&nbsp;
           <span class="number-correct" *ngIf="numberOfCorrectAnswers > 1">
             <em>({{ numberOfCorrectAnswers }} answers are correct.)</em>
           </span>
-				</span>
-        <span *ngIf="isAnswered()" i18n>
+				</div>
+        <div *ngIf="isAnswered()" i18n>
           {{ numberOfCorrectAnswers === 1 ?
           'Option ' + correctOptions + ' was correct because ' :
           'Options ' + correctOptions + ' were correct because '
           }}
           {{ explanationText }}.
-        </span>
+        </div>
       </section>
 
       <!-- the options -->
