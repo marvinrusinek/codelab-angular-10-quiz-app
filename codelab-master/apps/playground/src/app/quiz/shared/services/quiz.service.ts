@@ -147,7 +147,7 @@ export class QuizService implements OnDestroy {
 
     for (let i = 0; i < correctAnswersArray.length; i++) {
       if (correctAnswers[i]) {
-        this.correctOptions = correctAnswers[i].toString().concat("");
+        this.correctOptions = correctAnswers[i].toString();
         this.correctMessage = "The correct answer is Option " + this.correctOptions + ".";
       }
 
