@@ -65,14 +65,7 @@ export class QuizComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit(): void {
-    this.quizData = this.quizService.getQuiz();
-    this.quizResources = this.quizService.getResources();
-    this.quizzes$ = this.quizService.getQuizzes();
-    this.quizName$ = this.activatedRoute.url.pipe(map(segments => segments[1].toString()));
-    this.activatedRoute.paramMap
-      .pipe(takeUntil(this.unsubscribe$))
-        .subscribe(params => this.quizId = params.get('quizId'));
-    this.indexOfQuizId = this.quizData.findIndex(elem => elem.quizId === this.quizId);
+    this.initializeQuizVariables();
     this.shuffleQuestionsAndAnswers();
 
     this.activatedRoute.params
@@ -127,6 +120,17 @@ export class QuizComponent implements OnInit, OnDestroy {
     } else {
       this.answers[0] = data;
     }
+  }
+
+  initializeQuizVariables(): void {
+    this.quizData = this.quizService.getQuiz();
+    this.quizResources = this.quizService.getResources();
+    this.quizzes$ = this.quizService.getQuizzes();
+    this.quizName$ = this.activatedRoute.url.pipe(map(segments => segments[1].toString()));
+    this.activatedRoute.paramMap
+      .pipe(takeUntil(this.unsubscribe$))
+        .subscribe(params => this.quizId = params.get('quizId'));
+    this.indexOfQuizId = this.quizData.findIndex(elem => elem.quizId === this.quizId);
   }
 
   shuffleQuestionsAndAnswers(): void {
