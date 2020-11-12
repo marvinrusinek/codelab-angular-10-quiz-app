@@ -1,4 +1,4 @@
-<ng-container class="time-left">
+<ng-container class="timer">
   <section class="mat-menu">
     <mat-toolbar>
       <button mat-button [matMenuTriggerFor]="timerMenu" aria-label="Timer Menu">
@@ -14,6 +14,7 @@
       </mat-menu>
     </mat-toolbar>
   </section>
+
   <section class="scoreboard-timer">
     <span class="scoreboard" i18n>
       0:{{ time$ | async | number: '2.0-0' }}

@@ -4,7 +4,7 @@ import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { map, takeUntil } from 'rxjs/operators';
 
 import { ChangeRouteAnimation } from '@codelab-quiz/animations/';
-import { Quiz, QuizQuestion, QuizResource, Resource } from '@codelab-quiz/shared/models/*';
+import { Quiz, QuizQuestion, QuizResource, Resource } from '@codelab-quiz/shared/models/';
 import { QuizService, TimerService } from '@codelab-quiz/shared/services/*';
 
 type AnimationState = 'animationStarted' | 'none';
@@ -193,10 +193,10 @@ export class QuizComponent implements OnInit, OnDestroy {
     this.timerService.elapsedTimes = [];
     this.timerService.completionTime = 0;
     this.answers = null;
-    this.router.navigate(['/quiz/intro/', this.quizId]).then();
+    this.router.navigate(["/quiz/intro/", this.quizId]).then();
   }
 
-  sendValuesToQuizService(): void {
+  private sendValuesToQuizService(): void {
     this.sendQuizQuestionToQuizService();
     this.sendQuizQuestionsToQuizService();
     this.sendQuizIdToQuizService();

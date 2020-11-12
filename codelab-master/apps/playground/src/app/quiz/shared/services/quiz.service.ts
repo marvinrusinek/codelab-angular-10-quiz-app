@@ -71,7 +71,7 @@ export class QuizService implements OnDestroy {
 
     this.activatedRoute.paramMap
       .pipe(takeUntil(this.unsubscribe$))
-        .subscribe(params => (this.quizId = params.get('quizId')));
+        .subscribe(params => this.quizId = params.get('quizId'));
 
     this.indexOfQuizId = this.quizData.findIndex(
       elem => elem.quizId === this.quizId
@@ -106,7 +106,7 @@ export class QuizService implements OnDestroy {
       );
 
       this.setCorrectAnswers(question);
-      this.setCorrectMessages(this.correctAnswersForEachQuestion.sort());
+      this.setCorrectMessage(this.correctAnswersForEachQuestion.sort());
       this.setExplanationText(question);
       return identifiedCorrectAnswers;
     }
@@ -142,7 +142,7 @@ export class QuizService implements OnDestroy {
     }
   }
 
-  setCorrectMessages(correctAnswersArray: number[]): void {
+  setCorrectMessage(correctAnswersArray: number[]): void {
     const correctAnswers = correctAnswersArray.flat();
 
     for (let i = 0; i < correctAnswersArray.length; i++) {

@@ -1,5 +1,5 @@
 <ng-container class="score">
-  <div class="mat-menu">
+  <section class="mat-menu">
     <mat-toolbar>
       <button mat-button [matMenuTriggerFor]="scoreMenu" aria-label="score menu">
         <span class="leader" i18n>Score &#x25BC;</span>
@@ -13,7 +13,8 @@
         </button>
       </mat-menu>
     </mat-toolbar>
-  </div>
+  </section>
+
   <section class="scoreboard-score">
 		<span class="scoreboard" i18n>
       {{ score$ | async }}
