@@ -28,6 +28,7 @@ export class SingleAnswerComponent implements OnInit, OnChanges {
   formGroup: FormGroup;
   correctAnswers = [];
   correctMessage = "";
+  correctOption;
 
   multipleAnswer = false;
   alreadyAnswered = false;
@@ -65,10 +66,6 @@ export class SingleAnswerComponent implements OnInit, OnChanges {
     }
   }
 
-  onChange() {
-    this.alreadyAnswered = true;
-  }
-
   setSelected(optionIndex: number): void {
     this.quizStarted = true;
     this.alreadyAnswered = true;
@@ -99,7 +96,7 @@ export class SingleAnswerComponent implements OnInit, OnChanges {
     }
   }
 
-  private sendMultipleAnswerToQuizService(multipleAnswer): void {
+  private sendMultipleAnswerToQuizService(multipleAnswer: boolean): void {
     this.quizService.setMultipleAnswer(multipleAnswer);
   }
 }

@@ -93,7 +93,7 @@ export class MultipleAnswerComponent implements OnInit, OnChanges {
     }
   }
 
-  private sendMultipleAnswerToQuizService(multipleAnswer): void {
+  private sendMultipleAnswerToQuizService(multipleAnswer: boolean): void {
     this.quizService.setMultipleAnswer(multipleAnswer);
   }
 }

@@ -50,12 +50,12 @@ export class QuizService implements OnDestroy {
   unsubscribe$ = new Subject<void>();
 
   correctSound = new Howl({
-    src: "http://www.marvinrusinek.com/sound-correct.mp3",
+    src: "../../assets/audio/sound-correct.mp3",
     html5: true,
     format: ["mp3"]
   });
   incorrectSound = new Howl({
-    src: "http://www.marvinrusinek.com/sound-incorrect.mp3",
+    src: "../../assets/audio/sound-incorrect.mp3",
     html5: true,
     format: ["mp3"]
   });
@@ -94,7 +94,7 @@ export class QuizService implements OnDestroy {
   }
 
   getQuizzes(): Observable<Quiz[]> {
-    return of(this.quizData);
+    return of(QUIZ_DATA);
   }
 
   getCorrectAnswers(question: QuizQuestion): Option[] {
