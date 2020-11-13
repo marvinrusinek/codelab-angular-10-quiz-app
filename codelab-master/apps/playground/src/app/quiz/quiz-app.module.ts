@@ -23,7 +23,8 @@ import { QuizQuestionComponent, SingleAnswerComponent, MultipleAnswerComponent }
 import { IntroductionComponent } from '@codelab-quiz/containers/introduction';
 import { QuizComponent } from '@codelab-quiz/containers/quiz';
 import { QuizSelectionComponent } from '@codelab-quiz/containers/quiz-selection';
-import { AccordionComponent, ChallengeComponent, ReturnComponent, ResultsComponent, StatisticsComponent, SummaryReportComponent } from '@codelab-quiz/containers/results';
+import { AccordionComponent, ChallengeComponent, ResultsComponent,
+         ReturnComponent, StatisticsComponent, SummaryReportComponent } from '@codelab-quiz/containers/results';
 import { ScoreboardComponent, ScoreComponent, TimerComponent } from '@codelab-quiz/containers/scoreboard/';
 import { QuizService, TimerService } from '@codelab-quiz/shared/services/';
 import { JoinPipe } from '@codelab-quiz/pipes/join.pipe';
@@ -36,7 +37,12 @@ import { JoinPipe } from '@codelab-quiz/pipes/join.pipe';
     QuizComponent,
     QuizQuestionComponent,
     QuizSelectionComponent,
-    AccordionComponent, ChallengeComponent, ReturnComponent, ResultsComponent, StatisticsComponent, SummaryReportComponent,
+    AccordionComponent,
+    ChallengeComponent,
+    ResultsComponent,
+    ReturnComponent,
+    StatisticsComponent,
+    SummaryReportComponent,
     ScoreboardComponent,
     ScoreComponent,
     TimerComponent,

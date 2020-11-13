@@ -9,7 +9,7 @@ import { QUIZ_DATA, QUIZ_RESOURCES } from '@codelab-quiz/shared/quiz-data';
 import { Option, Quiz, QuizQuestion, QuizResource, Resource } from '@codelab-quiz/shared/models/';
 
 @Injectable({
-  providedIn: "root"
+  providedIn: 'root'
 })
 export class QuizService implements OnDestroy {
   quizData: Quiz[];
@@ -60,7 +60,10 @@ export class QuizService implements OnDestroy {
     format: ["mp3"]
   });
 
-  constructor(private activatedRoute: ActivatedRoute, private router: Router) {
+  constructor(
+    private activatedRoute: ActivatedRoute,
+    private router: Router
+  ) {
     this.quizData = QUIZ_DATA;
     this.quizInitialState = cloneDeep(QUIZ_DATA);
     this.quizResources = QUIZ_RESOURCES;
