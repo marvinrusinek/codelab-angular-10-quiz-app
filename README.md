@@ -23,8 +23,8 @@ This application was created for the open-source Angular Codelab (https://www.co
 # FEATURES:
 - App developed using HTML5; CSS3/SCSS; Angular using TypeScript, JavaScript ES6 and NPM
 - Uses a basic, clean, modern and aesthetically pleasing UI for the quiz
-- Features a simple API and quiz data is retrieved from external file
 - Employs familiar Angular concepts such as services/dependency injection, routing and reactive form
+- Features a simple API and quiz data is retrieved from external file using RxJS and HttpClient
 - Includes routing to different Angular milestone quizzes on a quiz-selection screen
 - Form display is toggled depending on the type of question in the quiz service (either multiple-answer (mat-checkbox) question or single-answer (mat-radio-button) question)
 - Supports advanced routing features with paging 1 question at a time using an inferred questionIndex (instead of using questionId)
