@@ -18,9 +18,7 @@ export class TimerComponent implements OnChanges {
   reset$: Observable<number>;
   stop$: Observable<number>;
 
-  constructor(
-    private timerService: TimerService
-  ) {
+  constructor(private timerService: TimerService) {
     this.selectedAnswer = this.answer;
     this.countdown();
   }

@@ -114,7 +114,7 @@ export class QuizComponent implements OnInit, OnDestroy {
   }
 
   selectedAnswer(data): void {
-    const correctAnswers = this.question.options.filter((options) => options.correct);
+    const correctAnswers = this.question.options.filter((option) => option.correct);
     if (correctAnswers.length > 1 && this.answers.indexOf(data) === -1) {
       this.answers.push(data);
     } else {

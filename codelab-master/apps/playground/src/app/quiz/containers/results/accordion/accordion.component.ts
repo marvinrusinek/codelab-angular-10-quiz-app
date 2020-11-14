@@ -33,8 +33,8 @@ export class AccordionComponent implements OnInit {
 
   private checkIfAnswersAreCorrect(correctAnswers: any, userAnswers: any, index: number): boolean {
     return !(!userAnswers[index] ||
-      userAnswers[index].length === 0 ||
-      userAnswers[index].find((answer) => correctAnswers[index].answers[0].indexOf(answer) === -1));
+             userAnswers[index].length === 0 ||
+             userAnswers[index].find((answer) => correctAnswers[index].answers[0].indexOf(answer) === -1));
   }
 
   openAllPanels(): void {

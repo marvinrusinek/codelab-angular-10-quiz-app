@@ -20,7 +20,7 @@ export class QuizSelectionComponent implements OnInit, OnDestroy {
   currentQuestionIndex: number;
   totalQuestions: number;
 
-  selectionParams: object;
+  selectionParams: Object;
   animationState$ = new BehaviorSubject<AnimationState>('none');
   unsubscribe$ = new Subject<void>();
   imagePath = '../../../assets/images/milestones/';

@@ -45,11 +45,7 @@ export class StatisticsComponent implements OnInit, OnDestroy {
     private quizService: QuizService,
     private timerService: TimerService,
     private activatedRoute: ActivatedRoute
-  ) {
-    this.status = Status.Completed;
-    this.calculateElapsedTime();
-    this.sendQuizStatusToQuizService();
-  }
+  ) { }
 
   ngOnInit(): void {
     this.quizzes$ = this.quizService.getQuizzes();
@@ -58,6 +54,9 @@ export class StatisticsComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.unsubscribe$))
         .subscribe(params => this.quizId = params.get('quizId'));
     this.resources = this.quizService.resources;
+    this.status = Status.Completed;
+    this.calculateElapsedTime();
+    this.sendQuizStatusToQuizService();
   }
 
   ngOnDestroy(): void {

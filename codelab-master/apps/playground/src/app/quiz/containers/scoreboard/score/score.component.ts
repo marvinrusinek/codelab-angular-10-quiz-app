@@ -18,7 +18,7 @@ export class ScoreComponent implements OnInit {
   correctAnswersCount: number;
   unsubscribe$ = new Subject<void>();
 
-  constructor(private quizService: QuizService) {}
+  constructor(private quizService: QuizService) { }
 
   ngOnInit(): void {
     this.correctAnswersCount$ = this.quizService.correctAnswersCountSubject;

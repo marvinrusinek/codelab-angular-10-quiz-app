@@ -29,8 +29,8 @@ export class ResultsComponent implements OnInit, OnDestroy {
     this.activatedRoute.paramMap
       .pipe(takeUntil(this.unsubscribe$))
         .subscribe(params => this.quizId = params.get('quizId'));
-    this.sendCompletedQuizIdToQuizService(this.quizId);
     this.indexOfQuizId = this.quizData.findIndex(elem => elem.quizId === this.quizId);
+    this.sendCompletedQuizIdToQuizService(this.quizId);
   }
 
   ngOnDestroy(): void {

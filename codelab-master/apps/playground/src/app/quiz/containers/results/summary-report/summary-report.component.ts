@@ -37,10 +37,7 @@ export class SummaryReportComponent implements OnInit, OnDestroy {
     private quizService: QuizService,
     private timerService: TimerService,
     private activatedRoute: ActivatedRoute
-  ) {
-    this.calculateElapsedTime();
-    this.saveHighScores();
-  }
+  ) { }
 
   ngOnInit(): void {
     this.quizzes$ = this.quizService.getQuizzes();
@@ -49,6 +46,8 @@ export class SummaryReportComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.unsubscribe$))
         .subscribe(params => this.quizId = params.get('quizId'));
     this.checkedShuffle = this.quizService.checkedShuffle;
+    this.calculateElapsedTime();
+    this.saveHighScores();
   }
 
   ngOnDestroy(): void {
