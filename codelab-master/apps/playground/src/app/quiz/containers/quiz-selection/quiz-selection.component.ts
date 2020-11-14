@@ -16,7 +16,6 @@ type AnimationState = 'animationStarted' | 'none';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class QuizSelectionComponent implements OnInit, OnDestroy {
-  quizData: Quiz[];
   quizzes$: Observable<Quiz[]>;
   quizId: string;
   currentQuestionIndex: number;
@@ -34,7 +33,6 @@ export class QuizSelectionComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit(): void {
-    this.quizData = this.quizService.getQuiz();
     this.quizzes$ = this.httpClient.get<Quiz[]>(`${this.url}`);
     this.quizId = this.quizService.quizId;
     this.currentQuestionIndex = this.quizService.currentQuestionIndex;

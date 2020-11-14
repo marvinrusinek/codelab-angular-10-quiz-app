@@ -43,7 +43,7 @@ export class ResultsComponent implements OnInit, OnDestroy {
     this.quizService.resetQuestions();
     this.quizId = '';
     this.indexOfQuizId = 0;
-    this.router.navigate(['/quiz/select/']).then();
+    this.router.navigate(["/quiz/select/"]).then();
   }
 
   private sendCompletedQuizIdToQuizService(quizId: string): void {

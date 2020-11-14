@@ -13,7 +13,6 @@ import { QuizService } from '@codelab-quiz/shared/services/*';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class IntroductionComponent implements OnInit {
-  quizData: Quiz[];
   quizzes$: Observable<Quiz[]>;
   quizName$: Observable<string>;
   imagePath = '../../../assets/images/milestones/';
@@ -24,7 +23,6 @@ export class IntroductionComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.quizData = this.quizService.getQuiz();
     this.quizzes$ = this.quizService.getQuizzes();
     this.quizName$ = this.activatedRoute.url.pipe(
       map(segments => segments[1].toString())
