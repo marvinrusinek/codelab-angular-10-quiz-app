@@ -31,7 +31,9 @@ This application was created for the open-source Angular Codelab (https://www.co
 - Utilizes Angular packages such as Angular Material/CDK, Angular animation library as well as Bootstrap, FontAwesome, hover.css and external 3rd party packages for progressbars (ngb-progressbar) and audio (Howler)
 - Displays innovative scoreboard in which score (numerical/percentage) and countdown/stopwatch clock are both fully controlled with RxJS
 - Uses SVG buttons for paging and quiz statuses
-- Results page shows user score (with percentage) and computes time taken to complete the quiz and utilizes an expandable/collapsable Angular Material accordion (mat-accordion) which shows a detailed quiz summary (user answer(s), correct answer(s), explanation and elapsedTime for each question), also features buttons to share percentage on social media (Twitter) or by e-mail
+- Results page shows user score (with percentage) and computes time taken to complete the quiz and utilizes an expandable/collapsable Angular Material accordion (mat-accordion) which shows a detailed quiz summary (user answer(s), correct answer(s), explanation and elapsedTime for each question)
+- Results page displays last 10 high scores using localStorage
+- Results page features buttons to share percentage on social media (Twitter) or by e-mail
 - Utilizes Javascript ES6 arrow functions to store the correct answers stored in an array and user answers are also kept in an array
 - When there is more than one answer to a question, the number of correct answers is shown
 - Utilizes clean import paths via path aliasing
