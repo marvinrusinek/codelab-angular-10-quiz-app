@@ -74,15 +74,15 @@ export class QuizService implements OnDestroy {
     this.quizResources = QUIZ_RESOURCES;
 
     this.quizName$ = this.activatedRoute.url.pipe(
-      map(segments => segments[1].toString())
+      map((segments) => segments[1].toString())
     );
 
     this.activatedRoute.paramMap
       .pipe(takeUntil(this.unsubscribe$))
-        .subscribe(params => this.quizId = params.get('quizId'));
+        .subscribe((params) => this.quizId = params.get('quizId'));
 
     this.indexOfQuizId = this.quizData.findIndex(
-      elem => elem.quizId === this.quizId
+      (elem) => elem.quizId === this.quizId
     );
 
     this.returnQuizSelectionParams();
@@ -107,7 +107,7 @@ export class QuizService implements OnDestroy {
 
   getCorrectAnswers(question: QuizQuestion): Option[] {
     if (question) {
-      const identifiedCorrectAnswers = question.options.filter(option => option.correct);
+      const identifiedCorrectAnswers = question.options.filter((option) => option.correct);
       this.numberOfCorrectAnswers = identifiedCorrectAnswers.length;
       this.correctAnswerOptions = identifiedCorrectAnswers.map(
         option => question.options.indexOf(option) + 1
@@ -140,13 +140,15 @@ export class QuizService implements OnDestroy {
 
   /********* setter functions ***********/
   setCorrectAnswers(question: QuizQuestion): void {
-    const correctAnswerAdded = this.correctAnswers.find(q => q.questionId === question.explanation) !== undefined;
-    if (correctAnswerAdded === false) {
-      this.correctAnswersForEachQuestion.push(this.correctAnswerOptions);
-      this.correctAnswers.push({
-        questionId: question.explanation,
-        answers: this.correctAnswersForEachQuestion.sort()
-      });
+    if (question) {
+      const correctAnswerAdded = this.correctAnswers.find(q => q.questionId === question.explanation) !== undefined;
+      if (correctAnswerAdded === false) {
+        this.correctAnswersForEachQuestion.push(this.correctAnswerOptions);
+        this.correctAnswers.push({
+          questionId: question.explanation,
+          answers: this.correctAnswersForEachQuestion.sort()
+        });
+      }
     }
   }
 
@@ -177,7 +179,9 @@ export class QuizService implements OnDestroy {
   }
 
   setExplanationText(question: QuizQuestion): void {
-    this.explanationText = question.explanation;
+    if (question) {
+      this.explanationText = question.explanation;
+    }
   }
 
   setQuizStatus(value: string): void {

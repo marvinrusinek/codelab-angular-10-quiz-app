@@ -80,6 +80,6 @@ export class TimerComponent implements OnChanges {
         )
       )
     )
-    .pipe(tap((value: number) => this.timerService.setElapsed(value)));
+    .pipe(tap((value) => this.timerService.setElapsed(value)));
   }
 }

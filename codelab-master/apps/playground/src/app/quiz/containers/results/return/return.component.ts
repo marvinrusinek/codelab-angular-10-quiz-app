@@ -28,7 +28,7 @@ export class ReturnComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.activatedRoute.paramMap
       .pipe(takeUntil(this.unsubscribe$))
-        .subscribe(params => this.quizId = params.get('quizId'));
+        .subscribe((params) => this.quizId = params.get('quizId'));
   }
 
   ngOnDestroy(): void {

@@ -70,7 +70,7 @@ export class QuizComponent implements OnInit, OnDestroy {
 
     this.activatedRoute.params
       .pipe(takeUntil(this.unsubscribe$))
-        .subscribe(params => {
+        .subscribe((params) => {
           this.totalQuestions = this.quizData[this.indexOfQuizId].questions.length;
           this.quizService.setTotalQuestions(this.totalQuestions);
 
@@ -126,11 +126,11 @@ export class QuizComponent implements OnInit, OnDestroy {
     this.quizData = this.quizService.getQuiz();
     this.quizResources = this.quizService.getResources();
     this.quizzes$ = this.quizService.getQuizzes();
-    this.quizName$ = this.activatedRoute.url.pipe(map(segments => segments[1].toString()));
+    this.quizName$ = this.activatedRoute.url.pipe(map((segments) => segments[1].toString()));
     this.activatedRoute.paramMap
       .pipe(takeUntil(this.unsubscribe$))
-        .subscribe(params => this.quizId = params.get('quizId'));
-    this.indexOfQuizId = this.quizData.findIndex(elem => elem.quizId === this.quizId);
+        .subscribe((params) => this.quizId = params.get('quizId'));
+    this.indexOfQuizId = this.quizData.findIndex((elem) => elem.quizId === this.quizId);
   }
 
   shuffleQuestionsAndAnswers(): void {

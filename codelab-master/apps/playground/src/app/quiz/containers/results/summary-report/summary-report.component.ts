@@ -41,10 +41,10 @@ export class SummaryReportComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.quizzes$ = this.quizService.getQuizzes();
-    this.quizName$ = this.activatedRoute.url.pipe(map(segments => segments[1].toString()));
+    this.quizName$ = this.activatedRoute.url.pipe(map((segments) => segments[1].toString()));
     this.activatedRoute.paramMap
       .pipe(takeUntil(this.unsubscribe$))
-        .subscribe(params => this.quizId = params.get('quizId'));
+        .subscribe((params) => this.quizId = params.get('quizId'));
     this.checkedShuffle = this.quizService.checkedShuffle;
     this.calculateElapsedTime();
     this.saveHighScores();

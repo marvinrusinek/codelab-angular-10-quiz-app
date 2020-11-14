@@ -49,10 +49,10 @@ export class StatisticsComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.quizzes$ = this.quizService.getQuizzes();
-    this.quizName$ = this.activatedRoute.url.pipe(map(segments => segments[1].toString()));
+    this.quizName$ = this.activatedRoute.url.pipe(map((segments) => segments[1].toString()));
     this.activatedRoute.paramMap
       .pipe(takeUntil(this.unsubscribe$))
-        .subscribe(params => this.quizId = params.get('quizId'));
+        .subscribe((params) => this.quizId = params.get('quizId'));
     this.resources = this.quizService.resources;
     this.status = Status.Completed;
     this.calculateElapsedTime();

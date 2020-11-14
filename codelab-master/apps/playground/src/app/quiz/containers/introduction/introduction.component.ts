@@ -25,7 +25,7 @@ export class IntroductionComponent implements OnInit {
   ngOnInit(): void {
     this.quizzes$ = this.quizService.getQuizzes();
     this.quizName$ = this.activatedRoute.url.pipe(
-      map(segments => segments[1].toString())
+      map((segments) => segments[1].toString())
     );
   }
 

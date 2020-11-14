@@ -29,7 +29,7 @@ export class ScoreComponent implements OnInit {
   numericalScore(): void {
     this.correctAnswersCountSubscription = this.correctAnswersCount$
       .pipe(takeUntil(this.unsubscribe$))
-        .subscribe((correctAnswersCount: number) => {
+        .subscribe((correctAnswersCount) => {
           this.correctAnswersCount = correctAnswersCount;
           this.score =
             this.correctAnswersCount.toString() +
@@ -42,7 +42,7 @@ export class ScoreComponent implements OnInit {
   percentageScore(): void {
     this.correctAnswersCountSubscription = this.correctAnswersCount$
       .pipe(takeUntil(this.unsubscribe$))
-        .subscribe((correctAnswersCount: number) => {
+        .subscribe((correctAnswersCount) => {
           this.correctAnswersCount = correctAnswersCount;
           this.score =
             Math.ceil(
