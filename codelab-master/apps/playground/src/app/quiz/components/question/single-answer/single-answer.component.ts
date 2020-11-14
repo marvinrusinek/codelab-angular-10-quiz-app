@@ -28,7 +28,6 @@ export class SingleAnswerComponent implements OnInit, OnChanges {
   formGroup: FormGroup;
   correctAnswers = [];
   correctMessage = "";
-  correctOption;
 
   multipleAnswer = false;
   alreadyAnswered = false;

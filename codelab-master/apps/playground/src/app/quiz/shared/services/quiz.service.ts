@@ -5,8 +5,9 @@ import { map, takeUntil } from 'rxjs/operators';
 import { Howl } from 'howler';
 import cloneDeep from 'lodash.cloneDeep';
 
-import { QUIZ_DATA, QUIZ_RESOURCES } from '@codelab-quiz/shared/quiz-data';
+import { QUIZ_DATA, QUIZ_RESOURCES } from '@codelab-quiz/shared/data/*';
 import { Option, Quiz, QuizQuestion, QuizResource, Resource } from '@codelab-quiz/shared/models/';
+
 
 @Injectable({
   providedIn: 'root'
@@ -23,6 +24,7 @@ export class QuizService implements OnDestroy {
   totalQuestions: number;
   currentQuestionIndex = 1;
 
+  quizzes$: Observable<Quiz[]>;
   quizName$: Observable<string>;
   quizId: string;
   indexOfQuizId: number;
@@ -150,7 +152,7 @@ export class QuizService implements OnDestroy {
 
     for (let i = 0; i < correctAnswersArray.length; i++) {
       if (correctAnswers[i]) {
-        this.correctOptions = correctAnswers[i].toString();
+        this.correctOptions = correctAnswers[i].toString().concat("");
         this.correctMessage = "The correct answer is Option " + this.correctOptions + ".";
       }
 
@@ -161,10 +163,9 @@ export class QuizService implements OnDestroy {
 
       if (correctAnswers[i] && correctAnswers[i + 1] && correctAnswers[i + 2]) {
         this.correctOptions = correctAnswers[i].toString().concat(
-                              ", ", correctAnswers[i + 1] + " and " + correctAnswers[i + 2]);
+                                ", ", correctAnswers[i + 1] + " and " + correctAnswers[i + 2]);
         this.correctMessage = "The correct answers are Options " + this.correctOptions + ".";
       }
-
       if (correctAnswers.length === this.question.options.length) {
         this.correctOptions = "ALL are correct!";
         this.correctMessage = "ALL are correct!";
