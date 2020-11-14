@@ -1,5 +1,6 @@
 import { Injectable, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable, of, Subject } from 'rxjs';
 import { map, takeUntil } from 'rxjs/operators';
 import { Howl } from 'howler';
@@ -50,6 +51,7 @@ export class QuizService implements OnDestroy {
   checkedShuffle: boolean;
 
   unsubscribe$ = new Subject<void>();
+  private url = '../../../assets/data/quiz.json';
 
   correctSound = new Howl({
     src: "../../assets/audio/sound-correct.mp3",
@@ -64,7 +66,8 @@ export class QuizService implements OnDestroy {
 
   constructor(
     private activatedRoute: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private http: HttpClient
   ) {
     this.quizData = QUIZ_DATA;
     this.quizInitialState = cloneDeep(QUIZ_DATA);
@@ -99,7 +102,7 @@ export class QuizService implements OnDestroy {
   }
 
   getQuizzes(): Observable<Quiz[]> {
-    return of(QUIZ_DATA);
+    return this.http.get<Quiz[]>(`${this.url}`);
   }
 
   getCorrectAnswers(question: QuizQuestion): Option[] {

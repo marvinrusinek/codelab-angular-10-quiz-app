@@ -1,5 +1,4 @@
 import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
 
 import { SlideLeftToRightAnimation } from '@codelab-quiz/animations/*';
@@ -25,15 +24,11 @@ export class QuizSelectionComponent implements OnInit, OnDestroy {
   animationState$ = new BehaviorSubject<AnimationState>('none');
   unsubscribe$ = new Subject<void>();
   imagePath = '../../../assets/images/milestones/';
-  private url = '../../../assets/data/quiz.json';
 
-  constructor(
-    private quizService: QuizService,
-    private httpClient: HttpClient
-  ) { }
+  constructor(private quizService: QuizService) { }
 
   ngOnInit(): void {
-    this.quizzes$ = this.httpClient.get<Quiz[]>(`${this.url}`);
+    this.quizzes$ = this.quizService.getQuizzes();
     this.quizId = this.quizService.quizId;
     this.currentQuestionIndex = this.quizService.currentQuestionIndex;
     this.totalQuestions = this.quizService.totalQuestions;

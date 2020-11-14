@@ -2,7 +2,6 @@ import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { CommonModule } from '@angular/common';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { HttpClientModule } from '@angular/common/http';
 import { QuizRoutingModule } from './routing/quiz-routing.module';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
@@ -55,7 +54,6 @@ import { JoinPipe } from '@codelab-quiz/pipes/join.pipe';
     BrowserModule,
     CommonModule,
     BrowserAnimationsModule,
-    HttpClientModule,
     QuizRoutingModule,
     ReactiveFormsModule,
     MatButtonModule,
