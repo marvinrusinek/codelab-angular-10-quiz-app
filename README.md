@@ -8,15 +8,11 @@ This application was created for the open-source Angular Codelab (https://www.co
 # TODO:
 
 # Immediate:
-- scoreboard stopwatch timer needs to stop at this.timePerQuestion seconds
-- duplicate logic background color issue - all the options are being highlighted, needs to highlight on selected option only
 - duplicate code in question components - could use a service here...
-- restart of quiz needs to clear the quiz entirely
 - fix scoring issue - in a multiple-answer question, if one correct answer is selected and one incorrect, the score still increases by 1; it should only increase if ALL correct answers have been selected (there also seems to be an issue with switching Observable to BehaviorSubject)
    - if correct, then incorrect, then correct, score doesn't increment
    - similarly if incorrect, then correct, then correct, score doesn't increment
 - checking and then unchecking of mat-checkbox in IntroductionComponent sets checkedShuffle back to false but loads a shuffled quiz instead
-- saveHighScores function -- doesn't seem to throw error if quiz is taken more than MAX_LENGTH times, weird
 - add previous user answers text for single-answer questions in QuizQuestionComponent template
   - make sure that the previous answers only get applied to the completed quiz, not any other quizzes
   
