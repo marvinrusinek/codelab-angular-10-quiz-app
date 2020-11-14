@@ -11,6 +11,7 @@ export const QUIZ_DATA: Quiz[] = [
         questionText: 'Which of the following does TypeScript use to specify types?',
         options: [
           { text: ':', correct: true },
+          { text: ';' },
           { text: '!' },
           { text: '&' }
         ],
