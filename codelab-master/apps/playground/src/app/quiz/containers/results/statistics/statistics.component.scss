@@ -1,7 +1,7 @@
 @import "variables";
 
 .statistics {
-  h3, span, .quiz-feedback, div span {
+  h3, span, .quiz-feedback {
     text-align: center;
   }
 
@@ -18,11 +18,6 @@
     font-family: $font-stack;
     font-size: 26px;
     display: inline;
-  }
-
-  .percent-sign {
-    font-size: large;
-    font-weight: $font-weight-max;
   }
 
   .progress-bar {
