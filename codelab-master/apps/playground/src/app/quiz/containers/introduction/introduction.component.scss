@@ -1,59 +1,52 @@
 @import "variables.scss";
 
-mat-card-header {
-  display: block;
-
-  .header-image {
-    margin: 5px 0 0 15px;
-  }
-}
-
-.quiz-topic-image {
-  display: flex;
-  justify-content: center;
-  width: 400px;
-  height: 280px;
+mat-card {
   margin-top: 20px;
-  margin: 0 auto;
-}
 
-mat-card-content {
-  display: flex;
-  justify-content: center;
-  margin-top: 5px;
-
-  span {
-    text-align: justify;
-  }
-}
-
-mat-card-actions {
-  text-align: center;
-  padding-bottom: 15px !important;
-
-  mat-checkbox {
-    text-align: center;
-  }
-
-  button {
+  mat-card-header {
     display: block;
-    margin: 0 auto;
-    background-color: $vivid-blue;
-    color: $black;
 
-    &:hover {
-      border: 2px solid $vivid-blue;
+    .header-image {
+      margin: 5px 0 0 15px;
     }
   }
-}
 
+  .quiz-topic-image {
+    display: flex;
+    justify-content: center;
+    width: 400px;
+    height: 280px;
+    margin-top: 20px;
+    margin: 0 auto;
+  }
 
-// overwrite the checkbox background
-::ng-deep .mat-checkbox-checked .mat-checkbox-background, .mat-checkbox-indeterminate .mat-checkbox-background {
-  background-color: $green !important;
-}
+  mat-card-content {
+    display: flex;
+    justify-content: center;
+    margin-top: 5px;
 
-// overwrite the ripple overlay on hover and click
-::ng-deep .mat-checkbox:not(.mat-checkbox-disabled) .mat-checkbox-ripple .mat-ripple-element {
-  background-color: $black !important;
+    span {
+      text-align: justify;
+    }
+  }
+
+  mat-card-actions {
+    text-align: center;
+    padding-bottom: 15px !important;
+
+    mat-checkbox {
+      text-align: center;
+    }
+
+    button {
+      display: block;
+      margin: 0 auto;
+      background-color: $vivid-blue;
+      color: $black;
+
+      &:hover {
+        border: 2px solid $vivid-blue;
+      }
+    }
+  }
 }
