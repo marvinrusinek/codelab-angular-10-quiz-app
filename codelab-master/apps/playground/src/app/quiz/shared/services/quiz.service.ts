@@ -51,17 +51,13 @@ export class QuizService implements OnDestroy {
   checkedShuffle: boolean;
 
   unsubscribe$ = new Subject<void>();
-  private url = 'assets/data/quiz.json';
+  private url = "assets/data/quiz.json";
 
   correctSound = new Howl({
-    src: "assets/audio/sound-correct.mp3",
-    html5: true,
-    format: ["mp3"]
+    src: "assets/audio/sound-correct.mp3"
   });
   incorrectSound = new Howl({
-    src: "assets/audio/sound-incorrect.mp3",
-    html5: true,
-    format: ["mp3"]
+    src: "assets/audio/sound-incorrect.mp3"
   });
 
   constructor(
@@ -238,7 +234,7 @@ export class QuizService implements OnDestroy {
   }
 
   /********* navigation functions ***********/
-  navigateToNextQuestion() {
+  navigateToNextQuestion(): void {
     this.quizCompleted = false;
     this.currentQuestionIndex++;
     const questionIndex = this.currentQuestionIndex;
@@ -246,13 +242,13 @@ export class QuizService implements OnDestroy {
     this.resetAll();
   }
 
-  navigateToPreviousQuestion() {
+  navigateToPreviousQuestion(): void {
     this.quizCompleted = false;
     this.router.navigate(["/quiz/question/", this.quizId, this.currentQuestionIndex - 1]).then();
     this.resetAll();
   }
 
-  navigateToResults() {
+  navigateToResults(): void {
     this.quizCompleted = true;
     this.router.navigate(["/quiz/results/", this.quizId]).then();
   }
