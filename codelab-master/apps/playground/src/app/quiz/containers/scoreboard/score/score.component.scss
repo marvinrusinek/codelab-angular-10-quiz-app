@@ -9,7 +9,7 @@
     margin-left: -40px;
 
     .leader, span.scoreboard {
-      margin: 0 0 0 40px;
+      margin-left: 40px;
     }
   }
 }
@@ -20,13 +20,15 @@
 }
 
 mat-toolbar {
-  background: $white;
-}
-mat-toolbar:hover {
-  background-color: $white !important;
-}
-mat-toolbar .leader {
-  margin-left: -35px !important;
+  background-color: $white;
+
+  &:hover {
+    background-color: $white !important;
+  }
+
+  .leader {
+    margin-left: -35px !important;
+  }
 }
 button {
   outline: none;

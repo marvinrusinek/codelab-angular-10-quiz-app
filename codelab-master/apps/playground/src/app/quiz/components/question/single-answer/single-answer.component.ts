@@ -53,9 +53,7 @@ export class SingleAnswerComponent implements OnInit, OnChanges {
       changes.question.currentValue !== changes.question.firstChange
     ) {
       this.currentQuestion = changes.question.currentValue;
-      this.correctAnswers = this.quizService.getCorrectAnswers(
-        this.currentQuestion
-      );
+      this.correctAnswers = this.quizService.getCorrectAnswers(this.currentQuestion);
       this.correctMessage = this.quizService.correctMessage;
 
       if (this.formGroup) {

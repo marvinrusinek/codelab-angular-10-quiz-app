@@ -9,7 +9,7 @@
     margin-left: -60px;
 
     .leader, span.scoreboard {
-      margin: 0 0 0 -40px !important;
+      margin-left: -40px;
     }
   }
 }
@@ -21,15 +21,18 @@
 
 mat-toolbar {
   background-color: $white;
-}
-mat-toolbar:hover {
-  background-color: $white !important;
-}
-mat-toolbar .leader {
-  margin-left: -40px !important;
+
+  &:hover {
+    background-color: $white !important;
+  }
+
+  .leader {
+    margin-left: -40px !important;
+  }
 }
 button {
   outline: none;
   text-transform: uppercase;
   font-family: $font-stack;
 }
+

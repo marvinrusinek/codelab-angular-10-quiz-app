@@ -38,11 +38,12 @@ mat-card-actions {
   button {
     display: block;
     margin: 0 auto;
-    background: $vivid-blue;
+    background-color: $vivid-blue;
     color: $black;
-  }
-  button:hover {
-    border: 2px solid $vivid-blue;
+
+    &:hover {
+      border: 2px solid $vivid-blue;
+    }
   }
 }
 

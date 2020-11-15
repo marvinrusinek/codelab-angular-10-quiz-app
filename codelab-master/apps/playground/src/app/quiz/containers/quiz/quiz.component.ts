@@ -189,7 +189,7 @@ export class QuizComponent implements OnInit, OnDestroy {
     this.quizService.navigateToResults();
   }
 
-  restartQuiz() {
+  restartQuiz(): void {
     this.quizService.resetAll();
     this.quizService.resetQuestions();
     this.timerService.stopTimer();

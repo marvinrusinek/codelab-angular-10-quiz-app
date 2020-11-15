@@ -90,7 +90,8 @@ div.mat-radio-inner-container {
     color: $red;
   }
 
-  .correct-message, .wrong-message {
+  .correct-message,
+  .wrong-message {
     margin: -5px 0 -5px 25px;
     border: 2px solid;
     border-radius: 10px;
