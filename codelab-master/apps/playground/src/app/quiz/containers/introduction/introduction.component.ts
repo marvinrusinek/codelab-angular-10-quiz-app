@@ -15,7 +15,7 @@ import { QuizService } from '@codelab-quiz/shared/services/*';
 export class IntroductionComponent implements OnInit {
   quizzes$: Observable<Quiz[]>;
   quizName$: Observable<string>;
-  imagePath = '../../../assets/images/milestones/';
+  imagePath = 'assets/images/milestones/';
 
   constructor(
     private quizService: QuizService,

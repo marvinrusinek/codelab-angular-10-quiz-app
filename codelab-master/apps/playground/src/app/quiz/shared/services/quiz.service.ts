@@ -51,15 +51,15 @@ export class QuizService implements OnDestroy {
   checkedShuffle: boolean;
 
   unsubscribe$ = new Subject<void>();
-  private url = '../../../assets/data/quiz.json';
+  private url = 'assets/data/quiz.json';
 
   correctSound = new Howl({
-    src: "../../assets/audio/sound-correct.mp3",
+    src: "assets/audio/sound-correct.mp3",
     html5: true,
     format: ["mp3"]
   });
   incorrectSound = new Howl({
-    src: "../../assets/audio/sound-incorrect.mp3",
+    src: "assets/audio/sound-incorrect.mp3",
     html5: true,
     format: ["mp3"]
   });
@@ -93,6 +93,7 @@ export class QuizService implements OnDestroy {
     this.unsubscribe$.complete();
   }
 
+  /********* getter functions ***********/
   getQuiz(): Quiz[] {
     return this.quizData;
   }
@@ -118,24 +119,6 @@ export class QuizService implements OnDestroy {
       this.setExplanationText(question);
       return identifiedCorrectAnswers;
     }
-  }
-
-  // generically shuffle arrays in-place using Durstenfeld's shuffling algorithm
-  shuffle<T>(arg: T[]): void {
-    for (let i = arg.length - 1; i >= 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [arg[i], arg[j]] = [arg[j], arg[i]];
-    }
-  }
-
-  returnQuizSelectionParams(): Object {
-    return new Object({
-      startedQuizId: this.startedQuizId,
-      continueQuizId: this.continueQuizId,
-      completedQuizId: this.completedQuizId,
-      quizCompleted: this.quizCompleted,
-      status: this.status
-    });
   }
 
   /********* setter functions ***********/
@@ -234,6 +217,24 @@ export class QuizService implements OnDestroy {
 
   sendCorrectCountToResults(value: number): void {
     this.correctAnswersCountSubject.next(value);
+  }
+
+  // generically shuffle arrays in-place using Durstenfeld's shuffling algorithm
+  shuffle<T>(arg: T[]): void {
+    for (let i = arg.length - 1; i >= 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [arg[i], arg[j]] = [arg[j], arg[i]];
+    }
+  }
+
+  returnQuizSelectionParams(): Object {
+    return new Object({
+      startedQuizId: this.startedQuizId,
+      continueQuizId: this.continueQuizId,
+      completedQuizId: this.completedQuizId,
+      quizCompleted: this.quizCompleted,
+      status: this.status
+    });
   }
 
   /********* navigation functions ***********/
