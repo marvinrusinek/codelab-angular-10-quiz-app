@@ -42,7 +42,7 @@ export class MultipleAnswerComponent implements OnInit, OnChanges {
   ngOnInit(): void {
     this.question = this.currentQuestion;
     this.currentQuestion = this.quizService.currentQuestion;
-    this.sendMultipleAnswerToQuizService(this.multipleAnswer);
+    this.sendMultipleAnswerToQuizService();
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -91,7 +91,7 @@ export class MultipleAnswerComponent implements OnInit, OnChanges {
     }
   }
 
-  private sendMultipleAnswerToQuizService(multipleAnswer: boolean): void {
-    this.quizService.setMultipleAnswer(multipleAnswer);
+  private sendMultipleAnswerToQuizService(): void {
+    this.quizService.setMultipleAnswer(this.multipleAnswer);
   }
 }
