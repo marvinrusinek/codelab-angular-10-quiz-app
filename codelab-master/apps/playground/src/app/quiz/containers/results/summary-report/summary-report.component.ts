@@ -31,7 +31,7 @@ export class SummaryReportComponent implements OnInit, OnDestroy {
   highScores = JSON.parse(localStorage.getItem("highScores")) || [];
 
   unsubscribe$ = new Subject<void>();
-  codelabUrl = 'https://www.codelab.fun';
+  codelabUrl = "https://www.codelab.fun";
 
   constructor(
     private quizService: QuizService,

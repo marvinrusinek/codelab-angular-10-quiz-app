@@ -15,7 +15,7 @@ import { QuizService, TimerService } from '@codelab-quiz/shared/services/*';
 export class ReturnComponent implements OnInit, OnDestroy {
   quizId: string;
   indexOfQuizId: number;
-  codelabUrl = 'https://www.codelab.fun';
+  codelabUrl = "https://www.codelab.fun";
   unsubscribe$ = new Subject<void>();
 
   constructor(

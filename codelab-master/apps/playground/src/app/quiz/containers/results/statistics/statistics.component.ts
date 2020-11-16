@@ -34,10 +34,10 @@ export class StatisticsComponent implements OnInit, OnDestroy {
   elapsedMinutes: number;
   elapsedSeconds: number;
 
-  imagePath = 'assets/images/results/';
-  CONGRATULATIONS = this.imagePath.concat('congrats.gif');
-  NOT_BAD = this.imagePath.concat('not-bad.jpg');
-  TRY_AGAIN = this.imagePath.concat('try-again.jpeg');
+  imagePath = "assets/images/results/";
+  CONGRATULATIONS = this.imagePath.concat("congrats.gif");
+  NOT_BAD = this.imagePath.concat("not-bad.jpg");
+  TRY_AGAIN = this.imagePath.concat("try-again.jpeg");
 
   unsubscribe$ = new Subject<void>();
 

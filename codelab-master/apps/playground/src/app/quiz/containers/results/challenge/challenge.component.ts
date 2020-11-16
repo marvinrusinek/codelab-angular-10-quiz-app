@@ -23,7 +23,7 @@ export class ChallengeComponent implements OnInit {
     percentage: this.calculatePercentageOfCorrectlyAnsweredQuestions(),
     completionTime: this.timerService.calculateTotalElapsedTime(this.timerService.elapsedTimes)
   };
-  codelabUrl = 'https://www.codelab.fun';
+  codelabUrl = "https://www.codelab.fun";
 
   constructor(
     private quizService: QuizService,
