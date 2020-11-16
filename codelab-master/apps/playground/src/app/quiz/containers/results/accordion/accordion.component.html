@@ -4,7 +4,6 @@
                        (opened)="panelOpenState = true"
                        (closed)="panelOpenState = false"
                        hideToggle="true">
-
     <mat-expansion-panel-header>
       <mat-panel-description>
         <i class="material-icons accordion-icon" *ngIf="!panelOpenState">add</i>
@@ -16,8 +15,7 @@
         <span class="question-text" i18n>{{ question.questionText }}</span>
       </mat-panel-title>
 
-      <ng-template
-        matExpansionPanelContent>
+      <ng-template matExpansionPanelContent>
         <ul class="quiz-summary-fields" *ngIf="correctAnswers?.length >= 1">
           <li i18n>
             <span class="leader">Your Answer(s):</span>
@@ -38,7 +36,7 @@
           </li>
           <li i18n>
             <span class="leader">Correct Answer(s):</span>
-            {{ correctAnswers[i].answers[0].length === 1 ? 'Option' : 'Options' }}
+              {{ correctAnswers[i].answers[0].length === 1 ? 'Option' : 'Options' }}
             <span *ngIf="correctAnswers.length === 1">
               {{ correctAnswers[i].answers }} &mdash; {{ question.options[i].text }}
             </span>

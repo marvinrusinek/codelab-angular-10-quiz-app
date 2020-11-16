@@ -105,6 +105,17 @@ export class QuizComponent implements OnInit, OnDestroy {
     this.unsubscribe$.complete();
   }
 
+  initializeQuizVariables(): void {
+    this.quizData = this.quizService.getQuiz();
+    this.quizResources = this.quizService.getResources();
+    this.quizzes$ = this.quizService.getQuizzes();
+    this.quizName$ = this.activatedRoute.url.pipe(map((segments) => segments[1].toString()));
+    this.activatedRoute.paramMap
+      .pipe(takeUntil(this.unsubscribe$))
+        .subscribe((params) => this.quizId = params.get('quizId'));
+    this.indexOfQuizId = this.quizData.findIndex((elem) => elem.quizId === this.quizId);
+  }
+
   animationDoneHandler(): void {
     this.animationState$.next('none');
   }
@@ -122,33 +133,13 @@ export class QuizComponent implements OnInit, OnDestroy {
     }
   }
 
-  initializeQuizVariables(): void {
-    this.quizData = this.quizService.getQuiz();
-    this.quizResources = this.quizService.getResources();
-    this.quizzes$ = this.quizService.getQuizzes();
-    this.quizName$ = this.activatedRoute.url.pipe(map((segments) => segments[1].toString()));
-    this.activatedRoute.paramMap
-      .pipe(takeUntil(this.unsubscribe$))
-        .subscribe((params) => this.quizId = params.get('quizId'));
-    this.indexOfQuizId = this.quizData.findIndex((elem) => elem.quizId === this.quizId);
-  }
-
-  shuffleQuestionsAndAnswers(): void {
-    if (this.quizService.checkedShuffle) {
-      this.quizService.shuffle(this.quizData[this.indexOfQuizId].questions);
-      this.quizService.shuffle(
-        this.quizData[this.indexOfQuizId].questions[this.quizService.currentQuestionIndex].options
-      );
-    }
-  }
-
   checkIfAnsweredCorrectly(): void {
     if (this.question) {
       const correctAnswerFound = this.answers.find((answer) => {
         return this.question.options &&
           this.question.options[answer] &&
-          this.question.options[answer]['selected'] &&
-          this.question.options[answer]['correct'];
+          this.question.options[answer]["selected"] &&
+          this.question.options[answer]["correct"];
       });
 
       const answers = this.isAnswered() ? this.answers.map((answer) => answer + 1) : [];
@@ -161,6 +152,15 @@ export class QuizComponent implements OnInit, OnDestroy {
   incrementScore(answers: number[], correctAnswerFound: number): void {
     if (correctAnswerFound > -1 && answers.length === this.quizService.numberOfCorrectAnswers) {
       this.sendCorrectCountToQuizService(this.correctCount + 1);
+    }
+  }
+
+  shuffleQuestionsAndAnswers(): void {
+    if (this.quizService.checkedShuffle) {
+      this.quizService.shuffle(this.quizData[this.indexOfQuizId].questions);
+      this.quizService.shuffle(
+        this.quizData[this.indexOfQuizId].questions[this.quizService.currentQuestionIndex].options
+      );
     }
   }
 
@@ -200,12 +200,13 @@ export class QuizComponent implements OnInit, OnDestroy {
     this.router.navigate(["/quiz/intro/", this.quizId]).then();
   }
 
+  /************** functions that send values to quiz service *****************/
   private sendValuesToQuizService(): void {
     this.sendQuizQuestionToQuizService();
     this.sendQuizQuestionsToQuizService();
+    this.sendQuizResourcesToQuizService();
     this.sendQuizIdToQuizService();
     this.sendQuizStatusToQuizService();
-    this.sendQuizResourcesToQuizService();
   }
 
   private sendQuizQuestionToQuizService(): void {
