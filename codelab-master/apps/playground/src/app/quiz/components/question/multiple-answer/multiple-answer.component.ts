@@ -26,13 +26,12 @@ export class MultipleAnswerComponent implements OnInit, OnChanges {
   @Input() question: QuizQuestion;
   currentQuestion: QuizQuestion;
   formGroup: FormGroup;
-  correctAnswers = [];
+  optionSelected: Option;
+  correctAnswers: Option[] = [];
   correctMessage = "";
-
   quizStarted: boolean;
   alreadyAnswered: boolean;
   multipleAnswer = true;
-  optionSelected: Option;
 
   constructor(
     private quizService: QuizService,
@@ -55,7 +54,7 @@ export class MultipleAnswerComponent implements OnInit, OnChanges {
       this.correctMessage = this.quizService.correctMessage;
 
       if (this.formGroup) {
-        this.formGroup.patchValue({ answer: '' });
+        this.formGroup.patchValue({ answer: "" });
         this.alreadyAnswered = false;
       }
     }

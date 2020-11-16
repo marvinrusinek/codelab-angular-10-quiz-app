@@ -80,11 +80,11 @@ export class QuizComponent implements OnInit, OnDestroy {
 
             if (this.questionIndex === 1) {
               this.status = Status.Started;
-              this.sendStartedQuizIdToQuizService(this.quizId);
+              this.sendStartedQuizIdToQuizService();
               this.progressValue = 0;
             } else {
               this.status = Status.Continue;
-              this.sendContinueQuizIdToQuizService(this.quizId);
+              this.sendContinueQuizIdToQuizService();
               this.progressValue = Math.ceil((this.questionIndex - 1) / this.totalQuestions * 100);
             }
 
@@ -232,12 +232,12 @@ export class QuizComponent implements OnInit, OnDestroy {
     this.quizService.setQuizStatus(this.status);
   }
 
-  private sendStartedQuizIdToQuizService(quizId: string): void {
-    this.quizService.setStartedQuizId(quizId);
+  private sendStartedQuizIdToQuizService(): void {
+    this.quizService.setStartedQuizId(this.quizId);
   }
 
-  private sendContinueQuizIdToQuizService(quizId: string): void {
-    this.quizService.setContinueQuizId(quizId);
+  private sendContinueQuizIdToQuizService(): void {
+    this.quizService.setContinueQuizId(this.quizId);
   }
 
   private sendCorrectCountToQuizService(value: number): void {

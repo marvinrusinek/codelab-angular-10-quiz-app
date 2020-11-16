@@ -25,10 +25,10 @@ export class QuizQuestionComponent implements OnInit, OnChanges {
   @Input() question: QuizQuestion;
   formGroup: FormGroup;
   optionSelected: Option;
+  correctAnswers: Option[] = [];
   quizStarted: boolean;
-  multipleAnswer: boolean;
-  correctAnswers = [];
   alreadyAnswered = false;
+  multipleAnswer: boolean;
 
   constructor(
     private quizService: QuizService,
@@ -54,7 +54,7 @@ export class QuizQuestionComponent implements OnInit, OnChanges {
       this.multipleAnswer = this.correctAnswers.length > 1;
 
       if (this.formGroup) {
-        this.formGroup.patchValue({ answer: '' });
+        this.formGroup.patchValue({ answer: "" });
         this.alreadyAnswered = false;
       }
     }

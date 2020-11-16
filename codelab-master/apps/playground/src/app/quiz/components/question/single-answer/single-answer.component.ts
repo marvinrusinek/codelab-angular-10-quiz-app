@@ -26,13 +26,12 @@ export class SingleAnswerComponent implements OnInit, OnChanges {
   @Input() question: QuizQuestion;
   currentQuestion: QuizQuestion;
   formGroup: FormGroup;
-  correctAnswers = [];
-  correctMessage = "";
-
-  multipleAnswer = false;
-  alreadyAnswered = false;
-  quizStarted: boolean;
   optionSelected: Option;
+  correctAnswers: Option[] = [];
+  correctMessage = "";
+  quizStarted: boolean;
+  alreadyAnswered = false;
+  multipleAnswer = false;
 
   constructor(
     private quizService: QuizService,

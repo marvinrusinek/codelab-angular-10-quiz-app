@@ -31,7 +31,7 @@ export class AccordionComponent implements OnInit {
     this.correctAnswers = this.quizService.correctAnswers;
   }
 
-  private checkIfAnswersAreCorrect(correctAnswers: any, userAnswers: any, index: number): boolean {
+  checkIfAnswersAreCorrect(correctAnswers: any, userAnswers: any, index: number): boolean {
     return !(!userAnswers[index] ||
              userAnswers[index].length === 0 ||
              userAnswers[index].find((answer) => correctAnswers[index].answers[0].indexOf(answer) === -1));

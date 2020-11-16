@@ -30,7 +30,7 @@ export class ResultsComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.unsubscribe$))
         .subscribe((params) => this.quizId = params.get('quizId'));
     this.indexOfQuizId = this.quizData.findIndex((elem) => elem.quizId === this.quizId);
-    this.sendCompletedQuizIdToQuizService(this.quizId);
+    this.sendCompletedQuizIdToQuizService();
   }
 
   ngOnDestroy(): void {
@@ -46,8 +46,8 @@ export class ResultsComponent implements OnInit, OnDestroy {
     this.router.navigate(["/quiz/select/"]).then();
   }
 
-  private sendCompletedQuizIdToQuizService(quizId: string): void {
-    this.quizService.setCompletedQuizId(quizId);
+  private sendCompletedQuizIdToQuizService(): void {
+    this.quizService.setCompletedQuizId(this.quizId);
   }
 }
 
