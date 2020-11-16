@@ -28,7 +28,6 @@ export class QuizQuestionComponent implements OnInit, OnChanges {
   quizStarted: boolean;
   multipleAnswer: boolean;
   correctAnswers = [];
-  correctMessage = "";
   alreadyAnswered = false;
 
   constructor(
@@ -42,7 +41,6 @@ export class QuizQuestionComponent implements OnInit, OnChanges {
     });
 
     this.question = this.currentQuestion;
-    this.correctMessage = this.quizService.correctMessage;
     this.sendCurrentQuestionToQuizService();
   }
 
