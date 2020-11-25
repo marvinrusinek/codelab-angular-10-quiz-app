@@ -12,7 +12,6 @@ import { QuizQuestionComponent } from '../question.component';
 export class MultipleAnswerComponent extends QuizQuestionComponent implements OnInit {
   multipleAnswer = true;
 
-  constructor(
   ngOnInit(): void {
     this.sendMultipleAnswerToQuizService(this.multipleAnswer);
   }
