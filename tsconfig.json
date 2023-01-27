@@ -14,10 +14,36 @@
     "lib": [
       "es2018",
       "dom"
-    ]
-  },
-  "angularCompilerOptions": {
-    "fullTemplateTypeCheck": true,
-    "strictInjectionParameters": true
+    ],
+    "paths": {
+      "@codelab-quiz/animations/*": [
+        "codelab-master/apps/playground/src/app/quiz/animations/index.ts"
+      ],
+      "@codelab-quiz/components/*": [
+        "codelab-master/apps/playground/src/app/quiz/components/index.ts"
+      ],
+      "@codelab-quiz/containers/*": [
+        "codelab-master/apps/playground/src/app/quiz/containers/index.ts"
+      ],
+      "@codelab-quiz/pipes/*": [
+        "codelab-master/apps/playground/src/app/quiz/pipes/index.ts"
+      ],
+      "@codelab-quiz/shared/*": [
+        "codelab-master/apps/playground/src/app/quiz/shared/index.ts"
+      ],
+      "@codelab-quiz/shared/data/*": [
+        "codelab-master/apps/playground/src/app/quiz/shared/data/index.ts"
+      ],
+      "@codelab-quiz/shared/models/*": [
+        "codelab-master/apps/playground/src/app/quiz/shared/models/index.ts"
+      ],
+      "@codelab-quiz/shared/services/*": [
+        "codelab-master/apps/playground/src/app/quiz/shared/services/index.ts"
+      ]
+    },
+    "angularCompilerOptions": {
+      "fullTemplateTypeCheck": true,
+      "strictInjectionParameters": true
+    }
   }
 }
